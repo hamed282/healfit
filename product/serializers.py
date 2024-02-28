@@ -70,7 +70,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['product', 'image1', 'price', 'off_price', 'percent_discount',
+        fields = ['category', 'product', 'image1', 'price', 'off_price', 'percent_discount',
                   'product_code', 'slug']
 
     def get_off_price(self, obj):
