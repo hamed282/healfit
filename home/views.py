@@ -1,8 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import MiddleBannerSliderModel, HomeSettingModel, ContactModel, ProductSettingModel, CartSettingModel
+from .models import MiddleBannerSliderModel, HomeSettingModel, ContactModel, ProductSettingModel, CartSettingModel,\
+    BannerHomeModel
 from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerSliderSerializer,\
-    ProductSettingSerializer, CartSettingSerializer
+    ProductSettingSerializer, CartSettingSerializer, BannerHomeSerializer
 
 
 class HomeView(APIView):
@@ -26,7 +27,15 @@ class MiddleBannerSliderView(APIView):
         banner_slider = MiddleBannerSliderModel.objects.all()
         ser_banner_slider = MiddleBannerSliderSerializer(instance=banner_slider, many=True)
 
-        return Response(data={'social_media': ser_banner_slider.data})
+        return Response(data={'middle_slider': ser_banner_slider.data})
+
+
+class HomeSliderView(APIView):
+    def get(self, request):
+        banner_slider = BannerHomeModel.objects.all()
+        ser_banner_slider = BannerHomeSerializer(instance=banner_slider, many=True)
+
+        return Response(data={'home_slider': ser_banner_slider.data})
 
 
 class ProductSettingView(APIView):
