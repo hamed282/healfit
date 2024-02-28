@@ -92,6 +92,7 @@ class ProductListView(APIView):
         get parameter:
         1. limit_from
         2. limit_to
+        3. slug
         """
         product_limit_from = self.request.query_params.get('limit_from', None)
         product_limit_to = self.request.query_params.get('limit_to', None)
@@ -107,5 +108,6 @@ class ProductListView(APIView):
             product_list = ProductModel.objects.all().order_by('-created')[int(product_limit_from):int(product_limit_to)]
 
         ser_product_list = ProductListSerializer(instance=product_list, many=True)
+        category_title = category.category_title
 
-        return Response(data=ser_product_list.data)
+        return Response(data={'data': ser_product_list.data, 'title': category_title})

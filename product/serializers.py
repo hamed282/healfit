@@ -67,6 +67,7 @@ class QuantityProductSerializer(serializers.ModelSerializer):
 
 class ProductListSerializer(serializers.ModelSerializer):
     off_price = serializers.SerializerMethodField()
+    category = serializers.SlugRelatedField(slug_field='category', read_only=True)
 
     class Meta:
         model = ProductModel
