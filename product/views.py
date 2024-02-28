@@ -95,8 +95,10 @@ class ProductListView(APIView):
         """
         product_limit_from = self.request.query_params.get('limit_from', None)
         product_limit_to = self.request.query_params.get('limit_to', None)
+        product_slug = self.request.query_params.get('slug', None)
+        category = ProductCategoryModel.objects.get(slug=product_slug)
         if product_limit_from is None and product_limit_to is None:
-            product_list = ProductModel.objects.all().order_by('-created')
+            product_list = ProductModel.objects.filter(category=category).order_by('-created')
         elif product_limit_from is not None and product_limit_to is None:
             product_list = ProductModel.objects.all().order_by('-created')[int(product_limit_from):]
         elif product_limit_from is None and product_limit_to is not None:
