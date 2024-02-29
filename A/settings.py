@@ -31,7 +31,7 @@ if DEBUG:
         os.path.join(BASE_DIR, 'static/'),
     )
 else:
-    ALLOWED_HOSTS = ['localhost', '3.29.197.107', 'healfit.ae', 'www.healfit.ae', '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', '127.0.0.1', 'healfit.ae']
 
     DATABASES = {
         'default': {
