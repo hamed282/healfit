@@ -46,6 +46,9 @@ else:
 
     STATIC_URL = '/django-static/'
     STATIC_ROOT = "staticfiles"
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static/'),
+    )
 
     CSRF_TRUSTED_ORIGINS = ['https://*.healfit.ae', 'https://*.127.0.0.1']
 
