@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o9+xpypiz1b)!21(fh*kmzbl2uff7_8e@38mc6cb^fk2^=q4zs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     ALLOWED_HOSTS = []
@@ -31,23 +31,23 @@ if DEBUG:
         os.path.join(BASE_DIR, 'static/'),
     )
 else:
-    ALLOWED_HOSTS = ['localhost', '185.105.239.50', 'animmo.ir', 'www.animmo.ir', '127.0.0.1']
+    ALLOWED_HOSTS = ['localhost', '3.29.197.107', 'healfit.ae', 'www.healfit.ae', '127.0.0.1']
 
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'animmo_db',
-            'USER': 'animmo_user_db',
-            'PASSWORD': 'wdeds@@#434H!',
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'healfita_healfit_db',
+            'USER': 'healfita_healfit_user',
+            'PASSWORD': 'BE*]ZjDOk^Tj',
             'HOST': 'localhost',
-            'PORT': '',
+            'PORT': '3306',
         }
     }
 
     STATIC_URL = '/django-static/'
     STATIC_ROOT = "staticfiles"
 
-    CSRF_TRUSTED_ORIGINS = ['https://*.animmo.ir', 'https://*.127.0.0.1']
+    CSRF_TRUSTED_ORIGINS = ['https://*.healfit.ae', 'https://*.127.0.0.1']
 
 
 
