@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o9+xpypiz1b)!21(fh*kmzbl2uff7_8e@38mc6cb^fk2^=q4zs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     ALLOWED_HOSTS = []
@@ -25,14 +25,13 @@ if DEBUG:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
+    STATIC_ROOT = "staticfiles"
     STATIC_URL = 'static/'
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static/'),
     )
 else:
     ALLOWED_HOSTS = ['localhost', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', '127.0.0.1', 'healfit.ae']
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -62,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'cart.apps.CartConfig',
@@ -81,6 +81,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'A.urls'
@@ -193,3 +194,10 @@ SIMPLE_JWT = {
 }
 
 CART_SESSION_ID = 'cart'
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
