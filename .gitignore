@@ -3,4 +3,4 @@
 db.sqlite3
 staticfiles
 #static
-#media
+media
