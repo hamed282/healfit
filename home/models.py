@@ -4,30 +4,30 @@ from django.core.exceptions import ValidationError
 
 class HomeSettingModel(models.Model):
     objects = None
-    top_title = models.CharField(max_length=100, verbose_name='Section 1 Title')
-    top_description = models.TextField(verbose_name='Section 1 Description')
+    top_title = models.CharField(max_length=100, verbose_name='Section 1 Title', blank=True, null=True)
+    top_description = models.TextField(verbose_name='Section 1 Description', blank=True, null=True)
 
-    middle_title = models.CharField(max_length=100, verbose_name='Section 2 Title')
-    middle_description = models.TextField(verbose_name='Section 2 Description')
+    middle_title = models.CharField(max_length=100, verbose_name='Section 2 Title', blank=True, null=True)
+    middle_description = models.TextField(verbose_name='Section 2 Description', blank=True, null=True)
     # middle_banner = models.ForeignKey(MiddleBannerSliderModel, on_delete=models.CASCADE)
 
-    up_video = models.FileField(upload_to='videos/home', verbose_name='Section 3 Video')
-    up_video_title = models.CharField(max_length=100, verbose_name='Section 3 Title')
-    up_video_description = models.TextField(verbose_name='Section 3 Description')
+    up_video = models.FileField(upload_to='videos/home', verbose_name='Section 3 Video', blank=True, null=True)
+    up_video_title = models.CharField(max_length=100, verbose_name='Section 3 Title', blank=True, null=True)
+    up_video_description = models.TextField(verbose_name='Section 3 Description', blank=True, null=True)
 
-    button_banner = models.ImageField(upload_to='images/home/', verbose_name='Section 4 Image')
+    button_banner = models.ImageField(upload_to='images/home/', verbose_name='Section 4 Image', blank=True, null=True)
 
-    middle_video = models.FileField(upload_to='videos/home', verbose_name='Section 5 Video')
-    middle_video_title = models.CharField(max_length=100, verbose_name='Section 5 Title')
-    middle_video_description = models.TextField(verbose_name='Section 5 Description')
+    middle_video = models.FileField(upload_to='videos/home', verbose_name='Section 5 Video', blank=True, null=True)
+    middle_video_title = models.CharField(max_length=100, verbose_name='Section 5 Title', blank=True, null=True)
+    middle_video_description = models.TextField(verbose_name='Section 5 Description', blank=True, null=True)
 
-    banner = models.ImageField(upload_to='images/home/', verbose_name='Section 6 Image')
+    banner = models.ImageField(upload_to='images/home/', verbose_name='Section 6 Image', blank=True, null=True)
 
-    button_video = models.FileField(upload_to='videos/home', verbose_name='Section 7 Video')
-    button_video_title = models.CharField(max_length=100, verbose_name='Section 7 Title')
-    button_video_description = models.TextField(verbose_name='Section 7 Description')
+    button_video = models.FileField(upload_to='videos/home', verbose_name='Section 7 Video', blank=True, null=True)
+    button_video_title = models.CharField(max_length=100, verbose_name='Section 7 Title', blank=True, null=True)
+    button_video_description = models.TextField(verbose_name='Section 7 Description', blank=True, null=True)
 
-    footer_image = models.ImageField(upload_to='images/home/footer', verbose_name='Section 8 Image')
+    footer_image = models.ImageField(upload_to='images/home/footer', verbose_name='Section 8 Image', blank=True, null=True)
 
     # class Meta:
     #     verbose_name = ''
@@ -45,11 +45,11 @@ class HomeSettingModel(models.Model):
 
 
 class ContactModel(models.Model):
-    name = models.CharField(max_length=32)
-    logo = models.ImageField(upload_to='images/social_media/')
-    address = models.TextField(max_length=200)
-    priority = models.IntegerField()
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    name = models.CharField(max_length=32, blank=True, null=True)
+    logo = models.ImageField(upload_to='images/social_media/', blank=True, null=True)
+    address = models.TextField(max_length=200, blank=True, null=True)
+    priority = models.IntegerField(blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     # class Meta:
     #     verbose_name = 'Number-Header'
@@ -61,9 +61,9 @@ class ContactModel(models.Model):
 
 
 class MiddleBannerSliderModel(models.Model):
-    title = models.CharField(max_length=100)
-    banner = models.ImageField(upload_to='images/home/')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    banner = models.ImageField(upload_to='images/home/', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     # class Meta:
     #     verbose_name = ''
@@ -74,8 +74,8 @@ class MiddleBannerSliderModel(models.Model):
 
 
 class BannerHomeModel(models.Model):
-    image = models.ImageField(upload_to='images/home/banner')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/home/banner', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     # class Meta:
     #     verbose_name = ''
@@ -87,8 +87,8 @@ class BannerHomeModel(models.Model):
 
 class ProductSettingModel(models.Model):
     objects = None
-    size_chart = models.ImageField(upload_to='images/product/setting')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    size_chart = models.ImageField(upload_to='images/product/setting', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Size Chart - Shop Page'
@@ -103,8 +103,8 @@ class ProductSettingModel(models.Model):
 
 
 class CartSettingModel(models.Model):
-    banner = models.ImageField(upload_to='images/cart/setting')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    banner = models.ImageField(upload_to='images/cart/setting', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Banner-Cart page'
