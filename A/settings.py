@@ -65,14 +65,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig',
-    'cart.apps.CartConfig',
-    'home.apps.HomeConfig',
-    'product.apps.ProductConfig',
     'drf_spectacular',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
+
+    # Install app
+    'accounts.apps.AccountsConfig',
+    'cart.apps.CartConfig',
+    'home.apps.HomeConfig',
     'order.apps.OrderConfig',
+    'product.apps.ProductConfig',
+    'shop.apps.ShopConfig',
 
 ]
 
