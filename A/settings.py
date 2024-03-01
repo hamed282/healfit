@@ -31,26 +31,39 @@ if DEBUG:
         os.path.join(BASE_DIR, 'static/'),
     )
 else:
-    ALLOWED_HOSTS = ['*']#['localhost', '127.0.0.1', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', 'healfit.ae',
-                     #'https://healfit.ae']
+    # ALLOWED_HOSTS = ['*']#['localhost', '127.0.0.1', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', 'healfit.ae',
+    #                  #'https://healfit.ae']
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': 'healfita_healfit_db',
+    #         'USER': 'healfita_healfit_user',
+    #         'PASSWORD': 'BE*]ZjDOk^Tj',
+    #         'HOST': 'localhost',
+    #         'PORT': '3306',
+    #     }
+    # }
+    #
+    # STATIC_URL = '/static/'
+    # STATIC_ROOT = "staticfiles"
+    # STATICFILES_DIRS = (
+    #     os.path.join(BASE_DIR, 'static/'),
+    # )
+    #
+    # CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
+    ALLOWED_HOSTS = ['*']
+
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'healfita_healfit_db',
-            'USER': 'healfita_healfit_user',
-            'PASSWORD': 'BE*]ZjDOk^Tj',
-            'HOST': 'localhost',
-            'PORT': '3306',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
-    STATIC_URL = '/static/'
     STATIC_ROOT = "staticfiles"
+    STATIC_URL = 'static/'
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static/'),
     )
-
-    # CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
