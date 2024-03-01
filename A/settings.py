@@ -32,14 +32,20 @@ if DEBUG:
     )
 else:
     ALLOWED_HOSTS = ['localhost', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', '127.0.0.1', 'healfit.ae']
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': 'healfita_healfit_db',
+    #         'USER': 'healfita_healfit_user',
+    #         'PASSWORD': 'BE*]ZjDOk^Tj',
+    #         'HOST': 'localhost',
+    #         'PORT': '3306',
+    #     }
+    # }
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'healfita_healfit_db',
-            'USER': 'healfita_healfit_user',
-            'PASSWORD': 'BE*]ZjDOk^Tj',
-            'HOST': 'localhost',
-            'PORT': '3306',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
@@ -50,8 +56,6 @@ else:
     )
 
     CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
-
-
 
 # Application definition
 
