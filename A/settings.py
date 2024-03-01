@@ -201,6 +201,7 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+
 CART_SESSION_ID = 'cart'
 
 # STORAGES = {
