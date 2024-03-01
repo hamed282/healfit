@@ -14,22 +14,35 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o9+xpypiz1b)!21(fh*kmzbl2uff7_8e@38mc6cb^fk2^=q4zs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'rest.healfit.ae', 'www.rest.healfit.ae']
 
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
+    #     }
+    # }
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'healfita_healfit_db',
+            'USER': 'healfita_healfit_user',
+            'PASSWORD': 'BE*]ZjDOk^Tj',
+            'HOST': 'localhost',
+            'PORT': '3306',
         }
     }
+
     STATIC_ROOT = "staticfiles"
     STATIC_URL = 'static/'
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static/'),
     )
+    CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
+
 else:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'rest.healfit.ae', 'www.rest.healfit.ae'] #https://healfit.ae
     DATABASES = {
@@ -43,7 +56,7 @@ else:
         }
     }
 
-    STATIC_URL = '/static/'
+    STATIC_URL = 'static/'
     STATIC_ROOT = "staticfiles"
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static/'),
