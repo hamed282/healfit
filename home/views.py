@@ -35,7 +35,7 @@ class HomeSliderView(APIView):
         banner_slider = BannerHomeModel.objects.all()
         ser_banner_slider = BannerHomeSerializer(instance=banner_slider, many=True)
 
-        return Response(data={'home_slider': ser_banner_slider.data})
+        # return Response(data={'home_slider': ser_banner_slider.data})
 
 
 class ProductSettingView(APIView):
