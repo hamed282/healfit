@@ -31,7 +31,8 @@ if DEBUG:
         os.path.join(BASE_DIR, 'static/'),
     )
 else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', 'healfit.ae']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', 'healfit.ae',
+                     'https://healfit.ae']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
