@@ -214,12 +214,12 @@ SIMPLE_JWT = {
 
 CART_SESSION_ID = 'cart'
 
-# STORAGES = {
-#     # ...
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
