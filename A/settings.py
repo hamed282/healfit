@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-o9+xpypiz1b)!21(fh*kmzbl2uff7_8e@38mc6cb^fk2^=q4zs
 DEBUG = False
 
 if DEBUG:
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = []
 
     DATABASES = {
         'default': {
@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # "whitenoise.runserver_nostatic",
+    "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
     'drf_spectacular',
     'corsheaders',
