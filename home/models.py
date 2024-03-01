@@ -18,7 +18,7 @@ class HomeSettingModel(models.Model):
     button_banner = models.ImageField(upload_to='images/home/', verbose_name='Section 4 Image', blank=True, null=True)
 
     middle_video = models.FileField(upload_to='videos/home', verbose_name='Section 5 Video', blank=True, null=True)
-    middle_video_title = models.CharField(max_length=100, verbose_name='Section 5 Title', blank=True, null=True)
+    # middle_video_title = models.CharField(max_length=100, verbose_name='Section 5 Title', blank=True, null=True)
     middle_video_description = models.TextField(verbose_name='Section 5 Description', blank=True, null=True)
 
     banner = models.ImageField(upload_to='images/home/', verbose_name='Section 6 Image', blank=True, null=True)
@@ -45,9 +45,8 @@ class HomeSettingModel(models.Model):
 
 
 class ContactModel(models.Model):
-    name = models.CharField(max_length=32, blank=True, null=True)
-    logo = models.ImageField(upload_to='images/social_media/', blank=True, null=True)
-    address = models.TextField(max_length=200, blank=True, null=True)
+    number = models.CharField(max_length=32, blank=True, null=True)
+    # address = models.TextField(max_length=200, blank=True, null=True)
     priority = models.IntegerField(blank=True, null=True)
     setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -61,7 +60,7 @@ class ContactModel(models.Model):
 
 
 class MiddleBannerSliderModel(models.Model):
-    title = models.CharField(max_length=100, blank=True, null=True)
+    # title = models.CharField(max_length=100, blank=True, null=True)
     banner = models.ImageField(upload_to='images/home/', blank=True, null=True)
     setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 

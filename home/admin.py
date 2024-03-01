@@ -51,7 +51,7 @@ class HomeSettingAdmin(admin.ModelAdmin):
             'fields': ('button_banner',)
         }),
         ('Section 5', {
-            'fields': ('middle_video', 'middle_video_title', 'middle_video_description')
+            'fields': ('middle_video', 'middle_video_description')
         }),
         ('Section 6', {
             'fields': ('banner',)
