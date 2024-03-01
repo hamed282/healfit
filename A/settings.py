@@ -50,7 +50,7 @@ else:
         os.path.join(BASE_DIR, 'static/'),
     )
 
-    CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
+    # CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
