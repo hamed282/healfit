@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-
+from home import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('home_slider/', views.HomeSliderView.as_view(), name='home_slider'),
+
     path('api-auth/', include('rest_framework.urls')),
     path('api/accounts/', include('accounts.urls', namespace='accounts')),
     path('api/cart/', include('cart.urls', namespace='cart')),
