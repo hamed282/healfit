@@ -31,7 +31,7 @@ if DEBUG:
         os.path.join(BASE_DIR, 'static/'),
     )
 else:
-    ALLOWED_HOSTS = ['localhost', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', '127.0.0.1', 'healfit.ae']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '3.29.197.107', 'rest.healfit.ae', 'www.rest.healfit.ae', 'healfit.ae']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -51,7 +51,7 @@ else:
 
     CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
 
-
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
