@@ -49,8 +49,12 @@ class ProductModel(models.Model):
     def __str__(self) -> str:
         return str(self.product)
 
-    # def get_off_price(self):
-    #     return self.price - self.price * self.percent_discount
+    def get_off_price(self):
+        price = self.price
+        percent_discount = self.percent_discount
+        if self.percent_discount is None:
+            percent_discount = 0
+        return int(price - price * percent_discount / 100)
 
 
 class SizeProductModel(models.Model):

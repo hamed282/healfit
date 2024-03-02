@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o9+xpypiz1b)!21(fh*kmzbl2uff7_8e@38mc6cb^fk2^=q4zs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     ALLOWED_HOSTS = []
@@ -83,12 +83,10 @@ INSTALLED_APPS = [
 
     # Install app
     'accounts.apps.AccountsConfig',
-    'cart.apps.CartConfig',
     'home.apps.HomeConfig',
     'order.apps.OrderConfig',
     'product.apps.ProductConfig',
-    'shop.apps.ShopConfig',
-
+    'user_panel.apps.UserPanelConfig',
 ]
 
 MIDDLEWARE = [
@@ -227,3 +225,8 @@ CART_SESSION_ID = 'cart'
 # SECURE_SSL_REDIRECT = True
 #
 # INTERNAL_IPS = ['127.0.0.1', '::1', '0.0.0.0']
+
+MERCHANT = "af49f6e8-a461-4a6f-ad2c-4883f7098ae4"
+TELR_API_REQUEST = f"https://secure.telr.com/gateway/order.json"
+TELR_API_VERIFY = f"https://secure.telr.com/gateway/order.json"
+
