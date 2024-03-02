@@ -45,10 +45,10 @@ class HomeSettingModel(models.Model):
 
 
 class ContactModel(models.Model):
-    number = models.CharField(max_length=32)
+    number = models.CharField(max_length=32, blank=True, null=True)
     # address = models.TextField(max_length=200, blank=True, null=True)
-    priority = models.IntegerField()
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    priority = models.IntegerField(blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     # class Meta:
     #     verbose_name = 'Number-Header'
@@ -61,8 +61,8 @@ class ContactModel(models.Model):
 
 class MiddleBannerSliderModel(models.Model):
     # title = models.CharField(max_length=100, blank=True, null=True)
-    banner = models.ImageField(upload_to='images/home/')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    banner = models.ImageField(upload_to='images/home/', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     # class Meta:
     #     verbose_name = ''
@@ -73,8 +73,8 @@ class MiddleBannerSliderModel(models.Model):
 
 
 class BannerHomeModel(models.Model):
-    image = models.ImageField(upload_to='images/home/banner')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/home/banner', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     # class Meta:
     #     verbose_name = ''
@@ -86,8 +86,8 @@ class BannerHomeModel(models.Model):
 
 class ProductSettingModel(models.Model):
     objects = None
-    size_chart = models.ImageField(upload_to='images/product/setting')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    size_chart = models.ImageField(upload_to='images/product/setting', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Size Chart - Shop Page'
@@ -102,8 +102,8 @@ class ProductSettingModel(models.Model):
 
 
 class CartSettingModel(models.Model):
-    banner = models.ImageField(upload_to='images/cart/setting')
-    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE)
+    banner = models.ImageField(upload_to='images/cart/setting', blank=True, null=True)
+    setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Banner-Cart page'
