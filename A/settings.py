@@ -29,7 +29,7 @@ if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'healfita_healfit_db',
+            'NAME': 'healfita_healfit',
             'USER': 'healfita_healfit_user',
             'PASSWORD': 'BE*]ZjDOk^Tj',
             'HOST': 'localhost',

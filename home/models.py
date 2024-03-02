@@ -56,7 +56,7 @@ class ContactModel(models.Model):
     #     app_label = 'product'
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.number}'
 
 
 class MiddleBannerSliderModel(models.Model):
