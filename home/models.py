@@ -69,7 +69,7 @@ class MiddleBannerSliderModel(models.Model):
     #     verbose_name_plural = ''
 
     def __str__(self):
-        return f'{self.title}'
+        return f'middle banner'
 
 
 class BannerHomeModel(models.Model):
