@@ -25,6 +25,13 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         fields = ['quantity', 'color', 'size']
 
 
+class SizeSerializer(serializers.ModelSerializer):
+    size = serializers.SlugRelatedField(read_only=True, slug_field='size')
+
+    class Meta:
+        model = ProductVariantModel
+        fields = ['size']
+
 # class ProductSerializer(serializers.ModelSerializer):
 #     product_color_size = ProductVariantSerializer(many=True, read_only=True)
 #     off_price = serializers.SerializerMethodField()
@@ -53,10 +60,11 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     off_price = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
-
+    # size_product = SizeSerializer(many=True, read_only=True)
+    size = serializers.SerializerMethodField()
     class Meta:
         model = ProductModel
-        fields = ['product',  'price', 'images', 'off_price', 'percent_discount',
+        fields = ['product',  'price', 'images', 'off_price', 'percent_discount', 'size',
                   'product_code', 'slug', 'created', 'updated', 'id']
 
     def get_off_price(self, obj):
@@ -73,6 +81,10 @@ class ProductSerializer(serializers.ModelSerializer):
                 'image4': obj.image1.url,
                 'image5': obj.image1.url}
 
+    def get_size(self, obj):
+        product = ProductVariantModel.objects.filter(product=obj)
+        size = set([str(p.size) for p in product])
+        return size
 
 class ColorSizeProductSerializer(serializers.Serializer):
     color = serializers.CharField()
