@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import User, AddressModel
-from .serializers import UserRegisterSerializer, UserLoginSerializer, UserAddressSerializer
+from .serializers import UserRegisterSerializer, UserLoginSerializer, UserAddressSerializer, UserInfoSerializer
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -134,3 +134,11 @@ class UserAddressView(APIView):
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserInfoView(APIView):
+    def get(self, request):
+        user_id = request.user.id
+        user_info = get_object_or_404(User, id=user_id)
+        ser_user_info = UserInfoSerializer(instance=user_info)
+        return Response(data=ser_user_info.data)
