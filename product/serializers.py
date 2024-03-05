@@ -25,15 +25,39 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         fields = ['quantity', 'color', 'size']
 
 
+# class ProductSerializer(serializers.ModelSerializer):
+#     product_color_size = ProductVariantSerializer(many=True, read_only=True)
+#     off_price = serializers.SerializerMethodField()
+#     images = serializers.SerializerMethodField()
+#
+#     class Meta:
+#         model = ProductModel
+#         fields = ['product',  'price', 'images', 'off_price', 'percent_discount',
+#                   'product_code', 'slug', 'created', 'updated', 'product_color_size', 'id']
+#
+#     def get_off_price(self, obj):
+#         price = obj.price
+#         percent_discount = obj.percent_discount
+#         if obj.percent_discount is None:
+#             percent_discount = 0
+#         return int(price - price * percent_discount / 100)
+#
+#     def get_images(self, obj):
+#         return {'image1': obj.image1.url,
+#                 'image2': obj.image2.url,
+#                 'image3': obj.image1.url,
+#                 'image4': obj.image1.url,
+#                 'image5': obj.image1.url}
+
+
 class ProductSerializer(serializers.ModelSerializer):
-    product_color_size = ProductVariantSerializer(many=True, read_only=True)
     off_price = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
 
     class Meta:
         model = ProductModel
         fields = ['product',  'price', 'images', 'off_price', 'percent_discount',
-                  'product_code', 'slug', 'created', 'updated', 'product_color_size', 'id']
+                  'product_code', 'slug', 'created', 'updated', 'id']
 
     def get_off_price(self, obj):
         price = obj.price
@@ -48,6 +72,12 @@ class ProductSerializer(serializers.ModelSerializer):
                 'image3': obj.image1.url,
                 'image4': obj.image1.url,
                 'image5': obj.image1.url}
+
+
+class ColorSizeProductSerializer(serializers.Serializer):
+    color = serializers.CharField()
+    quantity = serializers.IntegerField()
+    id = serializers.IntegerField(read_only=True)
 
 
 class ProductCartSerializer(serializers.ModelSerializer):

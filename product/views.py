@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import ProductCategoryModel, PopularProductModel, ProductModel
-from .serializers import ProductCategorySerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer
+from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel, SizeProductModel
+from .serializers import ProductCategorySerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer, ColorSizeProductSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from .service import Cart
@@ -35,6 +35,18 @@ class ProductView(APIView):
         else:
             return Response(data={'massage': 'invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class ColorSizeProductView(APIView):
+    def get(self, request):
+        product_size = self.request.query_params.get('size', None)
+        product_slug = self.request.query_params.get('slug', None)
+
+        product = ProductModel.objects.get(slug=product_slug)
+        size = SizeProductModel.objects.get(size=product_size)
+        color = product.product_color_size.filter(size=size, quantity__gt=0)
+        ser_data = ColorSizeProductSerializer(instance=color, many=True)
+
+        return Response(data=ser_data.data)
 
 class CartView(APIView):
     def get(self, request, format=None):

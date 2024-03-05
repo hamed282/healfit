@@ -58,6 +58,7 @@ class ProductModel(models.Model):
 
 
 class SizeProductModel(models.Model):
+    objects = None
     size = models.CharField(max_length=120)
 
     # class Meta:
@@ -81,6 +82,7 @@ class ColorProductModel(models.Model):
 
 
 class ProductVariantModel(models.Model):
+    objects = None
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='product_color_size')
     color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='color_product')
     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='size_product')
