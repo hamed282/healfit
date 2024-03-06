@@ -8,6 +8,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product', 'price']
     readonly_fields = ["slug"]
 
 
