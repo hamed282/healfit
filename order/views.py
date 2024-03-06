@@ -147,7 +147,7 @@ class OrderPayAuthorisedView(APIView):
         try:
             order = OrderModel.objects.filter(user=user).first()
         except:
-            return HttpResponseRedirect(redirect_to='https://animmo.ir/userProfile/')
+            return HttpResponseRedirect(redirect_to='https://')
         payload = {
             "method": "check",
             "store": settings.SOTRE_ID,
@@ -179,7 +179,7 @@ class OrderPayAuthorisedView(APIView):
                 UserProductModel.objects.create(user=user, product=product, order=order,
                                                 quantity=quantity, price=price)
 
-            return HttpResponseRedirect(redirect_to='https://animmo.ir/userProfile/')
+            return HttpResponseRedirect(redirect_to='https://')
 
         else:
             order.paid = False
@@ -188,7 +188,7 @@ class OrderPayAuthorisedView(APIView):
             order.error_note = response['error']['note']
 
             order.save()
-            return HttpResponseRedirect(redirect_to='https://animmo.ir/userProfile/')
+            return HttpResponseRedirect(redirect_to='https://')
 
 
 class OrderPayDeclinedView(APIView):
@@ -200,7 +200,7 @@ class OrderPayDeclinedView(APIView):
         try:
             order = OrderModel.objects.filter(user=user).first()
         except:
-            return HttpResponseRedirect(redirect_to='https://animmo.ir/userProfile/')
+            return HttpResponseRedirect(redirect_to='https://')
         payload = {
             "method": "check",
             "store": settings.SOTRE_ID,
@@ -220,7 +220,7 @@ class OrderPayDeclinedView(APIView):
         order.error_note = response['error']['note']
         order.save()
 
-        return HttpResponseRedirect(redirect_to='https://animmo.ir/userProfile/')
+        return HttpResponseRedirect(redirect_to='https://')
 
 
 class OrderPayCancelledView(APIView):
@@ -233,7 +233,7 @@ class OrderPayCancelledView(APIView):
         try:
             order = OrderModel.objects.filter(user=user).first()
         except:
-            return HttpResponseRedirect(redirect_to='https://animmo.ir/userProfile/')
+            return HttpResponseRedirect(redirect_to='https:///')
         payload = {
             "method": "check",
             "store": settings.SOTRE_ID,
@@ -253,4 +253,4 @@ class OrderPayCancelledView(APIView):
         order.error_note = response['error']['note']
         order.save()
 
-        return HttpResponseRedirect(redirect_to='https://animmo.ir/userProfile/')
+        return HttpResponseRedirect(redirect_to='https://')
