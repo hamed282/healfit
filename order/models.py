@@ -6,6 +6,12 @@ from product.models import ProductModel
 class OrderModel(models.Model):
     objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order')
+    ref_id = models.CharField(max_length=200, blank=True, null=True)
+    cart_id = models.CharField(max_length=64, blank=True, null=True)
+    trace = models.CharField(max_length=200, blank=True, null=True)
+    error_message = models.TextField(blank=True, null=True)
+    error_note = models.TextField(blank=True, null=True)
+
     paid = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
