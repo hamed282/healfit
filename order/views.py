@@ -117,6 +117,8 @@ class OrderPayVerify(APIView):
                     order.save()
                     order_items = order.items.all()
 
+                    # quantity =
+
                     for item in order_items:
                         product = item.product
                         price = product.get_off_price()

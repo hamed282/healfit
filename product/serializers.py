@@ -86,10 +86,18 @@ class ProductSerializer(serializers.ModelSerializer):
         size = set([str(p.size) for p in product])
         return size
 
-class ColorSizeProductSerializer(serializers.Serializer):
-    color = serializers.CharField()
-    quantity = serializers.IntegerField()
-    id = serializers.IntegerField(read_only=True)
+class ColorSizeProductSerializer(serializers.ModelSerializer):
+    color_code = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductVariantModel
+        fields = ['color', 'quantity', 'id', 'color_code']
+    # color = serializers.CharField()
+    # quantity = serializers.IntegerField()
+    # id = serializers.IntegerField(read_only=True)
+
+    def get_color_code(self, obj):
+        return obj.color.color_code
 
 
 class ProductCartSerializer(serializers.ModelSerializer):
