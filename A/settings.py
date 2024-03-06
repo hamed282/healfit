@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o9+xpypiz1b)!21(fh*kmzbl2uff7_8e@38mc6cb^fk2^=q4zs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     ALLOWED_HOSTS = ['*']
@@ -229,7 +229,15 @@ CART_SESSION_ID = 'cart'
 #
 # INTERNAL_IPS = ['127.0.0.1', '::1', '0.0.0.0']
 
-MERCHANT = "af49f6e8-a461-4a6f-ad2c-4883f7098ae4"
+
+# TELR Settings
 TELR_API_REQUEST = f"https://secure.telr.com/gateway/order.json"
 TELR_API_VERIFY = f"https://secure.telr.com/gateway/order.json"
-
+TEST = "1"
+FRAMED = 0
+SOTRE_ID = 29934
+AUTHKEY = 'BnCdX#DGW2P@HHxk'
+CURRENCY = "AED"
+AUTHORIZED_URL = "https://healfit.ae/authorised"
+DECLINED_URL = "https://healfit.ae/declined"
+CANCELLED_URL = "https://healfit.ae/cancelled"

@@ -4,6 +4,7 @@ from product.models import ProductModel
 
 
 class OrderModel(models.Model):
+    objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order')
     paid = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -22,6 +23,7 @@ class OrderModel(models.Model):
 
 
 class OrderItemModel(models.Model):
+    objects = None
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='order_product')
     price = models.IntegerField()

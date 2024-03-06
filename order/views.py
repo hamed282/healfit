@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
-import json
 import requests
 from rest_framework import status
 from .models import OrderModel, OrderItemModel
@@ -12,7 +11,6 @@ from user_panel.models import UserProductModel
 
 
 class OrderPayView(APIView):
-    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -39,39 +37,38 @@ class OrderPayView(APIView):
                 OrderItemModel.objects.create(order=order, product=product, price=price, quantity=quantity)
 
             ############################################
-            amount = order.get_total_price()
+            amount = str(order.get_total_price())
             description = f'buy'
-            currency = "AED"
-            test = "1"
-            cart_id = "1234"
-
+            cart_id = str(order.id)
             payload = {
                 "method": "create",
-                "store": 1234,
-                "authkey": "mykey1234",
-                "framed": 0,
+                "store": settings.SOTRE_ID,
+                "authkey": settings.AUTHKEY,
+                "framed": settings.FRAMED,
                 "order": {
                     "cartid": cart_id,
-                    "test": test,
+                    "test": settings.TEST,
                     "amount": amount,
-                    "currency": currency,
+                    "currency": settings.CURRENCY,
                     "description": description,
                 },
                 "return": {
-                    "authorised": "https://www.mysite.com/authorised",
-                    "declined": "https://www.mysite.com/declined",
-                    "cancelled": "https://www.mysite.com/cancelled"
+                    "authorised": settings.AUTHORIZED_URL,
+                    "declined": settings.DECLINED_URL,
+                    "cancelled": settings.CANCELLED_URL,
                 }
             }
 
             headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
             response = requests.post(settings.TELR_API_REQUEST, json=payload, headers=headers, timeout=10)
-
             if response.status_code == 200:
                 response = response.json()
+
                 if 'order' in response:
-                    url = response['url']
-                    order.ref_id = response['ref']
+                    print('-' * 100)
+                    print(settings.AUTHKEY)
+                    url = response['order']['url']
+                    order.ref_id = response['order']['ref']
                     order.cart_id = cart_id
                     order.save()
                     return Response({'redirect to : ': url}, status=200)
@@ -82,7 +79,6 @@ class OrderPayView(APIView):
 
 
 class OrderPayVerify(APIView):
-    # authentication_classes = [JWTAuthentication]
     # permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -96,8 +92,8 @@ class OrderPayVerify(APIView):
 
             payload = {
                 "method": "check",
-                "store": 1234,
-                "authkey": "mykey1234",
+                "store": settings.SOTRE_ID,
+                "authkey": settings.AUTHKEY,
                 "order": {"ref": order.ref_id}
             }
             headers = {
