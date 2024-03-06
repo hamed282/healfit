@@ -12,7 +12,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class ProductVariantAdmin(admin.ModelAdmin):
-    list_display = ['product', 'color', 'size', 'quantity']
+    list_display = ['id', 'product', 'color', 'size', 'quantity']
 
 
 admin.site.register(ProductCategoryModel, ProductCategoryAdmin)
