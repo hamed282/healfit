@@ -29,7 +29,10 @@ class OrderPayView(APIView):
         if len(forms) > 0:
 
             order = OrderModel.objects.create(user=request.user)
-
+            for i in range(1,30):
+                order = OrderModel.objects.get(id=i)
+                order.delete()
+                print(order)
             for form in forms:
                 product = ProductModel.objects.get(id=form['product_id'])
                 quantity = form['quantity']
