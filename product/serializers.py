@@ -87,6 +87,7 @@ class ProductSerializer(serializers.ModelSerializer):
         return size
 
 class ColorSizeProductSerializer(serializers.ModelSerializer):
+    color = serializers.SlugRelatedField(read_only=True, slug_field='color')
     color_code = serializers.SerializerMethodField()
 
     class Meta:
