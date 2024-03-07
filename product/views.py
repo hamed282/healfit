@@ -8,7 +8,6 @@ from .service import Cart
 
 
 class ProductCategoryView(APIView):
-    # authentication_classes = [JWTAuthentication]
 
     def get(self, request):
         product_category = ProductCategoryModel.objects.all()
@@ -52,7 +51,7 @@ class CartView(APIView):
     def get(self, request, format=None):
         cart = Cart(request)
 
-        print()
+
         return Response(
             {"data": list(cart.__iter__()),
              "cart_total_price": cart.get_total_price()},

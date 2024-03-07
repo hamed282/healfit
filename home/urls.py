@@ -4,6 +4,7 @@ from . import views
 app_name = 'home'
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
+    path('session_id', views.SessionIdView.as_view(), name='home'),
     path('contact/', views.SocialMediaView.as_view(), name='contact'),
     path('banner_slider/', views.MiddleBannerSliderView.as_view(), name='banner_slider'),
     path('home_slider/', views.HomeSliderView.as_view(), name='home_slider'),

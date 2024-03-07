@@ -52,3 +52,9 @@ class CartSettingView(APIView):
         ser_product_cart = CartSettingSerializer(instance=product_cart, many=True)
 
         return Response(data={'product_cart': ser_product_cart.data})
+
+
+class SessionIdView(APIView):
+    def get(self, request):
+        session_id = request.session.session_key
+        return Response(data={'sessionId': session_id})
