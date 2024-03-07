@@ -57,4 +57,8 @@ class CartSettingView(APIView):
 class SessionIdView(APIView):
     def get(self, request):
         session_id = request.session.session_key
+        if session_id is None:
+            request.session['create_session'] = 'create'
+            request.session.save()
+            session_id = request.session.session_key
         return Response(data={'sessionId': session_id})

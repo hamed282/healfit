@@ -100,6 +100,7 @@ class ProductVariantModel(models.Model):
 
 
 class PopularProductModel(models.Model):
+    objects = None
     popular = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='popular_product')
 
     # class Meta:
