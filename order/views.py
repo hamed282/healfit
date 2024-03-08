@@ -8,6 +8,7 @@ from .models import OrderModel, OrderItemModel
 from product.models import ProductModel
 from user_panel.models import UserProductModel
 from accounts.models import AddressModel
+from django.shortcuts import get_object_or_404
 
 
 class OrderPayView(APIView):
@@ -31,7 +32,7 @@ class OrderPayView(APIView):
         forms = request.data['product']
         data = request.data
         if len(forms) > 0:
-            address = AddressModel.objects.get(id=data['address_id'])
+            address = get_object_or_404(AddressModel, id=data['address_id'])
             order = OrderModel.objects.create(user=request.user, address=address)
 
             for form in forms:
