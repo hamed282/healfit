@@ -33,7 +33,7 @@ class User(AbstractBaseUser):
         return self.is_admin
 
 
-class AddressModel:
+class AddressModel(models.Model):
     objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_address')
     first_name_address = models.CharField(max_length=100)

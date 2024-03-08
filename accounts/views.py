@@ -96,14 +96,14 @@ class UserAddressView(APIView):
     def get(self, request):
         addresses = AddressModel.objects.filter(user=request.user)
         ser_addresses = UserAddressSerializer(instance=addresses, many=True)
-        Response(data=ser_addresses.data)
+        return Response(data=ser_addresses.data)
 
     def post(self, request):
         form = request.data
         ser_address = UserAddressSerializer(data=form)
         if ser_address.is_valid():
             ser_address.save()
-            Response(data=UserAddressSerializer.data, status=status.HTTP_201_CREATED)
+            return Response(data=UserAddressSerializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=ser_address.errors, status=status.HTTP_401_UNAUTHORIZED)
 
