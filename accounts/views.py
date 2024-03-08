@@ -132,7 +132,7 @@ class UserAddressView(APIView):
                                                 country=form['country'],
                                                 identification_number=form['identification_number'])
             address.save()
-            return Response(data=UserAddressSerializer.data, status=status.HTTP_201_CREATED)
+            return Response(data={'massage': 'Address added'}, status=status.HTTP_201_CREATED)
         else:
             return Response(data=ser_address.errors, status=status.HTTP_401_UNAUTHORIZED)
 
