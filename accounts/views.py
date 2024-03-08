@@ -119,18 +119,19 @@ class UserAddressView(APIView):
         ser_address = UserAddressSerializer(data=form)
         if ser_address.is_valid():
             print(request.user)
-            AddressModel.objects.create(user=request.user,
-                                        first_name_address=form['first_name_address'],
-                                        last_name_address=form['last_name_address'],
-                                        company=form['company'],
-                                        VAT_number=form['VAT_number'],
-                                        address=form['address'],
-                                        address_complement=form['address_complement'],
-                                        phone_number=form['phone_number'],
-                                        postal_code=form['postal_code'],
-                                        city=form['city'],
-                                        country=form['country'],
-                                        identification_number=form['identification_number'])
+            address = AddressModel.objects.create(user=request.user,
+                                                first_name_address=form['first_name_address'],
+                                                last_name_address=form['last_name_address'],
+                                                company=form['company'],
+                                                VAT_number=form['VAT_number'],
+                                                address=form['address'],
+                                                address_complement=form['address_complement'],
+                                                phone_number=form['phone_number'],
+                                                postal_code=form['postal_code'],
+                                                city=form['city'],
+                                                country=form['country'],
+                                                identification_number=form['identification_number'])
+            address.save()
             return Response(data=UserAddressSerializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=ser_address.errors, status=status.HTTP_401_UNAUTHORIZED)
