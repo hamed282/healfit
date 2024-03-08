@@ -118,7 +118,8 @@ class UserAddressView(APIView):
         form = request.data
         ser_address = UserAddressSerializer(data=form)
         if ser_address.is_valid():
-            AddressModel.objects.create(first_name_address=form['first_name_address'],
+            AddressModel.objects.create(user = request.user,
+                                        first_name_address=form['first_name_address'],
                                         last_name_address=form['last_name_address'],
                                         company=form['company'],
                                         VAT_number=form['VAT_number'],
