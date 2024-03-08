@@ -113,7 +113,6 @@ class UserAddressView(APIView):
             city
             country
             identification_number
-            active_address
         }
         """
         form = request.data
@@ -129,8 +128,7 @@ class UserAddressView(APIView):
                                         postal_code=form['postal_code'],
                                         city=form['city'],
                                         country=form['country'],
-                                        identification_number=form['identification_number'],
-                                        active_address=form['active_address'])
+                                        identification_number=form['identification_number'])
             return Response(data=UserAddressSerializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=ser_address.errors, status=status.HTTP_401_UNAUTHORIZED)
