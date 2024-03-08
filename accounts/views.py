@@ -119,7 +119,18 @@ class UserAddressView(APIView):
         form = request.data
         ser_address = UserAddressSerializer(data=form)
         if ser_address.is_valid():
-            ser_address.save()
+            AddressModel.objects.create(first_name_address=form['first_name_address'],
+                                        last_name_address=form['last_name_address'],
+                                        company=form['company'],
+                                        VAT_number=form['VAT_number'],
+                                        address=form['address'],
+                                        address_complement=form['address_complement'],
+                                        phone_number=form['phone_number'],
+                                        postal_code=form['postal_code'],
+                                        city=form['city'],
+                                        country=form['country'],
+                                        identification_number=form['identification_number'],
+                                        active_address=form['active_address'])
             return Response(data=UserAddressSerializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=ser_address.errors, status=status.HTTP_401_UNAUTHORIZED)
