@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o9+xpypiz1b)!21(fh*kmzbl2uff7_8e@38mc6cb^fk2^=q4zs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     ALLOWED_HOSTS = ['*']
@@ -248,6 +248,6 @@ FRAMED = 0
 SOTRE_ID = 29934
 AUTHKEY = 'BnCdX#DGW2P@HHxk'
 CURRENCY = "AED"
-AUTHORIZED_URL = "http://127.0.0.1:8000/api/order/authorised/" # "https://rest.healfit.ae/authorised"
+AUTHORIZED_URL = "https://rest.healfit.ae/api/order/authorised/"
 DECLINED_URL = "https://rest.healfit.ae/api/order/declined/"
 CANCELLED_URL = "https://rest.healfit.ae/api/order/cancelled/"
