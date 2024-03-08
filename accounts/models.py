@@ -47,7 +47,7 @@ class AddressModel(models.Model):
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     identification_number = models.CharField(max_length=100)
-    active_address = models.BooleanField(default=True)
+    # active_address = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.user}'
