@@ -8,6 +8,7 @@ class OrderModel(models.Model):
     objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order')
     address = models.ForeignKey(AddressModel, on_delete=models.CASCADE, related_name='address_order')
+    sent = models.BooleanField(default=False)
     ref_id = models.CharField(max_length=200, blank=True, null=True)
     cart_id = models.CharField(max_length=64, blank=True, null=True)
     trace = models.CharField(max_length=200, blank=True, null=True)
