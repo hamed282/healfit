@@ -99,6 +99,23 @@ class UserAddressView(APIView):
         return Response(data=ser_addresses.data)
 
     def post(self, request):
+        """
+        parameters:
+        {
+            first_name_address
+            last_name_address
+            company
+            VAT_number
+            address
+            address_complement
+            phone_number
+            postal_code
+            city
+            country
+            identification_number
+            active_address
+        }
+        """
         form = request.data
         ser_address = UserAddressSerializer(data=form)
         if ser_address.is_valid():
