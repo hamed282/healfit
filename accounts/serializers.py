@@ -16,7 +16,7 @@ class UserLoginSerializer(serializers.Serializer):
 class UserAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddressModel
-        fields = ['first_name_address', 'last_name_address', 'company', 'VAT_number', 'address', 'address_complement',
+        fields = ['id', 'first_name_address', 'last_name_address', 'company', 'VAT_number', 'address', 'address_complement',
                   'phone_number', 'postal_code', 'city', 'country', 'identification_number']
 
 
