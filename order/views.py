@@ -23,15 +23,16 @@ class OrderPayView(APIView):
         sample json:
         {
         "product": [
-        {"product_id": "2", "quantity": "2"} , {"product_id": "2", "quantity": "1"}
+        {"product_id": "1", "quantity": "2"} , {"product_id": "2", "quantity": "1"}
         ]
-        "address": "address_id"
+        "address_id": "1"
         }
         """
-        forms = request.data
+        forms = request.data['product']
+        data = request.data
         if len(forms) > 0:
-            address = AddressModel.objects.get(id=forms['address_id'])
-            order = OrderModel.objects.create(user=request.user, address)
+            address = AddressModel.objects.get(id=data['address_id'])
+            order = OrderModel.objects.create(user=request.user, address=address)
 
             for form in forms:
                 product = ProductModel.objects.get(id=form['product_id'])
