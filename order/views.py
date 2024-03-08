@@ -26,7 +26,7 @@ class OrderPayView(APIView):
         "product": [
         {"product_id": "1", "quantity": "2"} , {"product_id": "2", "quantity": "1"}
         ]
-        "address_id": "1"
+        "address_id": "6"
         }
         """
         forms = request.data['product']
