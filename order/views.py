@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from .models import OrderModel, OrderItemModel
 from product.models import ProductModel
 from user_panel.models import UserProductModel
+from accounts.models import AddressModel
 
 
 class OrderPayView(APIView):
@@ -20,15 +21,17 @@ class OrderPayView(APIView):
         3. address_id
 
         sample json:
-
-        [
-        {"product_id": "2", "quantity": "2", "address_id": "1"} , {"product_id": "2", "quantity": "1", "address_id": "1"}
+        {
+        "product": [
+        {"product_id": "2", "quantity": "2"} , {"product_id": "2", "quantity": "1"}
         ]
+        "address": "address_id"
+        }
         """
         forms = request.data
         if len(forms) > 0:
-
-            order = OrderModel.objects.create(user=request.user)
+            address = AddressModel.objects.get(id=forms['address_id'])
+            order = OrderModel.objects.create(user=request.user, address)
 
             for form in forms:
                 product = ProductModel.objects.get(id=form['product_id'])
