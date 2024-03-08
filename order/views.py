@@ -17,11 +17,12 @@ class OrderPayView(APIView):
         parameters:
         1. product_id
         2. quantity
+        3. address_id
 
         sample json:
 
         [
-        {"product_id": "2", "quantity": "2"} , {"product_id": "2", "quantity": "1"}
+        {"product_id": "2", "quantity": "2", "address_id": "1"} , {"product_id": "2", "quantity": "1", "address_id": "1"}
         ]
         """
         forms = request.data
