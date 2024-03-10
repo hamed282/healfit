@@ -279,4 +279,4 @@ class OrderHistoryView(APIView):
     def get(self, request):
         order_history = OrderItemModel.objects.filter(user=request.user, completed=True)
         ser_order_history = OrderUserSerializer(instance=order_history, many=True)
-        return Response(data=ser_order_history.data)
+        return Response(data="ser_order_history.data")
