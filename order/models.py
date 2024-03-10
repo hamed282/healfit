@@ -36,7 +36,7 @@ class OrderItemModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='order_product')
-    # color_product = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
+    color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='order_size')
     price = models.IntegerField()
     quantity = models.IntegerField(default=1)
