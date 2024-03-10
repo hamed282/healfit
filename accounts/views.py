@@ -179,7 +179,7 @@ class UserInfoView(APIView):
         if user_info.id == request.user.id:
             form = request.data
 
-            ser_user_info = UserAddressSerializer(instance=user_info, data=form, partial=True)
+            ser_user_info = UserInfoSerializer(instance=user_info, data=form, partial=True)
             if ser_user_info.is_valid():
                 ser_user_info.save()
                 return Response(data=ser_user_info.data, status=status.HTTP_200_OK)
