@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 
 
 class UserRegisterView(APIView):
@@ -80,7 +81,7 @@ class UserLoginView(APIView):
 
 
 class UserLogout(APIView):
-    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         try:
@@ -93,6 +94,8 @@ class UserLogout(APIView):
 
 
 class UserAddressView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         addresses = AddressModel.objects.filter(user=request.user)
         ser_addresses = UserAddressSerializer(instance=addresses, many=True)
@@ -165,6 +168,8 @@ class UserAddressView(APIView):
 
 
 class UserInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user_id = request.user.id
         user_info = get_object_or_404(User, id=user_id)
@@ -181,6 +186,7 @@ class UserInfoView(APIView):
         2. last_name
         3. emai
         4. birthdate
+        5. password
         """
         user_info = get_object_or_404(User, id=request.user.id)
         if user_info.id == request.user.id:
