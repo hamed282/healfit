@@ -5,7 +5,7 @@ from django.conf import settings
 import requests
 from django.http import HttpResponseRedirect
 from .models import OrderModel, OrderItemModel
-from product.models import ProductModel
+from product.models import ProductModel, ColorProductModel, SizeProductModel
 from user_panel.models import UserProductModel
 from accounts.models import AddressModel
 from django.shortcuts import get_object_or_404
@@ -40,8 +40,9 @@ class OrderPayView(APIView):
             for form in forms:
                 product = ProductModel.objects.get(id=form['product_id'])
                 quantity = form['quantity']
-                color = form['color']
-                size = form['size']
+
+                color = get_object_or_404(ColorProductModel, color=form['color'])
+                size = get_object_or_404(SizeProductModel, size=form['size'])
                 price = product.get_off_price()
                 OrderItemModel.objects.create(order=order,
                                               user=request.user,
