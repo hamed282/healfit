@@ -122,3 +122,6 @@ class ContactSubmitModel(models.Model):
     email = models.EmailField()
     mobile = models.CharField(max_length=20)
     message = models.TextField()
+
+    def __str__(self):
+        return f'{self.email}'

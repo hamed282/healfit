@@ -71,12 +71,9 @@ class HomeSettingAdmin(admin.ModelAdmin):
 
     inlines = (BannerHomeInline, BannerSliderInline, ContactInline, SizeChartInline, CartSettingInline)
 
-# admin.site.register(HomeSettingModel)
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['full_name', 'email', 'mobile']
 
 
-# admin.site.register(MiddleBannerSliderModel)
-# admin.site.register(ContactModel)
-# admin.site.register(CartSettingModel)
-# admin.site.register(ProductSettingModel)
-# admin.site.register(BannerHomeModel)
-admin.site.register(ContactSubmitModel)
+admin.site.register(ContactSubmitModel, ContactAdmin)
