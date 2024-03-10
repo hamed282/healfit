@@ -276,7 +276,9 @@ class OrderPayCancelledView(APIView):
 
 
 class OrderHistoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        order_history = OrderItemModel.objects.filter(user=request.user, completed=True)
+        order_history = OrderItemModel.objects.filter(user=request.user)
         ser_order_history = OrderUserSerializer(instance=order_history, many=True)
-        return Response(data="ser_order_history.data")
+        return Response(data=ser_order_history.data)
