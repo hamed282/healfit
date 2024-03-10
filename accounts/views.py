@@ -195,7 +195,7 @@ class UserInfoView(APIView):
             ser_user_info = UserInfoChangeSerializer(instance=user_info, data=form, partial=True)
             if ser_user_info.is_valid():
                 ser_user_info.save()
-                return Response(data=ser_user_info.data, status=status.HTTP_200_OK)
+                return Response(data={'message': 'Done'}, status=status.HTTP_200_OK)
             return Response(data=ser_user_info.errors, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
