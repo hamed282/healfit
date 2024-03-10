@@ -33,7 +33,7 @@ class OrderModel(models.Model):
 
 class OrderItemModel(models.Model):
     objects = None
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='order_product')
     # color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
