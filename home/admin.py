@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import HomeSettingModel, MiddleBannerSliderModel, ContactModel, CartSettingModel, ProductSettingModel,\
-    BannerHomeModel
+    BannerHomeModel, ContactSubmitModel
 
 
 class BannerHomeInline(admin.StackedInline):
@@ -79,3 +79,4 @@ class HomeSettingAdmin(admin.ModelAdmin):
 # admin.site.register(CartSettingModel)
 # admin.site.register(ProductSettingModel)
 # admin.site.register(BannerHomeModel)
+admin.site.register(ContactSubmitModel)

@@ -115,3 +115,10 @@ class CartSettingModel(models.Model):
             raise ValidationError(
                 "There can be only one Settings you can not add another"
             )
+
+
+class ContactSubmitModel(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    mobile = models.CharField(max_length=20)
+    Message = models.TextField()

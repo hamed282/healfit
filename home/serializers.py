@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ContactModel, MiddleBannerSliderModel, HomeSettingModel, CartSettingModel, ProductSettingModel,\
-    BannerHomeModel
+    BannerHomeModel, ContactSubmitModel
 
 
 class ContactSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import MiddleBannerSliderModel, HomeSettingModel, ContactModel, ProductSettingModel, CartSettingModel,\
-    BannerHomeModel
+    BannerHomeModel, ContactSubmitModel
 from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerSliderSerializer,\
     ProductSettingSerializer, CartSettingSerializer, BannerHomeSerializer
 
@@ -62,3 +62,13 @@ class SessionIdView(APIView):
             request.session.save()
             session_id = request.session.session_key
         return Response(data={'sessionId': session_id})
+
+
+class ContactView(APIView):
+    def post(self, request):
+        form = request.data
+        ContactSubmitModel.objects.create(full_name=form['full_name'],
+                                          email=form['email'],
+                                          mobile=form['mobile'],
+                                          message=form['message'])
+        return Response(data={'message': 'Done'})
