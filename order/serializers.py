@@ -5,6 +5,6 @@ from .models import OrderItemModel
 class OrderUserSerializer(serializers.Serializer):
     class Meta:
         model = OrderItemModel
-        fields = ['product', 'price', 'size', 'quantity']
+        fields = ['product', 'price', 'size', 'color', 'quantity']
 
 
