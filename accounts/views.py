@@ -168,7 +168,10 @@ class UserInfoView(APIView):
     def get(self, request):
         user_id = request.user.id
         user_info = get_object_or_404(User, id=user_id)
-        ser_user_info = UserInfoSerializer(instance=user_info)
+        if user_info.user.id == request.user.id:
+            ser_user_info = UserInfoSerializer(instance=user_info)
+        else:
+            ser_user_info = None
         return Response(data=ser_user_info.data)
 
     def put(self, request):
