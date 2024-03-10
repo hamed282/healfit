@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import User
-from product.models import ProductModel
+from product.models import ProductModel, ColorProductModel, SizeProductModel
 from accounts.models import AddressModel
 
 
@@ -33,10 +33,14 @@ class OrderModel(models.Model):
 
 class OrderItemModel(models.Model):
     objects = None
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='order_product')
+    color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
+    size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='order_size')
     price = models.IntegerField()
     quantity = models.IntegerField(default=1)
+    completed = models.BooleanField(default=False)
 
     # class Meta:
     #     verbose_name = ''

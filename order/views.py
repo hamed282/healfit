@@ -9,6 +9,7 @@ from product.models import ProductModel
 from user_panel.models import UserProductModel
 from accounts.models import AddressModel
 from django.shortcuts import get_object_or_404
+from .serializers import OrderUserSerializer
 
 
 class OrderPayView(APIView):
@@ -24,7 +25,8 @@ class OrderPayView(APIView):
         sample json:
         {
         "product": [
-                    {"product_id": "1", "quantity": "2"} , {"product_id": "2", "quantity": "1"}
+                    {"product_id": "1", "quantity": "2", "color": "black", "size": "X"} ,
+                     {"product_id": "1", "quantity": "2", "color": "black", "size": "X"}
                    ],
         "address_id": "6"
         }
@@ -38,8 +40,16 @@ class OrderPayView(APIView):
             for form in forms:
                 product = ProductModel.objects.get(id=form['product_id'])
                 quantity = form['quantity']
+                color = form['color']
+                size = form['size']
                 price = product.get_off_price()
-                OrderItemModel.objects.create(order=order, product=product, price=price, quantity=quantity)
+                OrderItemModel.objects.create(order=order,
+                                              user=request.user,
+                                              product=product,
+                                              price=price,
+                                              quantity=quantity,
+                                              color=color,
+                                              size=size)
 
             ############################################
             amount = str(order.get_total_price())
@@ -195,6 +205,7 @@ class OrderPayAuthorisedView(APIView):
 
             order.save()
             return HttpResponseRedirect(redirect_to='https://')
+    permission_classes = [IsAuthenticated]
 
 
 class OrderPayDeclinedView(APIView):
@@ -227,9 +238,11 @@ class OrderPayDeclinedView(APIView):
         order.save()
 
         return HttpResponseRedirect(redirect_to='https://')
+    permission_classes = [IsAuthenticated]
 
 
 class OrderPayCancelledView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
@@ -260,3 +273,10 @@ class OrderPayCancelledView(APIView):
         order.save()
 
         return HttpResponseRedirect(redirect_to='https://')
+
+
+class OrderHistoryView(APIView):
+    def get(self, request):
+        order_history = OrderItemModel.objects.filter(user=request.user, completed=True)
+        ser_order_history = OrderUserSerializer(instance=order_history, many=True)
+        return Response(data=ser_order_history.data)
