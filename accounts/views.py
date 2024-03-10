@@ -170,3 +170,16 @@ class UserInfoView(APIView):
         user_info = get_object_or_404(User, id=user_id)
         ser_user_info = UserInfoSerializer(instance=user_info)
         return Response(data=ser_user_info.data)
+
+    def put(self, request):
+        user_info = get_object_or_404(User, id=request.user.id)
+        if user_info.user.id == request.user.id:
+            form = request.data
+
+            ser_user_info = UserAddressSerializer(instance=user_info, data=form, partial=True)
+            if ser_user_info.is_valid():
+                ser_user_info.save()
+                return Response(data=ser_user_info.data, status=status.HTTP_200_OK)
+            return Response(data=ser_user_info.errors, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
