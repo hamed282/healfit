@@ -31,23 +31,23 @@ class OrderModel(models.Model):
         return sum(item.get_cost() for item in self.items.all())
 
 
-class OrderItemModel(models.Model):
-    objects = None
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
-    order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='order_product')
-    # color_product = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
-    size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='order_size')
-    price = models.IntegerField()
-    quantity = models.IntegerField(default=1)
-    completed = models.BooleanField(default=False)
-
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
-
-    def __str__(self):
-        return str(self.id)
-
-    def get_cost(self):
-        return self.price * self.quantity
+# class OrderItemModel(models.Model):
+#     objects = None
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
+#     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
+#     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='order_product')
+#     # color_product = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
+#     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='order_size')
+#     price = models.IntegerField()
+#     quantity = models.IntegerField(default=1)
+#     completed = models.BooleanField(default=False)
+#
+#     # class Meta:
+#     #     verbose_name = ''
+#     #     verbose_name_plural = ''
+#
+#     def __str__(self):
+#         return str(self.id)
+#
+#     def get_cost(self):
+#         return self.price * self.quantity
