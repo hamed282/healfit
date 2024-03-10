@@ -66,6 +66,13 @@ class SessionIdView(APIView):
 
 class ContactView(APIView):
     def post(self, request):
+        """
+        parameters:
+        1. full_name
+        2. email
+        3. mobile
+        4. message
+        """
         form = request.data
         ContactSubmitModel.objects.create(full_name=form['full_name'],
                                           email=form['email'],
