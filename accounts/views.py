@@ -1,10 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import User, AddressModel
-from .serializers import UserRegisterSerializer, UserLoginSerializer, UserAddressSerializer, UserInfoSerializer
+from .serializers import UserRegisterSerializer, UserLoginSerializer, UserAddressSerializer, UserInfoSerializer,\
+    UserInfoChangeSerializer
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -192,7 +192,7 @@ class UserInfoView(APIView):
         if user_info.id == request.user.id:
             form = request.data
 
-            ser_user_info = UserInfoSerializer(instance=user_info, data=form, partial=True)
+            ser_user_info = UserInfoChangeSerializer(instance=user_info, data=form, partial=True)
             if ser_user_info.is_valid():
                 ser_user_info.save()
                 return Response(data=ser_user_info.data, status=status.HTTP_200_OK)
