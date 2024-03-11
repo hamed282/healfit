@@ -164,7 +164,8 @@ class OrderPayAuthorisedView(APIView):
         try:
             order = OrderModel.objects.filter(user=user).first()
         except:
-            return HttpResponseRedirect(redirect_to='https://gogle.com')
+            # return HttpResponseRedirect(redirect_to='https://gogle.com')
+            return Response(data={'message': 'invalid order'})
 
         payload = {
             "method": "check",
@@ -200,7 +201,8 @@ class OrderPayAuthorisedView(APIView):
                 UserProductModel.objects.create(user=user, product=product, order=order,
                                                 quantity=quantity, price=price)
 
-            return HttpResponseRedirect(redirect_to='https://gogle.com')
+            # return HttpResponseRedirect(redirect_to='https://gogle.com')
+            return Response(data={'message': 'success'})
 
         else:
             order.paid = False
@@ -209,7 +211,8 @@ class OrderPayAuthorisedView(APIView):
             order.error_note = response['error']['note']
 
             order.save()
-            return HttpResponseRedirect(redirect_to='https://gogle.com')
+            # return HttpResponseRedirect(redirect_to='https://gogle.com')
+            return Response(data={'message': 'failed'})
 
 
 class OrderPayDeclinedView(APIView):
