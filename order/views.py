@@ -5,7 +5,7 @@ from django.conf import settings
 import requests
 from django.http import HttpResponseRedirect
 from .models import OrderModel, OrderItemModel
-from product.models import ProductModel, ColorProductModel, SizeProductModel
+from product.models import ProductModel, ColorProductModel, SizeProductModel, ProductVariantModel
 from user_panel.models import UserProductModel
 from accounts.models import AddressModel
 from django.shortcuts import get_object_or_404
@@ -156,15 +156,16 @@ class OrderPayView(APIView):
 
 
 class OrderPayAuthorisedView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = request.user
-        # from accounts.models import User
-        # user = User.objects.get(id=1)
 
         try:
             order = OrderModel.objects.filter(user=user).first()
         except:
-            return HttpResponseRedirect(redirect_to='https://')
+            return HttpResponseRedirect(redirect_to='https://gogle.com')
+
         payload = {
             "method": "check",
             "store": settings.SOTRE_ID,
@@ -187,16 +188,19 @@ class OrderPayAuthorisedView(APIView):
             order.save()
             order_items = order.items.all()
 
-            # quantity =
             for item in order_items:
                 product = item.product
                 price = product.get_off_price()
                 quantity = item.quantity
 
+                # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                # product_variant.quantity = product_variant.quantity - item.quantity
+                # product_variant.save()
+
                 UserProductModel.objects.create(user=user, product=product, order=order,
                                                 quantity=quantity, price=price)
 
-            return HttpResponseRedirect(redirect_to='https://')
+            return HttpResponseRedirect(redirect_to='https://gogle.com')
 
         else:
             order.paid = False
@@ -205,8 +209,7 @@ class OrderPayAuthorisedView(APIView):
             order.error_note = response['error']['note']
 
             order.save()
-            return HttpResponseRedirect(redirect_to='https://')
-    permission_classes = [IsAuthenticated]
+            return HttpResponseRedirect(redirect_to='https://gogle.com')
 
 
 class OrderPayDeclinedView(APIView):
