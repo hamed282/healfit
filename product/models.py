@@ -80,14 +80,15 @@ def increment_numbers_after_existing(sender, instance, **kwargs):
         if not existing_instance.priority:
             last_number = SizeProductModel.objects.aggregate(max_number=Max('priority'))['max_number']
             existing_instance.priority = last_number
-        current_priority = existing_instance.priority
-        update_priority = instance.priority
-        if current_priority > update_priority:
-            SizeProductModel.objects.filter(priority__lt=current_priority, priority__gte=update_priority).update(
-                priority=models.F('priority') + 1)
-        if current_priority < update_priority:
-            SizeProductModel.objects.filter(priority__gt=current_priority, priority__lte=update_priority).update(
-                priority=models.F('priority') - 1)
+        else:
+            current_priority = existing_instance.priority
+            update_priority = instance.priority
+            if current_priority > update_priority:
+                SizeProductModel.objects.filter(priority__lt=current_priority, priority__gte=update_priority).update(
+                    priority=models.F('priority') + 1)
+            if current_priority < update_priority:
+                SizeProductModel.objects.filter(priority__gt=current_priority, priority__lte=update_priority).update(
+                    priority=models.F('priority') - 1)
 
     elif not instance.pk and not instance.priority:
         last_number = SizeProductModel.objects.aggregate(max_number=Max('priority'))['max_number']
