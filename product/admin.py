@@ -16,9 +16,13 @@ class ProductVariantAdmin(admin.ModelAdmin):
     list_display = ['id', 'product', 'color', 'size', 'quantity']
 
 
+class SizeProductAdmin(admin.ModelAdmin):
+    list_display = ['size', 'priority']
+
+
 admin.site.register(ProductCategoryModel, ProductCategoryAdmin)
 admin.site.register(PopularProductModel)
 admin.site.register(ProductModel, ProductAdmin)
-admin.site.register(SizeProductModel)
+admin.site.register(SizeProductModel, SizeProductAdmin)
 admin.site.register(ProductVariantModel, ProductVariantAdmin)
 admin.site.register(ColorProductModel)

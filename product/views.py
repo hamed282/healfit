@@ -47,6 +47,7 @@ class ColorSizeProductView(APIView):
 
         return Response(data=ser_data.data)
 
+
 class CartView(APIView):
     def get(self, request, format=None):
         cart = Cart(request)
