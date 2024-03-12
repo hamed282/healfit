@@ -77,6 +77,9 @@ class SizeProductModel(models.Model):
 def increment_numbers_after_existing(sender, instance, **kwargs):
     if instance.pk:
         existing_instance = SizeProductModel.objects.get(pk=instance.pk)
+        if not existing_instance.priority:
+            last_number = SizeProductModel.objects.aggregate(max_number=Max('priority'))['max_number']
+            existing_instance.priority = last_number
         current_priority = existing_instance.priority
         update_priority = instance.priority
         if current_priority > update_priority:
