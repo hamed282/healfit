@@ -87,6 +87,7 @@ class ProductSerializer(serializers.ModelSerializer):
         # size = set([str(p.size) for p in product])
         # set([str({str(p.size): str(p.size.priority)})
         size = set([f'{str(p.size)} - {str(p.size.priority)}' for p in product])
+        size = sorted(size, key=lambda x: int(x.split(" - ")[1]))
         return size
 
 
