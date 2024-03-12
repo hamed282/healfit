@@ -84,11 +84,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_size(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
-        # size = set([str(p.size) for p in product])
-        # set([str({str(p.size): str(p.size.priority)})
-        size = set([f'{str(p.size)} - {str(p.size.priority)}' for p in product])
-        sizes = sorted(size, key=lambda x: int(x.split(" - ")[1]))
-        size = [size.split(" - ")[0] for size in sizes]
+        size = set([str(p.size) for p in product])
+        # size = set([f'{str(p.size)} - {str(p.size.priority)}' for p in product])
+        # sizes = sorted(size, key=lambda x: int(x.split(" - ")[1]))
+        # size = [size.split(" - ")[0] for size in sizes]
         return size
 
 
