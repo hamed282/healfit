@@ -83,7 +83,7 @@ class ProductSerializer(serializers.ModelSerializer):
                 'image5': obj.image1.url}
 
     def get_size(self, obj):
-        product = ProductVariantModel.objects.filter(product=obj).order_by('-priority')
+        product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
         size = set([str(p.size) for p in product])
 
         return size
