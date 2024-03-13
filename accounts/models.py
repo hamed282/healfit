@@ -4,11 +4,11 @@ from .managers import UserManager
 
 
 class User(AbstractBaseUser):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
-    birthdate = models.DateField()
+    birthdate = models.DateField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

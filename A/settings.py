@@ -251,3 +251,12 @@ CURRENCY = "AED"
 AUTHORIZED_URL = "https://healfit.ae/order/success"  # "https://rest.healfit.ae/api/order/authorised/"
 DECLINED_URL = "https://rest.healfit.ae/api/order/declined/"
 CANCELLED_URL = "https://rest.healfit.ae/api/order/cancelled/"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.healfit.ae'
+EMAIL_HOST_USER = 'no-reply@healfit.ae'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = 'Ljho,cP4tD#@'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False

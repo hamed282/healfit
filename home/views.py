@@ -4,7 +4,8 @@ from .models import MiddleBannerSliderModel, HomeSettingModel, ContactModel, Pro
     BannerHomeModel, ContactSubmitModel
 from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerSliderSerializer,\
     ProductSettingSerializer, CartSettingSerializer, BannerHomeSerializer
-
+from django.conf import settings
+from django.core.mail import send_mail
 
 class HomeView(APIView):
     def get(self, request):
@@ -78,4 +79,17 @@ class ContactView(APIView):
                                           email=form['email'],
                                           mobile=form['mobile'],
                                           message=form['message'])
+
+        subject = 'welcome to Healfit'
+        message_customer = 'Hi Wellcome to healfit'
+        message_provider = f'full name: {form["full_name"]} \n' \
+                           f'emai: {form["email"]} \n' \
+                           f'mobile: {form["mobile"]} \n' \
+                           f'Message: {form["message"]}'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [form['email']]
+
+        send_mail(subject, message_customer, email_from, recipient_list)
+        send_mail(subject, message_provider, email_from, ['no-reply@healfit.ae'])
+
         return Response(data={'message': 'Done'})

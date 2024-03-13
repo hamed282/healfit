@@ -8,6 +8,10 @@ from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.hashers import make_password
+import requests
+import json
 
 
 class UserRegisterView(APIView):
@@ -199,3 +203,31 @@ class UserInfoView(APIView):
             return Response(data=ser_user_info.errors, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# class GoogleView(APIView):
+#     def post(self, request):
+#         payload = {'access_token': request.data.get("token")}  # validate the token
+#         r = requests.get('https://www.googleapis.com/oauth2/v2/userinfo', params=payload)
+#         data = json.loads(r.text)
+#
+#         if 'error' in data:
+#             content = {'message': 'wrong google token / this google token is already expired.'}
+#             return Response(content)
+#
+#         # create user if not exist
+#         try:
+#             user = User.objects.get(email=data['email'])
+#         except User.DoesNotExist:
+#             user = User()
+#             user.email = data['email']
+#             # provider random default password
+#             user.password = make_password(BaseUserManager().make_random_password())
+#             user.save()
+#
+#         token = RefreshToken.for_user(user)  # generate token without username & password
+#         response = {}
+#         response['username'] = user.username
+#         response['access_token'] = str(token.access_token)
+#         response['refresh_token'] = str(token)
+#         return Response(response)
