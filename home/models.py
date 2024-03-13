@@ -15,7 +15,7 @@ class HomeSettingModel(models.Model):
     up_video_title = models.CharField(max_length=100, verbose_name='Section 3 Title', blank=True, null=True)
     up_video_description = models.TextField(verbose_name='Section 3 Description', blank=True, null=True)
 
-    button_banner = models.ImageField(upload_to='images/home/', verbose_name='Section 4 Image', blank=True, null=True)
+    button_banner = models.ImageField(upload_to='images/home/', verbose_name='Section 4 Image (1920*590 px)', blank=True, null=True)
 
     middle_video = models.FileField(upload_to='videos/home', verbose_name='Section 5 Video', blank=True, null=True)
     # middle_video_title = models.CharField(max_length=100, verbose_name='Section 5 Title', blank=True, null=True)
@@ -27,11 +27,11 @@ class HomeSettingModel(models.Model):
     button_video_title = models.CharField(max_length=100, verbose_name='Section 7 Title', blank=True, null=True)
     button_video_description = models.TextField(verbose_name='Section 7 Description', blank=True, null=True)
 
-    footer_image = models.ImageField(upload_to='images/home/footer', verbose_name='Section 8 Image', blank=True, null=True)
+    footer_image = models.ImageField(upload_to='images/home/footer', verbose_name='Image', blank=True, null=True)
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Settings'
+        verbose_name_plural = 'Settings'
 
     def __str__(self):
         return f'Settings'
@@ -50,10 +50,10 @@ class ContactModel(models.Model):
     priority = models.IntegerField(blank=True, null=True)
     setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
-    # class Meta:
-    #     verbose_name = 'Number-Header'
-    #     verbose_name_plural = 'Number-Header'
-    #     app_label = 'product'
+    class Meta:
+        verbose_name = 'Contact'
+        verbose_name_plural = 'Contacts'
+        app_label = 'product'
 
     def __str__(self):
         return f'{self.number}'
@@ -61,24 +61,24 @@ class ContactModel(models.Model):
 
 class MiddleBannerSliderModel(models.Model):
     # title = models.CharField(max_length=100, blank=True, null=True)
-    banner = models.ImageField(upload_to='images/home/', blank=True, null=True)
+    banner = models.ImageField(upload_to='images/home/', blank=True, null=True, verbose_name='image (1455*505 px)')
     setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Middle Banner Slider(Home Page)'
+        verbose_name_plural = 'Middle Banner Sliders(Home Page)'
 
     def __str__(self):
         return f'middle banner'
 
 
 class BannerHomeModel(models.Model):
-    image = models.ImageField(upload_to='images/home/banner', blank=True, null=True)
+    image = models.ImageField(upload_to='images/home/banner', blank=True, null=True, verbose_name='image (2218*1920 px)')
     setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Header Banner(Home Page)'
+        verbose_name_plural = 'Header Banners(Home Page)'
 
     def __str__(self):
         return f'{self.setting}'
@@ -90,8 +90,8 @@ class ProductSettingModel(models.Model):
     setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Size Chart - Shop Page'
-        verbose_name_plural = 'Size Chart - Shop Page'
+        verbose_name = 'Size Chart(Shop Page)'
+        verbose_name_plural = 'Size Chart(Shop Page)'
 
     def clean(self):
         if not self.pk and ProductSettingModel.objects.exists():
@@ -106,8 +106,8 @@ class CartSettingModel(models.Model):
     setting = models.ForeignKey(HomeSettingModel, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Banner-Cart page'
-        verbose_name_plural = 'Banner-Cart page'
+        verbose_name = 'Banner(Cart page)'
+        verbose_name_plural = 'Banners(Cart page)'
 
     def clean(self):
         if not self.pk and ProductSettingModel.objects.exists():
@@ -125,3 +125,7 @@ class ContactSubmitModel(models.Model):
 
     def __str__(self):
         return f'{self.email}'
+
+    class Meta:
+        verbose_name = 'Contact User Submit'
+        verbose_name_plural = 'Contact User Submit'

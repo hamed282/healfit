@@ -38,25 +38,25 @@ class HomeSettingAdmin(admin.ModelAdmin):
     # list_display = ('id', 'user', 'updated', 'paid')
     # list_filter = ('paid',)
     fieldsets = (
-        ('Section 1', {
+        ('Section 1(Home Page)', {
             'fields': ('top_title', 'top_description')
         }),
-        ('Section 2', {
+        ('Section 2(Home Page)', {
             'fields': ('middle_title', 'middle_description')
         }),
-        ('Section 3', {
+        ('Section 3(Home Page)', {
             'fields': ('up_video', 'up_video_title', 'up_video_description')
         }),
-        ('Section 4', {
+        ('Section 4(Home Page)', {
             'fields': ('button_banner',)
         }),
-        ('Section 5', {
+        ('Section 5(Home Page)', {
             'fields': ('middle_video', 'middle_video_description')
         }),
-        ('Section 6', {
+        ('Section 6(Home Page)', {
             'fields': ('banner',)
         }),
-        ('Section 7', {
+        ('Section 7(Home Page)', {
             'fields': ('button_video', 'button_video_title', 'button_video_description')
         }),
         ('Footer', {

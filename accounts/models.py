@@ -49,5 +49,9 @@ class AddressModel(models.Model):
     identification_number = models.CharField(max_length=100)
     # active_address = models.BooleanField(default=True)
 
+    class Meta:
+        verbose_name = 'Address'
+        verbose_name_plural = 'Addresses'
+
     def __str__(self):
         return f'{self.user}'

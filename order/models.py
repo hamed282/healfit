@@ -21,8 +21,9 @@ class OrderModel(models.Model):
 
     class Meta:
         ordering = ('paid', '-updated')
-        #     verbose_name = ''
-        #     verbose_name_plural = ''
+
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
 
     def __str__(self):
         return f'{self.user} - {self.id}'

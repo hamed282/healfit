@@ -12,9 +12,9 @@ class ProductCategoryModel(models.Model):
     slug = models.SlugField(max_length=100, unique=True)
     image = models.FileField(upload_to='images/category/')
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Color Product'
+        verbose_name_plural = 'Color Products'
 
     def save(self, **kwargs):
         self.slug = slugify(self.category)
@@ -35,15 +35,15 @@ class ProductModel(models.Model):
     image5 = models.ImageField(upload_to='images/product/', blank=True, null=True)
     price = models.IntegerField()
     percent_discount = models.IntegerField(null=True, blank=True)
-    product_code = models.CharField(max_length=100)
-    is_available = models.BooleanField()
+    product_code = models.CharField(max_length=100, null=True, blank=True)
+    # is_available = models.BooleanField()
     slug = models.SlugField(max_length=100, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
 
     def save(self, **kwargs):
         self.slug = slugify(self.product)
@@ -65,9 +65,9 @@ class SizeProductModel(models.Model):
     size = models.CharField(max_length=120)
     priority = models.IntegerField(blank=True, null=True)
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Size Product'
+        verbose_name_plural = 'Size Products'
 
     def __str__(self):
         return f'{self.size}'
@@ -107,9 +107,9 @@ class ColorProductModel(models.Model):
     color = models.CharField(max_length=120)
     color_code = models.CharField(max_length=120)
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Size Product'
+        verbose_name_plural = 'Size Products'
 
     def __str__(self):
         return f'{self.color}'
@@ -129,17 +129,18 @@ class ProductVariantModel(models.Model):
                 name='unique_prod_color_size_combo'
             )
         ]
-        #     verbose_name = ''
-        #     verbose_name_plural = ''
+
+        verbose_name = 'Product Variant(Stock)'
+        verbose_name_plural = 'Product Variant(Stock)'
 
 
 class PopularProductModel(models.Model):
     objects = None
     popular = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='popular_product')
 
-    # class Meta:
-    #     verbose_name = ''
-    #     verbose_name_plural = ''
+    class Meta:
+        verbose_name = 'Popular Product'
+        verbose_name_plural = 'Popular Products'
 
     def __str__(self):
         return f'{self.popular}'
