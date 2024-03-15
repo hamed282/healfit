@@ -5,6 +5,9 @@ from .serializers import ProductCategorySerializer, PopularProductSerializer, Pr
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from .service import Cart
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 class ProductCategoryView(APIView):
@@ -124,3 +127,14 @@ class ProductListView(APIView):
         category_title = category.category_title
 
         return Response(data={'data': ser_product_list.data, 'title': category_title})
+
+
+class SearchProductView(viewsets.ModelViewSet):
+    queryset = ProductModel.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # filterset_fields = ['date']
+    # filterset_class = PdfFilter
+    search_fields = ['product']
+    # search_fields = ['date', 'date_paper__paper_category__title']
+    ordering_fields = '__all__'
