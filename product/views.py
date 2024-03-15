@@ -1,7 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel, SizeProductModel
-from .serializers import ProductCategorySerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer, ColorSizeProductSerializer
+from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel,\
+    SizeProductModel
+from .serializers import ProductCategorySerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
+    ColorSizeProductSerializer, ProductSearchSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from .service import Cart
@@ -131,7 +133,7 @@ class ProductListView(APIView):
 
 class SearchProductView(viewsets.ModelViewSet):
     queryset = ProductModel.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductSearchSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     # filterset_fields = ['date']
     # filterset_class = PdfFilter

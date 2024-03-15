@@ -144,3 +144,37 @@ class ProductListSerializer(serializers.ModelSerializer):
         if obj.percent_discount is None:
             percent_discount = 0
         return int(price - price * percent_discount / 100)
+
+
+class ProductSearchSerializer(serializers.ModelSerializer):
+    off_price = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
+    # size_product = SizeSerializer(many=True, read_only=True)
+    size = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductModel
+        fields = ['product',  'price', 'images', 'off_price', 'percent_discount', 'size',
+                  'product_code', 'slug', 'created', 'updated', 'id']
+
+    def get_off_price(self, obj):
+        price = obj.price
+        percent_discount = obj.percent_discount
+        if obj.percent_discount is None:
+            percent_discount = 0
+        return int(price - price * percent_discount / 100)
+
+    def get_images(self, obj):
+        return {'image1': obj.image1.url,
+                'image2': obj.image2.url,
+                'image3': obj.image3.url,
+                'image4': obj.image4.url,
+                'image5': obj.image5.url}
+
+    def get_size(self, obj):
+        product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
+        # size = set([str(p.size) for p in product])
+        size = set([f'{str(p.size)} - {str(p.size.priority)}' for p in product])
+        sizes = sorted(size, key=lambda x: int(x.split(" - ")[1]))
+        size = [size.split(" - ")[0] for size in sizes]
+        return size
