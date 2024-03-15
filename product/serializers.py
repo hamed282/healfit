@@ -148,14 +148,11 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 class ProductSearchSerializer(serializers.ModelSerializer):
     off_price = serializers.SerializerMethodField()
-    images = serializers.SerializerMethodField()
-    # size_product = SizeSerializer(many=True, read_only=True)
     size = serializers.SerializerMethodField()
 
     class Meta:
         model = ProductModel
-        fields = ['product',  'price', 'images', 'off_price', 'percent_discount', 'size',
-                  'product_code', 'slug', 'created', 'updated', 'id']
+        fields = ['product', 'price', 'image1', 'off_price', 'slug', 'id']
 
     def get_off_price(self, obj):
         price = obj.price
