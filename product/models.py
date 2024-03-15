@@ -13,8 +13,8 @@ class ProductCategoryModel(models.Model):
     image = models.FileField(upload_to='images/category/')
 
     class Meta:
-        verbose_name = 'Color Product'
-        verbose_name_plural = 'Color Products'
+        verbose_name = 'Product Category'
+        verbose_name_plural = 'Product Category'
 
     def save(self, **kwargs):
         self.slug = slugify(self.category)
@@ -108,8 +108,8 @@ class ColorProductModel(models.Model):
     color_code = models.CharField(max_length=120)
 
     class Meta:
-        verbose_name = 'Size Product'
-        verbose_name_plural = 'Size Products'
+        verbose_name = 'Color Product'
+        verbose_name_plural = 'Color Product'
 
     def __str__(self):
         return f'{self.color}'

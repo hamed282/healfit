@@ -6,7 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 class UserCreationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'birthdate', 'password']
+        fields = ['first_name', 'last_name', 'email', 'password']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -22,5 +22,5 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'birthdate', 'is_active', 'is_admin',
+        fields = ['first_name', 'last_name', 'email', 'is_active', 'is_admin',
                   'is_superuser', 'last_login']
