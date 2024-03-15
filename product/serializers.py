@@ -78,9 +78,9 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_images(self, obj):
         return {'image1': obj.image1.url,
                 'image2': obj.image2.url,
-                'image3': obj.image1.url,
-                'image4': obj.image1.url,
-                'image5': obj.image1.url}
+                'image3': obj.image3.url,
+                'image4': obj.image4.url,
+                'image5': obj.image5.url}
 
     def get_size(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
