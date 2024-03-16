@@ -22,8 +22,7 @@ class UserRegisterView(APIView):
         1. first_name
         2. last_name
         3. email
-        4. birthdate
-        5. password
+        4. password
         """
         form = request.data
         ser_data = UserRegisterSerializer(data=form)
@@ -32,7 +31,7 @@ class UserRegisterView(APIView):
             if not user:
                 User.objects.create_user(first_name=form['first_name'],
                                          last_name=form['last_name'],
-                                         email=form['email'], birthdate=form['birthdate'],
+                                         email=form['email'],
                                          password=form['password'])
                 try:
                     user = authenticate(email=form['email'], password=form['password'])

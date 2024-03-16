@@ -17,7 +17,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'birthdate', 'password']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'password']
 
     def __str__(self):
         return f'{self.first_name} - {self.last_name}'
