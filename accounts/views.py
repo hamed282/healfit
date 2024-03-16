@@ -88,6 +88,12 @@ class UserLogout(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        """
+        parameters:
+        1. refresh_token
+
+        sample: {"refresh_token": "dsade3ewqdwxr44354x4rxexrre"}
+        """
         try:
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
