@@ -42,6 +42,7 @@ class OrderItemModel(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField(default=1)
     completed = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     # class Meta:
     #     verbose_name = ''
