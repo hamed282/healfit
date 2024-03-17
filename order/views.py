@@ -216,6 +216,8 @@ class OrderPayAuthorisedView(APIView):
 
 
 class OrderPayDeclinedView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = request.user
         # from accounts.models import User
@@ -224,7 +226,7 @@ class OrderPayDeclinedView(APIView):
         try:
             order = OrderModel.objects.filter(user=user).first()
         except:
-            return HttpResponseRedirect(redirect_to='https://')
+            return Response(data={'message': 'invalid order'})
         payload = {
             "method": "check",
             "store": settings.SOTRE_ID,
@@ -244,8 +246,7 @@ class OrderPayDeclinedView(APIView):
         order.error_note = response['error']['note']
         order.save()
 
-        return HttpResponseRedirect(redirect_to='https://')
-    permission_classes = [IsAuthenticated]
+        return Response(data={'message': 'Declined'})
 
 
 class OrderPayCancelledView(APIView):
@@ -259,7 +260,7 @@ class OrderPayCancelledView(APIView):
         try:
             order = OrderModel.objects.filter(user=user).first()
         except:
-            return HttpResponseRedirect(redirect_to='https:///')
+            return Response(data={'message': 'invalid order'})
         payload = {
             "method": "check",
             "store": settings.SOTRE_ID,
@@ -279,7 +280,7 @@ class OrderPayCancelledView(APIView):
         order.error_note = response['error']['note']
         order.save()
 
-        return HttpResponseRedirect(redirect_to='https://')
+        return Response(data={'message': 'Cancelled'})
 
 
 class OrderHistoryView(APIView):

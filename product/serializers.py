@@ -112,7 +112,7 @@ class ProductCartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['id', 'product', 'image1', 'price', 'off_price', 'slug', 'product_color_size']
+        fields = ['id', 'product', 'image1', 'price', 'off_price', 'slug', 'product_color_size', 'product_code']
 
     def get_off_price(self, obj):
         price = obj.price
@@ -151,7 +151,7 @@ class ProductSearchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['product', 'price', 'image1', 'off_price', 'slug', 'id']
+        fields = ['product', 'price', 'image1', 'off_price', 'slug', 'product_code', 'id']
 
     def get_off_price(self, obj):
         price = obj.price

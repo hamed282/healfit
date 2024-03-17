@@ -248,9 +248,9 @@ FRAMED = 0
 SOTRE_ID = 29934
 AUTHKEY = 'BnCdX#DGW2P@HHxk'
 CURRENCY = "AED"
-AUTHORIZED_URL = "https://healfit.ae/order/success"  # "https://rest.healfit.ae/api/order/authorised/"
-DECLINED_URL = "https://rest.healfit.ae/api/order/declined/"
-CANCELLED_URL = "https://rest.healfit.ae/api/order/cancelled/"
+AUTHORIZED_URL = "https://healfit.ae/success-pay"  # "https://rest.healfit.ae/api/order/authorised/"
+DECLINED_URL = "https://healfit.ae/unsuccess-pay"  # "https://rest.healfit.ae/api/order/declined/"
+CANCELLED_URL = "https://healfit.ae/cancel-pay-pay"  # "https://rest.healfit.ae/api/order/cancelled/"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mail.healfit.ae'

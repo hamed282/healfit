@@ -14,15 +14,15 @@ class UserAdmin(BaseUserAdmin):
     readonly_fields = ['last_login']
 
     fieldsets = (
-        (None, {'fields': ('first_name', 'last_name', 'email', 'password')}),
+        (None, {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'password')}),
         ('Permissions', {'fields': ('is_active', 'is_admin', 'is_superuser')}),
     )
 
     add_fieldsets = (
-        (None, {'fields': ('first_name', 'last_name', 'email', 'password')}),
+        (None, {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'password')}),
     )
 
-    search_fields = ['first_name', 'last_name', 'email']
+    search_fields = ['first_name', 'last_name', 'email', 'phone_number']
     ordering = ['first_name', 'last_name']
 
     filter_horizontal = ()
