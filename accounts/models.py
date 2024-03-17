@@ -8,7 +8,7 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
-    # birthdate = models.DateField(null=True, blank=True)
+    phone_number = models.CharField(max_length=22, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

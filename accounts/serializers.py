@@ -5,7 +5,7 @@ from .models import User, AddressModel
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'password']
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -23,10 +23,10 @@ class UserAddressSerializer(serializers.ModelSerializer):
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'phone_number']
 
 
 class UserInfoChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'password']
