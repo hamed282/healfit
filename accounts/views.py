@@ -127,9 +127,9 @@ class UserAddressView(APIView):
         ser_address = UserAddressSerializer(data=form)
         if ser_address.is_valid():
             address = AddressModel.objects.create(user=request.user,
-                                                  address=form['first_name_address'],
-                                                  additional_information=form['last_name_address'],
-                                                  emirats=form['company'],
+                                                  address=form['address'],
+                                                  additional_information=form['additional_information'],
+                                                  emirats=form['emirats'],
                                                   city=form['city'],
                                                   country=form['country'])
             # address.save()
