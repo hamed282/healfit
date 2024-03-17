@@ -22,7 +22,8 @@ class UserRegisterView(APIView):
         1. first_name
         2. last_name
         3. email
-        4. password
+        4. phone_number
+        5. password
         """
         form = request.data
         ser_data = UserRegisterSerializer(data=form)
@@ -32,6 +33,7 @@ class UserRegisterView(APIView):
                 User.objects.create_user(first_name=form['first_name'],
                                          last_name=form['last_name'],
                                          email=form['email'],
+                                         phone_number=form['phone_number'],
                                          password=form['password'])
                 try:
                     user = authenticate(email=form['email'], password=form['password'])
@@ -114,34 +116,22 @@ class UserAddressView(APIView):
         """
         parameters:
         {
-            first_name_address
-            last_name_address
-            company
-            VAT_number
             address
-            address_complement
-            phone_number
-            postal_code
+            additional_information
+            emirats
             city
             country
-            identification_number
         }
         """
         form = request.data
         ser_address = UserAddressSerializer(data=form)
         if ser_address.is_valid():
             address = AddressModel.objects.create(user=request.user,
-                                                  first_name_address=form['first_name_address'],
-                                                  last_name_address=form['last_name_address'],
-                                                  company=form['company'],
-                                                  VAT_number=form['VAT_number'],
-                                                  address=form['address'],
-                                                  address_complement=form['address_complement'],
-                                                  phone_number=form['phone_number'],
-                                                  postal_code=form['postal_code'],
+                                                  address=form['first_name_address'],
+                                                  additional_information=form['last_name_address'],
+                                                  emirats=form['company'],
                                                   city=form['city'],
-                                                  country=form['country'],
-                                                  identification_number=form['identification_number'])
+                                                  country=form['country'])
             # address.save()
             return Response(data={'massage': 'Address added'}, status=status.HTTP_201_CREATED)
         else:
@@ -194,7 +184,7 @@ class UserInfoView(APIView):
         1. first_name
         2. last_name
         3. emai
-        4. birthdate
+        4. phone_number
         5. password
         """
         user_info = get_object_or_404(User, id=request.user.id)
