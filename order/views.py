@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.conf import settings
 import requests
-from django.http import HttpResponseRedirect
 from .models import OrderModel, OrderItemModel
 from product.models import ProductModel, ColorProductModel, SizeProductModel, ProductVariantModel
 from user_panel.models import UserProductModel

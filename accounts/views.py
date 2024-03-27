@@ -23,7 +23,9 @@ class UserRegisterView(APIView):
         2. last_name
         3. email
         4. phone_number
-        5. password
+        5. trn_number
+        6. company_name
+        7. password
         """
         form = request.data
         ser_data = UserRegisterSerializer(data=form)
@@ -34,7 +36,9 @@ class UserRegisterView(APIView):
                                          last_name=form['last_name'],
                                          email=form['email'],
                                          phone_number=form['phone_number'],
-                                         password=form['password'])
+                                         trn_number=form['trn_number'],
+                                         company_name=form['company_name'],
+                                         password=form['password']),
                 try:
                     user = authenticate(email=form['email'], password=form['password'])
                     if user is not None:

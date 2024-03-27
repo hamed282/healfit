@@ -7,6 +7,7 @@ from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerS
 from django.conf import settings
 from django.core.mail import send_mail
 
+
 class HomeView(APIView):
     def get(self, request):
         setting_home = HomeSettingModel.objects.all()
