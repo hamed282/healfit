@@ -224,20 +224,27 @@ class ChangePasswordView(APIView):
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class RestPasswordView(APIView):
-    permission_classes = [IsAuthenticated]
+"""
+send link: http://localhost:8000/api/password_reset/   {"email": "your_email@example.com"}
 
-    def post(self, request):
-        """
-        parameters:
-        1. password
-        2. Token
-        """
-        user = request.user
+http://localhost:8000/api/password_reset/confirm/
+POST
+{"password":"Password@123", "token": "60d9dd6559500cc469"}
+"""
 
-        ser_data = ResetPasswordSerializer(data=request.data)
-        if ser_data.is_valid():
-            pass
+# class RestPasswordView(APIView):
+#
+#     def post(self, request):
+#         """
+#         parameters:
+#         1. password
+#         2. Token
+#         """
+#         user = request.user
+#
+#         ser_data = ResetPasswordSerializer(data=request.data)
+#         if ser_data.is_valid():
+#             pass
 
 # def change_password(request):
 #     if request.method == 'POST':
