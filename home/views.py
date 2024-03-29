@@ -87,7 +87,7 @@ class ContactView(APIView):
 
             subject = 'welcome to Healfit'
             message_customer = 'Hi Wellcome to healfit'
-            message_provider = f'full name: {form["first_name"]} {form['last_name']} \n' \
+            message_provider = f'full name: {form["first_name"]} {form["last_name"]} \n' \
                                f'emai: {form["email"]} \n' \
                                f'mobile: {form["mobile"]} \n' \
                                f'Message: {form["message"]}'
