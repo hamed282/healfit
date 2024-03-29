@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from .models import MiddleBannerSliderModel, HomeSettingModel, ContactModel, ProductSettingModel, CartSettingModel,\
     BannerHomeModel, ContactSubmitModel
 from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerSliderSerializer,\
-    ProductSettingSerializer, CartSettingSerializer, BannerHomeSerializer
+    ProductSettingSerializer, CartSettingSerializer, BannerHomeSerializer, ContactSubmitSerializer
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -77,22 +77,26 @@ class ContactView(APIView):
         5. message
         """
         form = request.data
-        ContactSubmitModel.objects.create(first_name=form['first_name'],
-                                          last_name=form['last_name'],
-                                          email=form['email'],
-                                          mobile=form['mobile'],
-                                          message=form['message'])
+        ser_submit = ContactSubmitSerializer(data=form)
+        if ser_submit.is_valid():
+            ContactSubmitModel.objects.create(first_name=form['first_name'],
+                                              last_name=form['last_name'],
+                                              email=form['email'],
+                                              mobile=form['mobile'],
+                                              message=form['message'])
 
-        subject = 'welcome to Healfit'
-        message_customer = 'Hi Wellcome to healfit'
-        message_provider = f'full name: {form["first_name"]} {form['last_name']} \n' \
-                           f'emai: {form["email"]} \n' \
-                           f'mobile: {form["mobile"]} \n' \
-                           f'Message: {form["message"]}'
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [form['email']]
+            subject = 'welcome to Healfit'
+            message_customer = 'Hi Wellcome to healfit'
+            message_provider = f'full name: {form["first_name"]} {form['last_name']} \n' \
+                               f'emai: {form["email"]} \n' \
+                               f'mobile: {form["mobile"]} \n' \
+                               f'Message: {form["message"]}'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [form['email']]
 
-        send_mail(subject, message_customer, email_from, recipient_list)
-        send_mail(subject, message_provider, email_from, ['no-reply@healfit.ae'])
+            send_mail(subject, message_customer, email_from, recipient_list)
+            send_mail(subject, message_provider, email_from, ['no-reply@healfit.ae'])
 
-        return Response(data={'message': 'successfully submitted'})
+            return Response(data={'message': 'successfully submitted'})
+        else:
+            return Response(data=ser_submit.errors)

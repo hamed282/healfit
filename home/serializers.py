@@ -39,3 +39,9 @@ class ProductSettingSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductSettingModel
         fields = '__all__'
+
+
+class ContactSubmitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactSubmitModel
+        fields = '__all__'
