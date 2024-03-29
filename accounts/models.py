@@ -39,7 +39,7 @@ class AddressModel(models.Model):
     objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_address')
     address = models.TextField()
-    additional_information = models.TextField()
+    additional_information = models.TextField(null=True, blank=True)
     emirats = models.CharField(max_length=100)
     # first_name_address = models.CharField(max_length=100)
     # last_name_address = models.CharField(max_length=100)
@@ -47,7 +47,7 @@ class AddressModel(models.Model):
     # VAT_number = models.CharField(max_length=100)
     # address = models.TextField(max_length=100)
     # address_complement = models.TextField(max_length=100)
-    # phone_number = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=100)
     # postal_code = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100)

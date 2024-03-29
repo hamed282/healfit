@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import User, AddressModel
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserAddressSerializer, UserInfoSerializer,\
-    UserInfoChangeSerializer, ChangePasswordSerializer
+    UserInfoChangeSerializer, ChangePasswordSerializer, ResetPasswordSerializer
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from django.contrib.auth import authenticate
@@ -105,7 +105,7 @@ class UserLogout(APIView):
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response(status=status.HTTP_205_RESET_CONTENT)
+            return Response(data='Logout successfully', status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -127,6 +127,7 @@ class UserAddressView(APIView):
             emirats
             city
             country
+            phone_number
         }
         """
         form = request.data
@@ -137,7 +138,8 @@ class UserAddressView(APIView):
                                                   additional_information=form['additional_information'],
                                                   emirats=form['emirats'],
                                                   city=form['city'],
-                                                  country=form['country'])
+                                                  country=form['country'],
+                                                  phone_number=form['phone_number'])
             # address.save()
             return Response(data={'massage': 'Address added'}, status=status.HTTP_201_CREATED)
         else:
@@ -221,6 +223,21 @@ class ChangePasswordView(APIView):
             return Response({'error': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class RestPasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        """
+        parameters:
+        1. password
+        2. Token
+        """
+        user = request.user
+
+        ser_data = ResetPasswordSerializer(data=request.data)
+        if ser_data.is_valid():
+            pass
 
 # def change_password(request):
 #     if request.method == 'POST':

@@ -70,20 +70,22 @@ class ContactView(APIView):
     def post(self, request):
         """
         parameters:
-        1. full_name
-        2. email
-        3. mobile
-        4. message
+        1. first_name
+        2. last_name
+        3. email
+        4. mobile
+        5. message
         """
         form = request.data
-        ContactSubmitModel.objects.create(full_name=form['full_name'],
+        ContactSubmitModel.objects.create(first_name=form['first_name'],
+                                          last_name=form['last_name'],
                                           email=form['email'],
                                           mobile=form['mobile'],
                                           message=form['message'])
 
         subject = 'welcome to Healfit'
         message_customer = 'Hi Wellcome to healfit'
-        message_provider = f'full name: {form["full_name"]} \n' \
+        message_provider = f'full name: {form["first_name"]} {form['last_name']} \n' \
                            f'emai: {form["email"]} \n' \
                            f'mobile: {form["mobile"]} \n' \
                            f'Message: {form["message"]}'
@@ -93,4 +95,4 @@ class ContactView(APIView):
         send_mail(subject, message_customer, email_from, recipient_list)
         send_mail(subject, message_provider, email_from, ['no-reply@healfit.ae'])
 
-        return Response(data={'message': 'Done'})
+        return Response(data={'message': 'successfully submitted'})

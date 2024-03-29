@@ -118,7 +118,8 @@ class CartSettingModel(models.Model):
 
 
 class ContactSubmitModel(models.Model):
-    full_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email = models.EmailField()
     mobile = models.CharField(max_length=20)
     message = models.TextField()

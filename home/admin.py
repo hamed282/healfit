@@ -73,8 +73,8 @@ class HomeSettingAdmin(admin.ModelAdmin):
 
 
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'email', 'mobile']
-    readonly_fields = ['full_name', 'email', 'mobile', 'message']
+    list_display = ['first_name', 'last_name', 'email', 'mobile']
+    readonly_fields = ['first_name', 'last_name', 'email', 'mobile', 'message']
 
 
 admin.site.register(ContactSubmitModel, ContactAdmin)

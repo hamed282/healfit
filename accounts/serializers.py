@@ -16,7 +16,7 @@ class UserLoginSerializer(serializers.Serializer):
 class UserAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = AddressModel
-        fields = ['id', 'address', 'additional_information', 'emirats', 'city', 'country']
+        fields = ['id', 'address', 'additional_information', 'emirats', 'city', 'country', 'phone_number']
 
 
 class UserInfoSerializer(serializers.ModelSerializer):
@@ -38,3 +38,8 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 class ResetPasswordEmailSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    password = serializers.EmailField(required=True)
+    token = serializers.CharField(required=True)
