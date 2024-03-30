@@ -193,7 +193,6 @@ class UserInfoView(APIView):
         2. last_name
         3. emai
         4. phone_number
-        5. password
         """
         user_info = get_object_or_404(User, id=request.user.id)
         if user_info.id == request.user.id:
@@ -212,6 +211,11 @@ class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        """
+        parameters:
+        1. old_password
+        2. new_password
+        """
         ser_data = ChangePasswordSerializer(data=request.data)
         if ser_data.is_valid():
             user = request.user
