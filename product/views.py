@@ -10,6 +10,7 @@ from .service import Cart
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+import math
 
 
 class ProductCategoryView(APIView):
@@ -131,27 +132,27 @@ class ProductListView(APIView):
     def get(self, request):
         """
         get parameter:
-        1. limit_from
-        2. limit_to
-        3. slug
+        1. page_number
+        2. slug
         """
-        product_limit_from = self.request.query_params.get('limit_from', None)
-        product_limit_to = self.request.query_params.get('limit_to', None)
-        product_slug = self.request.query_params.get('slug', None)
-        category = ProductCategoryModel.objects.get(slug=product_slug)
-        if product_limit_from is None and product_limit_to is None:
-            product_list = ProductModel.objects.filter(category=category).order_by('-created')
-        elif product_limit_from is not None and product_limit_to is None:
-            product_list = ProductModel.objects.all().order_by('-created')[int(product_limit_from):]
-        elif product_limit_from is None and product_limit_to is not None:
-            product_list = ProductModel.objects.all().order_by('-created')[:int(product_limit_to)]
+
+        page_number = self.request.query_params.get('page_number', None)
+        category_slug = self.request.query_params.get('slug', None)
+        category = ProductCategoryModel.objects.get(slug=category_slug)
+
+        per_page = 16
+        products_count = len(ProductModel.objects.filter(category=category))
+        number_of_pages = math.ceil(products_count/per_page)
+        if page_number is not None:
+            page_number = int(page_number)
+            product_list = ProductModel.objects.filter(category=category).order_by('-created')[per_page*(page_number-1):per_page*page_number]
         else:
-            product_list = ProductModel.objects.all().order_by('-created')[int(product_limit_from):int(product_limit_to)]
+            product_list = ProductModel.objects.filter(category=category).order_by('-created')
 
         ser_product_list = ProductListSerializer(instance=product_list, many=True)
         category_title = category.category_title
 
-        return Response(data={'data': ser_product_list.data, 'title': category_title})
+        return Response(data={'data': ser_product_list.data, 'title': category_title, 'number_of_pages': number_of_pages})
 
 
 class SearchProductView(viewsets.ModelViewSet):
