@@ -4,7 +4,7 @@ from .models import ProductModel, ProductVariantModel, ColorProductModel, SizePr
 
 def zoho():
     organization_id = '846612922'
-    oauth = '1000.539cc410ec602365a8170c6da3d7971c.561ba899d7169ea5d31406151d43528e'
+    oauth = '1000.8e24be65274c0f0877213ace26fbec78.c25f3095cb1ba9bccc78d81893620853'
     per_page = '200'
     headers = {
         'Authorization': f"Zoho-oauthtoken {oauth}"}
