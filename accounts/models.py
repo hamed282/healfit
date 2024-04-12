@@ -22,7 +22,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'trn_number', 'company_name', 'phone_number', 'password']
 
     def __str__(self):
-        return f'{self.first_name} - {self.last_name}'
+        return f'{self.first_name} {self.last_name}'
 
     def has_perm(self, perm, obj=None):
         return True

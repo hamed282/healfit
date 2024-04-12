@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel,\
     SizeProductModel
 from .serializers import ProductCategorySerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
-    ColorSizeProductSerializer, ProductSearchSerializer
+    ColorSizeProductSerializer, ProductSearchSerializer, ProductVariantShopSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from .service import Cart
@@ -35,6 +35,29 @@ class ProductView(APIView):
         if product_slug is not None:
             product = get_object_or_404(ProductModel, slug=product_slug)
             ser_product = ProductSerializer(instance=product)
+            return Response(data=ser_product.data)
+        else:
+            return Response(data={'massage': 'invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProductVariantShopView(APIView):
+    """
+    note: get product variant price
+    queries:
+    1. product
+    2. size
+    3. color
+    """
+    def get(self, request):
+        product_name = self.request.query_params.get('product', None)
+        product_size = self.request.query_params.get('size', None)
+        product_color = self.request.query_params.get('color', None)
+        if product_name is not None and product_size is not None and product_color is not None:
+            product_name = ProductModel.objects.get(product=product_name)
+            product_size = SizeProductModel.objects.get(size=product_size)
+            product_color = ColorProductModel.objects.get(color=product_color)
+            product = get_object_or_404(ProductVariantModel, product=product_name, size=product_size, color=product_color)
+            ser_product = ProductVariantShopSerializer(instance=product)
             return Response(data=ser_product.data)
         else:
             return Response(data={'massage': 'invalid data'}, status=status.HTTP_400_BAD_REQUEST)

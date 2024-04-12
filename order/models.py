@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import User
-from product.models import ProductModel, ColorProductModel, SizeProductModel
+from product.models import ProductVariantModel, ColorProductModel, SizeProductModel
 from accounts.models import AddressModel
 
 
@@ -26,7 +26,7 @@ class OrderModel(models.Model):
         verbose_name_plural = 'Orders'
 
     def __str__(self):
-        return f'{self.user} - {self.id}'
+        return f'{self.user} - Order ID: {self.id}'
 
     def get_total_price(self):
         return sum(item.get_cost() for item in self.items.all())
@@ -36,7 +36,7 @@ class OrderItemModel(models.Model):
     objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='order_product')
+    product = models.ForeignKey(ProductVariantModel, on_delete=models.CASCADE, related_name='order_product')
     color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='order_size')
     price = models.IntegerField()

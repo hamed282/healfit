@@ -32,16 +32,19 @@ class OrderPayView(APIView):
         """
         forms = request.data['product']
         data = request.data
+
         if len(forms) > 0:
             address = get_object_or_404(AddressModel, id=data['address_id'])
             order = OrderModel.objects.create(user=request.user, address=address)
 
             for form in forms:
-                product = ProductModel.objects.get(id=form['product_id'])
-                quantity = form['quantity']
-
                 color = get_object_or_404(ColorProductModel, color=form['color'])
                 size = get_object_or_404(SizeProductModel, size=form['size'])
+
+                product_group = ProductModel.objects.get(id=form['product_id'])
+                product = ProductVariantModel.objects.get(product=product_group, color=color, size=size)
+                quantity = form['quantity']
+
                 price = product.get_off_price()
                 OrderItemModel.objects.create(order=order,
                                               user=request.user,
@@ -50,7 +53,6 @@ class OrderPayView(APIView):
                                               quantity=quantity,
                                               color=color,
                                               size=size)
-
             ############################################
             amount = str(order.get_total_price())
             description = f'buy'
@@ -176,6 +178,7 @@ class OrderPayAuthorisedView(APIView):
             "accept": "application/json",
             "Content-Type": "application/json"
         }
+        ## to do: if quantity = 0 dont send request
         response = requests.post(settings.TELR_API_VERIFY, json=payload, headers=headers)
         response = response.json()
 
@@ -199,6 +202,23 @@ class OrderPayAuthorisedView(APIView):
 
                 UserProductModel.objects.create(user=user, product=product, order=order,
                                                 quantity=quantity, price=price)
+
+                # try:
+                #     organization_id = '846612922'
+                #     oauth = '1000.4de94c2c5a7a8b8ddb9f3d6e6d8b2cf8.f818cfd8b65b6c13a78c14e6ddc93936'
+                #     item_id = ''
+                #     url_itemgroups = f'https://www.zohoapis.com/inventory/v1/items/{item_id}?organization_id={organization_id}'
+                #     headers = {
+                #         'Authorization': f"Zoho-oauthtoken {oauth}",
+                #         'content-type': "application/json"}
+                #     payload = {'field': 'value'}
+                #
+                #     response_itemgroups = requests.get(url=url_itemgroups, headers=headers, json=payload)
+                #     response_itemgroups = response_itemgroups.json()
+                #     print(response_itemgroups)
+                #
+                # except:
+                #     pass
 
             # return HttpResponseRedirect(redirect_to='https://gogle.com')
             return Response(data={'message': 'success', 'cart_id': order.cart_id})

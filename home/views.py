@@ -6,13 +6,13 @@ from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerS
     ProductSettingSerializer, CartSettingSerializer, BannerHomeSerializer, ContactSubmitSerializer
 from django.conf import settings
 from django.core.mail import send_mail
+# from product import tasks
 
 
 class HomeView(APIView):
     def get(self, request):
         setting_home = HomeSettingModel.objects.all()
         ser_setting_home = HomeSettingSerializer(instance=setting_home, many=True)
-
         return Response(data={'home': ser_setting_home.data})
 
 

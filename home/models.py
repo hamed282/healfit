@@ -45,6 +45,7 @@ class HomeSettingModel(models.Model):
 
 
 class ContactModel(models.Model):
+    objects = None
     number = models.CharField(max_length=32, blank=True, null=True)
     # address = models.TextField(max_length=200, blank=True, null=True)
     priority = models.IntegerField(blank=True, null=True)

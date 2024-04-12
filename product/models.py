@@ -6,6 +6,7 @@ from django.db.models import Max
 
 
 class ProductCategoryModel(models.Model):
+    objects = None
     category = models.CharField(max_length=50)
     category_title = models.CharField(max_length=50)
     description = models.TextField()
@@ -24,18 +25,35 @@ class ProductCategoryModel(models.Model):
         return f'{self.slug}'
 
 
+class ProductSubCategoryModel(models.Model):
+    subcategory = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = 'Product SubCategory'
+        verbose_name_plural = 'Product SubCategory'
+
+    def save(self, **kwargs):
+        self.slug = slugify(self.subcategory)
+        super(ProductSubCategoryModel, self).save(**kwargs)
+
+    def __str__(self):
+        return f'{self.subcategory}'
+
+
 class ProductModel(models.Model):
     objects = None
-    category = models.ForeignKey(ProductCategoryModel, on_delete=models.CASCADE, related_name='category_product')
+    category = models.ForeignKey(ProductCategoryModel, on_delete=models.CASCADE, related_name='category_product', blank=True, null=True)
+    subcategory = models.ForeignKey(ProductSubCategoryModel, on_delete=models.CASCADE, related_name='category_product', blank=True, null=True)
     product = models.CharField(max_length=100)
-    image1 = models.ImageField(upload_to='images/product/')
-    image2 = models.ImageField(upload_to='images/product/')
-    image3 = models.ImageField(upload_to='images/product/')
+    image1 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    image2 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    image3 = models.ImageField(upload_to='images/product/', blank=True, null=True)
     image4 = models.ImageField(upload_to='images/product/', blank=True, null=True)
     image5 = models.ImageField(upload_to='images/product/', blank=True, null=True)
-    price = models.IntegerField()
+    price = models.IntegerField(blank=True, null=True)
     percent_discount = models.IntegerField(null=True, blank=True)
-    product_code = models.CharField(max_length=100, null=True, blank=True)
+    group_id = models.CharField(max_length=100)
     # is_available = models.BooleanField()
     slug = models.SlugField(max_length=100, unique=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -104,6 +122,7 @@ def increment_numbers_after_existing(sender, instance, **kwargs):
 
 
 class ColorProductModel(models.Model):
+    objects = None
     color = models.CharField(max_length=120)
     color_code = models.CharField(max_length=120)
 
@@ -118,9 +137,16 @@ class ColorProductModel(models.Model):
 class ProductVariantModel(models.Model):
     objects = None
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='product_color_size')
+    name = models.CharField(max_length=200)
+    item_id = models.CharField(max_length=100, verbose_name='Product ID')
     color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='color_product')
     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='size_product')
+    price = models.IntegerField()
+    percent_discount = models.IntegerField(null=True, blank=True)
     quantity = models.IntegerField()
+    slug = models.SlugField(max_length=100, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         constraints = [
@@ -132,6 +158,20 @@ class ProductVariantModel(models.Model):
 
         verbose_name = 'Product Variant(Stock)'
         verbose_name_plural = 'Product Variant(Stock)'
+
+    def save(self, **kwargs):
+        self.slug = slugify(self.name)
+        super(ProductVariantModel, self).save(**kwargs)
+
+    def __str__(self) -> str:
+        return str(self.name)
+
+    def get_off_price(self):
+        price = self.price
+        percent_discount = self.percent_discount
+        if self.percent_discount is None:
+            percent_discount = 0
+        return int(price - price * percent_discount / 100)
 
 
 class PopularProductModel(models.Model):
