@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'order.apps.OrderConfig',
     'product.apps.ProductConfig',
     'user_panel.apps.UserPanelConfig',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [

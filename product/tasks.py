@@ -1,8 +1,10 @@
 import requests
 from .models import ProductModel, ProductVariantModel, ColorProductModel, SizeProductModel
+from celery import shared_task
 
 
-def zoho():
+@shared_task
+def zoho_product_update():
     organization_id = '846612922'
     oauth = '1000.8e24be65274c0f0877213ace26fbec78.c25f3095cb1ba9bccc78d81893620853'
     per_page = '200'
@@ -90,6 +92,3 @@ def zoho():
         has_more_page = response_items['page_context']['has_more_page']
 
     # print(response['itemgroups'])
-
-
-zoho()
