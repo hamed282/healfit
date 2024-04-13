@@ -37,61 +37,62 @@ class OrderPayView(APIView):
         if len(forms) > 0:
             address = get_object_or_404(AddressModel, id=data['address_id'])
             OrderModel.objects.create(user=request.user, address=address)
-            order = OrderModel.objects.filter(user=request.user).first()
-            for form in forms:
-                color = get_object_or_404(ColorProductModel, color=form['color'])
-                size = get_object_or_404(SizeProductModel, size=form['size'])
-
-                product_group = ProductModel.objects.get(id=form['product_id'])
-                product = ProductVariantModel.objects.get(product=product_group, color=color, size=size)
-                quantity = form['quantity']
-
-                price = product.get_off_price()
-                OrderItemModel.objects.create(order=order,
-                                              user=request.user,
-                                              product=product,
-                                              price=price,
-                                              quantity=quantity,
-                                              color=color,
-                                              size=size)
-            ############################################
-            amount = str(order.get_total_price())
-            description = f'buy'
-            cart_id = str(order.id)
-            payload = {
-                "method": "create",
-                "store": settings.SOTRE_ID,
-                "authkey": settings.AUTHKEY,
-                "framed": settings.FRAMED,
-                "order": {
-                    "cartid": cart_id,
-                    "test": settings.TEST,
-                    "amount": amount,
-                    "currency": settings.CURRENCY,
-                    "description": description,
-                },
-                "return": {
-                    "authorised": settings.AUTHORIZED_URL,
-                    "declined": settings.DECLINED_URL,
-                    "cancelled": settings.CANCELLED_URL,
-                }
-            }
-
-            headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
-            response = requests.post(settings.TELR_API_REQUEST, json=payload, headers=headers, timeout=10)
-            if response.status_code == 200:
-                response = response.json()
-
-                if 'order' in response:
-                    url = response['order']['url']
-                    order.ref_id = response['order']['ref']
-                    order.cart_id = cart_id
-                    order.save()
-                    return Response({'redirect to : ': url}, status=200)
-                else:
-                    return Response({'Error code: ': str(response['error'])}, status=400)
-            else:
-                return Response({'details': str(response.json()['errors'])})
+            return Response({'data': 'ok'})
+            # order = OrderModel.objects.filter(user=request.user).first()
+            # for form in forms:
+            #     color = get_object_or_404(ColorProductModel, color=form['color'])
+            #     size = get_object_or_404(SizeProductModel, size=form['size'])
+            #
+            #     product_group = ProductModel.objects.get(id=form['product_id'])
+            #     product = ProductVariantModel.objects.get(product=product_group, color=color, size=size)
+            #     quantity = form['quantity']
+            #
+            #     price = product.get_off_price()
+            #     OrderItemModel.objects.create(order=order,
+            #                                   user=request.user,
+            #                                   product=product,
+            #                                   price=price,
+            #                                   quantity=quantity,
+            #                                   color=color,
+            #                                   size=size)
+            # ############################################
+            # amount = str(order.get_total_price())
+            # description = f'buy'
+            # cart_id = str(order.id)
+            # payload = {
+            #     "method": "create",
+            #     "store": settings.SOTRE_ID,
+            #     "authkey": settings.AUTHKEY,
+            #     "framed": settings.FRAMED,
+            #     "order": {
+            #         "cartid": cart_id,
+            #         "test": settings.TEST,
+            #         "amount": amount,
+            #         "currency": settings.CURRENCY,
+            #         "description": description,
+            #     },
+            #     "return": {
+            #         "authorised": settings.AUTHORIZED_URL,
+            #         "declined": settings.DECLINED_URL,
+            #         "cancelled": settings.CANCELLED_URL,
+            #     }
+            # }
+            #
+            # headers = {'Content-Type': 'application/json', 'accept': 'application/json'}
+            # response = requests.post(settings.TELR_API_REQUEST, json=payload, headers=headers, timeout=10)
+            # if response.status_code == 200:
+            #     response = response.json()
+            #
+            #     if 'order' in response:
+            #         url = response['order']['url']
+            #         order.ref_id = response['order']['ref']
+            #         order.cart_id = cart_id
+            #         order.save()
+            #         return Response({'redirect to : ': url}, status=200)
+            #     else:
+            #         return Response({'Error code: ': str(response['error'])}, status=400)
+            # else:
+            #     return Response({'details': str(response.json()['errors'])})
 
 
 # class OrderPayVerifyView(APIView):
