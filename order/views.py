@@ -210,6 +210,9 @@ class OrderPayAuthorisedView(APIView):
                 product_variant.quantity = product_variant.quantity - quantity
                 product_variant.save()
 
+                item.completed = True
+                item.save()
+
                 UserProductModel.objects.create(user=user, product=product_variant, order=order,
                                                 quantity=quantity, price=price)
 
