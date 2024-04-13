@@ -194,8 +194,8 @@ class OrderPayAuthorisedView(APIView):
             order_items = order.items.all()
 
             for item in order_items:
-                product = item.product
-                price = product.get_off_price()
+                product_variant = item.product
+                price = product_variant.get_off_price()
                 quantity = item.quantity
                 # try:
                 #     stock_on_hand = zoho_item_quantity_update(item.item_id, item.quantity)
@@ -206,11 +206,11 @@ class OrderPayAuthorisedView(APIView):
                 #     product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
                 #     product_variant.quantity = product_variant.quantity - item.quantity
                 #     product_variant.save()
-                product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
                 product_variant.quantity = product_variant.quantity - item.quantity
                 product_variant.save()
 
-                UserProductModel.objects.create(user=user, product=product, order=order,
+                UserProductModel.objects.create(user=user, product=product_variant, order=order,
                                                 quantity=quantity, price=price)
 
             # return HttpResponseRedirect(redirect_to='https://gogle.com')
