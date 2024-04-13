@@ -206,7 +206,6 @@ class OrderPayAuthorisedView(APIView):
                 #     product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
                 #     product_variant.quantity = product_variant.quantity - item.quantity
                 #     product_variant.save()
-                product = ProductModel.objects.get(product=product)
                 product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
                 product_variant.quantity = product_variant.quantity - item.quantity
                 product_variant.save()
