@@ -37,6 +37,7 @@ class OrderItemModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_order_item')
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(ProductVariantModel, on_delete=models.CASCADE, related_name='order_product')
+    item_id = models.CharField(max_length=200)
     color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='order_color')
     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='order_size')
     price = models.IntegerField()

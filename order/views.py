@@ -9,6 +9,7 @@ from user_panel.models import UserProductModel
 from accounts.models import AddressModel
 from django.shortcuts import get_object_or_404
 from .serializers import OrderUserSerializer
+from utils import zoho_item_quantity_update
 
 
 class OrderPayView(APIView):
@@ -179,6 +180,7 @@ class OrderPayAuthorisedView(APIView):
             "Content-Type": "application/json"
         }
         ## to do: if quantity = 0 dont send request
+
         response = requests.post(settings.TELR_API_VERIFY, json=payload, headers=headers)
         response = response.json()
 
@@ -195,30 +197,21 @@ class OrderPayAuthorisedView(APIView):
                 product = item.product
                 price = product.get_off_price()
                 quantity = item.quantity
-
-                # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
-                # product_variant.quantity = product_variant.quantity - item.quantity
-                # product_variant.save()
+                # try:
+                #     stock_on_hand = zoho_item_quantity_update(item.item_id, item.quantity)
+                #     product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                #     product_variant.quantity = stock_on_hand
+                #     product_variant.save()
+                # except:
+                #     product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                #     product_variant.quantity = product_variant.quantity - item.quantity
+                #     product_variant.save()
+                product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                product_variant.quantity = product_variant.quantity - item.quantity
+                product_variant.save()
 
                 UserProductModel.objects.create(user=user, product=product, order=order,
                                                 quantity=quantity, price=price)
-
-                # try:
-                #     organization_id = '846612922'
-                #     oauth = '1000.4de94c2c5a7a8b8ddb9f3d6e6d8b2cf8.f818cfd8b65b6c13a78c14e6ddc93936'
-                #     item_id = ''
-                #     url_itemgroups = f'https://www.zohoapis.com/inventory/v1/items/{item_id}?organization_id={organization_id}'
-                #     headers = {
-                #         'Authorization': f"Zoho-oauthtoken {oauth}",
-                #         'content-type': "application/json"}
-                #     payload = {'field': 'value'}
-                #
-                #     response_itemgroups = requests.get(url=url_itemgroups, headers=headers, json=payload)
-                #     response_itemgroups = response_itemgroups.json()
-                #     print(response_itemgroups)
-                #
-                # except:
-                #     pass
 
             # return HttpResponseRedirect(redirect_to='https://gogle.com')
             return Response(data={'message': 'success', 'cart_id': order.cart_id})

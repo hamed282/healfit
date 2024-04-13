@@ -1,12 +1,14 @@
 import requests
 from .models import ProductModel, ProductVariantModel, ColorProductModel, SizeProductModel
 from celery import shared_task
+from django.conf import settings
+from utils import zoho_refresh_token
 
 
 @shared_task
 def zoho_product_update():
-    organization_id = '846612922'
-    oauth = '1000.8e24be65274c0f0877213ace26fbec78.c25f3095cb1ba9bccc78d81893620853'
+    organization_id = settings.ORGANIZATION_ID
+    oauth = zoho_refresh_token()
     per_page = '200'
     headers = {
         'Authorization': f"Zoho-oauthtoken {oauth}"}
