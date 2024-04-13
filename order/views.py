@@ -218,7 +218,7 @@ class OrderPayAuthorisedView(APIView):
                                                 quantity=quantity, price=price)
 
             # return HttpResponseRedirect(redirect_to='https://gogle.com')
-            return Response(data={'message': 'success', 'cart_id': order.cart_id})
+            return Response(data={'message': 'success', 'cart_id': order.cart_id, 'trace':response['trace']})
 
         else:
             order.paid = False
