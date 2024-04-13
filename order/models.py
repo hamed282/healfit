@@ -42,8 +42,9 @@ class OrderItemModel(models.Model):
     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='order_size')
     price = models.IntegerField()
     quantity = models.IntegerField(default=1)
+    trace = models.CharField(max_length=200)
     completed = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateField(auto_now_add=True)
 
     # class Meta:
     #     verbose_name = ''
