@@ -37,7 +37,7 @@ class OrderPayView(APIView):
         if len(forms) > 0:
             address = get_object_or_404(AddressModel, id=data['address_id'])
             OrderModel.objects.create(user=request.user, address=address)
-            OrderModel.objects.filter(user=request.user).first()
+            order = OrderModel.objects.filter(user=request.user).first()
             for form in forms:
                 color = get_object_or_404(ColorProductModel, color=form['color'])
                 size = get_object_or_404(SizeProductModel, size=form['size'])
