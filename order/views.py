@@ -35,7 +35,7 @@ class OrderPayView(APIView):
         data = request.data
 
         if len(forms) > 0:
-            address = get_object_or_404(AddressModel, id=data['address_id'])
+            address = AddressModel.objects.get(id=data['address_id'])
             OrderModel.objects.create(user=request.user, address=address)
         return Response({'data': 'ok'})
             # order = OrderModel.objects.filter(user=request.user).first()
