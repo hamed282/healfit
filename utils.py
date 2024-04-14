@@ -52,7 +52,7 @@ def zoho_item_quantity_update(item_id, quantity):
         'content-type': "application/json"}
     update_stock = int(stock_on_hand) - quantity
 
-    payload = {'stock_on_hand': update_stock}
+    payload = {'initial_stock': update_stock}
 
     response_item = requests.put(url=url_item, headers=headers, json=payload)
     response_item = response_item.json()

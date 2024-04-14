@@ -200,18 +200,18 @@ class OrderPayAuthorisedView(APIView):
                 price = product_variant.get_off_price()
                 quantity = item.quantity
 
-                # try:
-                #     stock_on_hand = zoho_item_quantity_update(item.item_id, quantity)
-                #     # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
-                #     product_variant.quantity = stock_on_hand
-                #     product_variant.save()
-                # except:
-                #     # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
-                #     product_variant.quantity = product_variant.quantity - quantity
-                #     product_variant.save()
+                try:
+                    stock_on_hand = zoho_item_quantity_update(item.item_id, quantity)
+                    # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                    product_variant.quantity = stock_on_hand
+                    product_variant.save()
+                except:
+                    # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                    product_variant.quantity = product_variant.quantity - quantity
+                    product_variant.save()
 
-                product_variant.quantity = product_variant.quantity - quantity
-                product_variant.save()
+                # product_variant.quantity = product_variant.quantity - quantity
+                # product_variant.save()
 
                 item.completed = True
                 item.trace = response['trace']
