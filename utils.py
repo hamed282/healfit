@@ -56,6 +56,7 @@ def zoho_item_quantity_update(item_id, quantity):
 
     response_item = requests.put(url=url_item, headers=headers, json=payload)
     response_item = response_item.json()
-    # quantity = response_item['stock_on_hand']
-    print(response_item)
-    return response_item
+    quantity = response_item['item']['stock_on_hand']
+    print(quantity)
+    return quantity
+# zoho_item_quantity_update(5021936000000091680, 1)
