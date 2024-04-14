@@ -6,8 +6,6 @@ from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerS
     ProductSettingSerializer, CartSettingSerializer, BannerHomeSerializer, ContactSubmitSerializer
 from django.conf import settings
 from django.core.mail import send_mail
-# from product import tasks
-# from utils import zoho_item_quantity_update
 
 
 class HomeView(APIView):

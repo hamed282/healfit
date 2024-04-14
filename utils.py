@@ -51,10 +51,11 @@ def zoho_item_quantity_update(item_id, quantity):
         'Authorization': f"Zoho-oauthtoken {oauth}",
         'content-type': "application/json"}
     update_stock = int(stock_on_hand) - quantity
-    payload = {'stock_on_hand': f'{update_stock}'}
+
+    payload = {'stock_on_hand': update_stock}
 
     response_item = requests.put(url=url_item, headers=headers, json=payload)
     response_item = response_item.json()
     # quantity = response_item['stock_on_hand']
-    # print(quantity)
-    return update_stock
+    print(response_item)
+    return response_item
