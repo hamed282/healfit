@@ -41,7 +41,7 @@ def zoho_product_update():
 
                 else:
                     ProductModel.objects.create(product=product, group_id=group_id, price=item['items'][0]['rate'])  # price=item['price']
-
+                    print('create product')
                 i += 1
             except:
                 continue
