@@ -51,7 +51,7 @@ class ProductModel(models.Model):
     image3 = models.ImageField(upload_to='images/product/', blank=True, null=True)
     image4 = models.ImageField(upload_to='images/product/', blank=True, null=True)
     image5 = models.ImageField(upload_to='images/product/', blank=True, null=True)
-    price = models.IntegerField(blank=True, null=True)
+    price = models.IntegerField()
     percent_discount = models.IntegerField(null=True, blank=True)
     group_id = models.CharField(max_length=100)
     # is_available = models.BooleanField()
