@@ -32,12 +32,15 @@ def zoho_product_update():
                 product_exists = ProductModel.objects.filter(product=product)
                 if product_exists.exists():
                     product_obj = product_exists.get(product=product)
-                    product_obj.price = item['items'][0]['stock_on_hand']
+                    # print(product_obj)
+                    # print(item['items'][0]['rate'])
+                    product_obj.price = item['items'][0]['rate']
+                    # print('-'*100)
                     product_obj.save()
                     # pass
 
                 else:
-                    ProductModel.objects.create(product=product, group_id=group_id)  # price=item['price']
+                    ProductModel.objects.create(product=product, group_id=group_id, price=item['items'][0]['rate'])  # price=item['price']
 
                 i += 1
             except:
@@ -92,3 +95,4 @@ def zoho_product_update():
                 continue
 
         has_more_page = response_items['page_context']['has_more_page']
+zoho_product_update()
