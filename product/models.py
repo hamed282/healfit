@@ -26,6 +26,7 @@ class ProductCategoryModel(models.Model):
 
 
 class ProductSubCategoryModel(models.Model):
+    objects = None
     subcategory = models.CharField(max_length=50)
     slug = models.SlugField(max_length=100, unique=True)
 
@@ -38,13 +39,13 @@ class ProductSubCategoryModel(models.Model):
         super(ProductSubCategoryModel, self).save(**kwargs)
 
     def __str__(self):
-        return f'{self.subcategory}'
+        return f'{self.slug}'
 
 
 class ProductModel(models.Model):
     objects = None
     category = models.ForeignKey(ProductCategoryModel, on_delete=models.CASCADE, related_name='category_product', blank=True, null=True)
-    subcategory = models.ForeignKey(ProductSubCategoryModel, on_delete=models.CASCADE, related_name='category_product', blank=True, null=True)
+    # subcategory = models.ForeignKey(ProductSubCategoryModel, on_delete=models.CASCADE, related_name='category_product', blank=True, null=True)
     product = models.CharField(max_length=100)
     image1 = models.ImageField(upload_to='images/product/', blank=True, null=True)
     image2 = models.ImageField(upload_to='images/product/', blank=True, null=True)
@@ -76,6 +77,15 @@ class ProductModel(models.Model):
         if self.percent_discount is None:
             percent_discount = 0
         return int(price - price * percent_discount / 100)
+
+
+class AddSubCategoryModel(models.Model):
+    objects = None
+    subcategory = models.ForeignKey(ProductSubCategoryModel, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='subcategory_product')
+
+    def __str__(self):
+        return f'{self.subcategory}'
 
 
 class SizeProductModel(models.Model):

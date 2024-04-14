@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ProductVariantModel, ColorProductModel,\
-    SizeProductModel
+    SizeProductModel, ProductSubCategoryModel
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):
@@ -183,11 +183,19 @@ class QuantityProductSerializer(serializers.ModelSerializer):
 class ProductListSerializer(serializers.ModelSerializer):
     off_price = serializers.SerializerMethodField()
     category = serializers.SlugRelatedField(slug_field='category', read_only=True)
+    subcategory = serializers.SerializerMethodField()
 
     class Meta:
         model = ProductModel
-        fields = ['category', 'product', 'image1', 'price', 'off_price', 'percent_discount',
+        fields = ['category', 'subcategory', 'product', 'image1', 'price', 'off_price', 'percent_discount',
                   'group_id', 'slug']
+
+    def get_subcategory(self, obj):
+        product_name = obj
+        product = ProductModel.objects.get(product=product_name)
+        subcategories = product.subcategory_product.all()
+        subcategory_list = [subcategory.subcategory.subcategory for subcategory in subcategories]
+        return subcategory_list
 
     def get_off_price(self, obj):
         price = obj.price
