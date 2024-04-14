@@ -31,10 +31,10 @@ def zoho_product_update():
 
                 product_exists = ProductModel.objects.filter(product=product)
                 if product_exists.exists():
-                    # product_obj = product_exists.get(product=product)
-                    # product_obj.price = item['price']
-                    # product_obj.save()
-                    pass
+                    product_obj = product_exists.get(product=product)
+                    product_obj.price = item['items'][0]['stock_on_hand']
+                    product_obj.save()
+                    # pass
 
                 else:
                     ProductModel.objects.create(product=product, group_id=group_id)  # price=item['price']
