@@ -32,7 +32,7 @@ def zoho_product_update():
                 product_exists = ProductModel.objects.filter(product=product)
                 if product_exists.exists():
                     product_obj = product_exists.get(product=product)
-                    product_obj.price = str(item['items'][0]['rate'])
+                    product_obj.price = item['items'][0]['rate']
                     product_obj.save()
                     # pass
 
