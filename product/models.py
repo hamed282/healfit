@@ -54,6 +54,7 @@ class ProductModel(models.Model):
     image5 = models.ImageField(upload_to='images/product/', blank=True, null=True)
     price = models.IntegerField()
     percent_discount = models.IntegerField(null=True, blank=True)
+    descriptions = models.TextField()
     group_id = models.CharField(max_length=100)
     # is_available = models.BooleanField()
     slug = models.SlugField(max_length=100, unique=True)
@@ -61,8 +62,8 @@ class ProductModel(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Product'
-        verbose_name_plural = 'Products'
+        verbose_name = 'Item Groups'
+        verbose_name_plural = 'Item Groups'
 
     def save(self, **kwargs):
         self.slug = slugify(self.product)
@@ -166,8 +167,8 @@ class ProductVariantModel(models.Model):
             )
         ]
 
-        verbose_name = 'Product Variant(Stock)'
-        verbose_name_plural = 'Product Variant(Stock)'
+        verbose_name = 'Items'
+        verbose_name_plural = 'Items'
 
     def save(self, **kwargs):
         self.slug = slugify(self.name)
