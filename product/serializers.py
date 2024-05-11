@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ProductVariantModel, ColorProductModel,\
-    SizeProductModel, ProductSubCategoryModel
+    SizeProductModel, ProductSubCategoryModel, AddImageGalleryModel
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):
@@ -59,14 +59,30 @@ class SizeSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     # off_price = serializers.SerializerMethodField()
-    images = serializers.SerializerMethodField()
+    # images = serializers.SerializerMethodField()
     # size_product = SizeSerializer(many=True, read_only=True)
     size = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
+    subcategory = serializers.SerializerMethodField()
+    gender = serializers.SlugRelatedField(read_only=True, slug_field='gender')
 
     class Meta:
         model = ProductModel
-        fields = ['product', 'images', 'percent_discount', 'size',
-                  'group_id', 'slug', 'created', 'updated', 'id']
+        fields = ['product', 'percent_discount', 'size', 'cover_image', 'size_table_image', 'description_image',
+                  'application_fields', 'descriptions', 'category', 'subcategory', 'gender', 'group_id', 'slug',
+                  'created', 'updated', 'id']
+
+    def get_category(self, obj):
+        categories = obj.category_product.all()
+        categories = [category.category.category for category in categories]
+        return categories
+
+    def get_subcategory(self, obj):
+        subcategories = obj.subcategory_product.all()
+        subcategories = [subcategory.subcategory.subcategory for subcategory in subcategories]
+        print(subcategories)
+        return subcategories
+
 
     # def get_off_price(self, obj):
     #     price = obj.price
@@ -75,18 +91,18 @@ class ProductSerializer(serializers.ModelSerializer):
     #         percent_discount = 0
     #     return int(price - price * percent_discount / 100)
 
-    def get_images(self, obj):
-        image1 = obj.image1.url if obj.image1 else None
-        image2 = obj.image2.url if obj.image2 else None
-        image3 = obj.image3.url if obj.image3 else None
-        image4 = obj.image4.url if obj.image4 else None
-        image5 = obj.image5.url if obj.image5 else None
-
-        return {'image1': image1,
-                'image2': image2,
-                'image3': image3,
-                'image4': image4,
-                'image5': image5}
+    # def get_images(self, obj):
+    #     image1 = obj.image1.url if obj.image1 else None
+    #     image2 = obj.image2.url if obj.image2 else None
+    #     image3 = obj.image3.url if obj.image3 else None
+    #     image4 = obj.image4.url if obj.image4 else None
+    #     image5 = obj.image5.url if obj.image5 else None
+    #
+    #     return {'image1': image1,
+    #             'image2': image2,
+    #             'image3': image3,
+    #             'image4': image4,
+    #             'image5': image5}
 
     def get_size(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
@@ -210,7 +226,7 @@ class ProductSearchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['product', 'price', 'image1', 'off_price', 'slug', 'group_id', 'id']
+        fields = ['product', 'price', 'off_price', 'slug', 'group_id', 'id']
 
     def get_off_price(self, obj):
         price = obj.price
@@ -237,3 +253,15 @@ class ProductVariantShopSerializer(serializers.ModelSerializer):
         if obj.percent_discount is None:
             percent_discount = 0
         return int(price - price * percent_discount / 100)
+
+
+class ProductColorImageSerializer(serializers.ModelSerializer):
+    # images = serializers.SerializerMethodField()
+    class Meta:
+        model = AddImageGalleryModel
+        fields = ['image']
+
+    # def get_images(self, obj):
+    #     images = obj.image
+    #     print(images)
+    #     return images

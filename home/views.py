@@ -7,7 +7,7 @@ from .serializers import ContactSerializer, HomeSettingSerializer, MiddleBannerS
 from django.conf import settings
 from django.core.mail import send_mail
 # from product import tasks
-# from utils import zoho_item_quantity_update
+# from utils import zoho_invoice_quantity_update
 
 
 class HomeView(APIView):

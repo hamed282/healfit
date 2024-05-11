@@ -9,20 +9,23 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ['first_name', 'last_name', 'email', 'company_name']
+    list_display = ['first_name', 'last_name', 'email', 'company_name', 'zoho_customer_id']
     list_filter = ['is_active']
     readonly_fields = ['last_login']
 
     fieldsets = (
-        (None, {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'trn_number', 'company_name', 'password')}),
+        (None, {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'trn_number', 'company_name',
+                           'zoho_customer_id', 'password')}),
         ('Permissions', {'fields': ('is_active', 'is_admin', 'is_superuser')}),
     )
 
     add_fieldsets = (
-        (None, {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'trn_number', 'company_name', 'password')}),
+        (None, {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'trn_number', 'company_name',
+                           'zoho_customer_id', 'password')}),
     )
 
-    search_fields = ['first_name', 'last_name', 'email', 'phone_number', 'trn_number', 'company_name']
+    search_fields = ['first_name', 'last_name', 'email', 'phone_number', 'trn_number', 'company_name',
+                     'zoho_customer_id']
     ordering = ['first_name', 'last_name']
 
     filter_horizontal = ()

@@ -8,7 +8,7 @@ from utils import zoho_refresh_token
 @shared_task
 def zoho_product_update():
     organization_id = settings.ORGANIZATION_ID
-    oauth = zoho_refresh_token()
+    oauth = zoho_refresh_token(settings.SCOPE_READING)
     per_page = '200'
     headers = {
         'Authorization': f"Zoho-oauthtoken {oauth}"}

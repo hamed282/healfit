@@ -9,7 +9,7 @@ from user_panel.models import UserProductModel
 from accounts.models import AddressModel
 from django.shortcuts import get_object_or_404
 from .serializers import OrderUserSerializer
-from utils import zoho_item_quantity_update
+# from utils import zoho_item_quantity_update
 
 
 class OrderPayView(APIView):
@@ -199,6 +199,16 @@ class OrderPayAuthorisedView(APIView):
                 product_variant = item.product
                 price = product_variant.get_off_price()
                 quantity = item.quantity
+
+                # try:
+                #     stock_on_hand = zoho_item_quantity_update(item.item_id, quantity)
+                #     # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                #     product_variant.quantity = stock_on_hand
+                #     product_variant.save()
+                # except:
+                #     # product_variant = ProductVariantModel.objects.get(product=product, color=item.color, size=item.size)
+                #     product_variant.quantity = product_variant.quantity - quantity
+                #     product_variant.save()
 
                 # try:
                 #     stock_on_hand = zoho_item_quantity_update(item.item_id, quantity)

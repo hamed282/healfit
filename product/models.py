@@ -3,6 +3,32 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.db.models import Max
+from django.db import models
+# from django.core.files.base import ContentFile
+# from django.core.files.storage import default_storage
+# from zipfile import ZipFile
+import os
+# from io import BytesIO
+
+
+class ProductGenderModel(models.Model):
+    objects = None
+    gender = models.CharField(max_length=50)
+    # category_title = models.CharField(max_length=50)
+    # description = models.TextField()
+    slug = models.SlugField(max_length=100, unique=True)
+    # image = models.FileField(upload_to='images/category/')
+
+    class Meta:
+        verbose_name = 'Product Gender'
+        verbose_name_plural = 'Product Gender'
+
+    def save(self, **kwargs):
+        self.slug = slugify(self.gender)
+        super(ProductGenderModel, self).save(**kwargs)
+
+    def __str__(self):
+        return f'{self.gender}'
 
 
 class ProductCategoryModel(models.Model):
@@ -42,18 +68,39 @@ class ProductSubCategoryModel(models.Model):
         return f'{self.slug}'
 
 
+# class ProductImageGalleryModel(models.Model):
+#     objects = None
+#     color = models.ForeignKey('ColorProductModel', on_delete=models.CASCADE, related_name='color_product_image')
+#     image = models.ImageField(upload_to='images/product/gallery/', blank=True, null=True)
+#
+#     class Meta:
+#         verbose_name = 'Product Image Gallery'
+#         verbose_name_plural = 'Product Image Gallery'
+#
+#     def __str__(self):
+#         return f'{self.color}'
+
+
+def upload_to(instance, filename):
+    return os.path.join("galleries", filename)
+
+
 class ProductModel(models.Model):
     objects = None
-    category = models.ForeignKey(ProductCategoryModel, on_delete=models.CASCADE, related_name='category_product', blank=True, null=True)
+    gender = models.ForeignKey(ProductGenderModel, on_delete=models.CASCADE, related_name='gender_product', blank=True, null=True)
     # subcategory = models.ForeignKey(ProductSubCategoryModel, on_delete=models.CASCADE, related_name='category_product', blank=True, null=True)
     product = models.CharField(max_length=100)
-    image1 = models.ImageField(upload_to='images/product/', blank=True, null=True)
-    image2 = models.ImageField(upload_to='images/product/', blank=True, null=True)
-    image3 = models.ImageField(upload_to='images/product/', blank=True, null=True)
-    image4 = models.ImageField(upload_to='images/product/', blank=True, null=True)
-    image5 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    # image1 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    # image2 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    # image3 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    # image4 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    # image5 = models.ImageField(upload_to='images/product/', blank=True, null=True)
+    cover_image = models.ImageField(upload_to='images/product/cover/', blank=True, null=True)
+    size_table_image = models.ImageField(upload_to='images/product/size_table/', blank=True, null=True)
+    description_image = models.ImageField(upload_to='images/product/description/', blank=True, null=True)
     price = models.IntegerField()
     percent_discount = models.IntegerField(null=True, blank=True)
+    application_fields = models.TextField()
     descriptions = models.TextField()
     group_id = models.CharField(max_length=100)
     # is_available = models.BooleanField()
@@ -80,6 +127,15 @@ class ProductModel(models.Model):
         return int(price - price * percent_discount / 100)
 
 
+class AddCategoryModel(models.Model):
+    objects = None
+    category = models.ForeignKey(ProductCategoryModel, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='category_product')
+
+    def __str__(self):
+        return f'{self.category}'
+
+
 class AddSubCategoryModel(models.Model):
     objects = None
     subcategory = models.ForeignKey(ProductSubCategoryModel, on_delete=models.CASCADE)
@@ -87,6 +143,20 @@ class AddSubCategoryModel(models.Model):
 
     def __str__(self):
         return f'{self.subcategory}'
+
+
+class AddImageGalleryModel(models.Model):
+    objects = None
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='image_gallery_product')
+    color = models.ForeignKey('ColorProductModel', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/product/gallery/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Product Image Gallery'
+        verbose_name_plural = 'Product Image Gallery'
+
+    def __str__(self):
+        return f'{self.product}'
 
 
 class SizeProductModel(models.Model):
@@ -150,6 +220,7 @@ class ProductVariantModel(models.Model):
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='product_color_size')
     name = models.CharField(max_length=200)
     item_id = models.CharField(max_length=100, verbose_name='Product ID')
+    # zip_import = models.FileField(blank=True, null=True, upload_to=upload_to)
     color = models.ForeignKey(ColorProductModel, on_delete=models.CASCADE, related_name='color_product')
     size = models.ForeignKey(SizeProductModel, on_delete=models.CASCADE, related_name='size_product')
     price = models.IntegerField()
@@ -183,6 +254,37 @@ class ProductVariantModel(models.Model):
         if self.percent_discount is None:
             percent_discount = 0
         return int(price - price * percent_discount / 100)
+
+    # def save(self, delete_zip_import=True, *args, **kwargs):
+    #     super(ProductVariantModel, self).save(*args, **kwargs)
+    #     if self.zip_import:
+    #         zip_file = ZipFile(self.zip_import)
+    #         for name in zip_file.namelist():
+    #             data = zip_file.read(name)
+    #             try:
+    #                 from PIL import Image
+    #                 image = Image.open(BytesIO(data))
+    #                 image.load()
+    #                 image = Image.open(BytesIO(data))
+    #                 image.verify()
+    #             except ImportError:
+    #                 pass
+    #             except:
+    #                 continue
+    #             name = os.path.split(name)[1]
+    #             # You now have an image which you can save
+    #             path = os.path.join("galleries", name)
+    #
+    #             saved_path = default_storage.save(path, ContentFile(data))
+    #             self.images.create(file=saved_path)
+    #         if delete_zip_import:
+    #             zip_file.close()
+    #             self.zip_import.delete(save=True)
+
+
+# class GalleryImage(models.Model):
+#     gallery = models.ForeignKey(ProductVariantModel, related_name="images", on_delete=models.CASCADE)
+#     file = models.ImageField(upload_to="galleries")
 
 
 class PopularProductModel(models.Model):
