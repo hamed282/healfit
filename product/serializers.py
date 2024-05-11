@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ProductVariantModel, ColorProductModel,\
-    SizeProductModel, ProductSubCategoryModel, AddImageGalleryModel
+    SizeProductModel, ProductSubCategoryModel, AddImageGalleryModel, AddCategoryModel
 
 
 class ProductCategorySerializer(serializers.ModelSerializer):
@@ -197,28 +197,84 @@ class QuantityProductSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(serializers.ModelSerializer):
-    off_price = serializers.SerializerMethodField()
+    # off_price = serializers.SerializerMethodField()
     category = serializers.SlugRelatedField(slug_field='category', read_only=True)
-    subcategory = serializers.SerializerMethodField()
+    product = serializers.SlugRelatedField(slug_field='product', read_only=True)
+    # subcategory = serializers.SerializerMethodField()
+    cover = serializers.SerializerMethodField()
+    price = serializers.SerializerMethodField()
+    off_price = serializers.SerializerMethodField()
+    percent_discount = serializers.SerializerMethodField()
+    slug = serializers.SerializerMethodField()
+    group_id = serializers.SerializerMethodField()
 
     class Meta:
-        model = ProductModel
-        fields = ['category', 'subcategory', 'product', 'image1', 'price', 'off_price', 'percent_discount',
+        model = AddCategoryModel
+        fields = ['category', 'product', 'cover', 'price', 'off_price', 'percent_discount',
                   'group_id', 'slug']
+        # fields = ['category', 'subcategory', 'product', 'cover', 'price', 'off_price', 'percent_discount',
+        #           'group_id', 'slug']
 
-    def get_subcategory(self, obj):
+    def get_slug(self, obj):
         product_name = obj
-        product = ProductModel.objects.get(product=product_name)
-        subcategories = product.subcategory_product.all()
-        subcategory_list = [subcategory.subcategory.subcategory for subcategory in subcategories]
-        return subcategory_list
+        slug = product_name.product.slug
+        # product = ProductModel.objects.get(product=product_name)
+        # subcategories = product.subcategory_product.all()
+        # subcategory_list = [subcategory.subcategory.subcategory for subcategory in subcategories]
+        return slug
+
+    def get_group_id(self, obj):
+        product_name = obj
+        group_id = product_name.product.group_id
+        # product = ProductModel.objects.get(product=product_name)
+        # subcategories = product.subcategory_product.all()
+        # subcategory_list = [subcategory.subcategory.subcategory for subcategory in subcategories]
+        return group_id
+
+    def get_percent_discount(self, obj):
+        product_name = obj
+        percent_discount = product_name.product.percent_discount
+        # product = ProductModel.objects.get(product=product_name)
+        # subcategories = product.subcategory_product.all()
+        # subcategory_list = [subcategory.subcategory.subcategory for subcategory in subcategories]
+        return percent_discount
 
     def get_off_price(self, obj):
-        price = obj.price
-        percent_discount = obj.percent_discount
-        if obj.percent_discount is None:
+        product_name = obj
+        price = product_name.product.price
+        percent_discount = product_name.product.percent_discount
+        if percent_discount is None:
             percent_discount = 0
         return int(price - price * percent_discount / 100)
+
+    def get_price(self, obj):
+        product_name = obj
+        price = product_name.product.price
+        return price
+
+    def get_cover(self, obj):
+        product_name = obj
+        cover = product_name.product.cover_image.url
+        print(cover)
+        # product = ProductModel.objects.get(product=product_name)
+        # subcategories = product.subcategory_product.all()
+        # subcategory_list = [subcategory.subcategory.subcategory for subcategory in subcategories]
+        return cover
+
+
+    # def get_subcategory(self, obj):
+    #     product_name = obj
+    #     product = ProductModel.objects.get(product=product_name)
+    #     subcategories = product.subcategory_product.all()
+    #     subcategory_list = [subcategory.subcategory.subcategory for subcategory in subcategories]
+    #     return subcategory_list
+    #
+    # def get_off_price(self, obj):
+    #     price = obj.price
+    #     percent_discount = obj.percent_discount
+    #     if obj.percent_discount is None:
+    #         percent_discount = 0
+    #     return int(price - price * percent_discount / 100)
 
 
 class ProductSearchSerializer(serializers.ModelSerializer):

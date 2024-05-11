@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel,\
-    SizeProductModel, AddImageGalleryModel
+from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel, \
+    SizeProductModel, AddImageGalleryModel, AddCategoryModel
 from .serializers import ProductCategorySerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
     ColorSizeProductSerializer, ProductSearchSerializer, ProductVariantShopSerializer, ProductColorImageSerializer
 from django.shortcuts import get_object_or_404
@@ -156,21 +156,30 @@ class ProductListView(APIView):
 
         page_number = self.request.query_params.get('page_number', None)
         category_slug = self.request.query_params.get('slug', None)
-        category = ProductCategoryModel.objects.get(slug=category_slug)
-
+        print(category_slug)
+        # category = ProductCategoryModel.objects.get(slug=category_slug)
+        category = get_object_or_404(ProductCategoryModel, slug=category_slug)
+        print(category)
         per_page = 16
-        products_count = len(ProductModel.objects.filter(category=category))
+
+        products_count = len(AddCategoryModel.objects.filter(category=category))
+        print(products_count)
+
+        # print(products_count)
+        # products_count = len(ProductModel.objects.filter(category=category))
         number_of_pages = math.ceil(products_count/per_page)
         if page_number is not None:
             page_number = int(page_number)
-            product_list = ProductModel.objects.filter(category=category).order_by('-created')[per_page*(page_number-1):per_page*page_number]
+            product_list = AddCategoryModel.objects.filter(category=category).order_by('-created')[per_page*(page_number-1):per_page*page_number]
         else:
-            product_list = ProductModel.objects.filter(category=category).order_by('-created')
+            product_list = AddCategoryModel.objects.filter(category=category).order_by('-created')
 
+        print(product_list)
         ser_product_list = ProductListSerializer(instance=product_list, many=True)
         category_title = category.category_title
-
+        #
         return Response(data={'data': ser_product_list.data, 'title': category_title, 'number_of_pages': number_of_pages})
+        # return Response(data={'data': 'ser_product_list.data'})
 
 
 class SearchProductView(viewsets.ModelViewSet):

@@ -131,6 +131,7 @@ class AddCategoryModel(models.Model):
     objects = None
     category = models.ForeignKey(ProductCategoryModel, on_delete=models.CASCADE)
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='category_product')
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.category}'
