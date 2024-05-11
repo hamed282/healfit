@@ -199,7 +199,8 @@ class QuantityProductSerializer(serializers.ModelSerializer):
 class ProductListSerializer(serializers.ModelSerializer):
     gender = serializers.SlugRelatedField(slug_field='gender', read_only=True)
     # product = serializers.SlugRelatedField(slug_field='product', read_only=True)
-    # # subcategory = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
+    subcategory = serializers.SerializerMethodField()
     # cover = serializers.SerializerMethodField()
     # price = serializers.SerializerMethodField()
     off_price = serializers.SerializerMethodField()
@@ -209,9 +210,22 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['gender', 'product', 'cover_image', 'price', 'off_price', 'percent_discount', 'group_id', 'slug']
+        fields = ['gender', 'category', 'subcategory', 'product', 'cover_image', 'price', 'off_price',
+                  'percent_discount', 'group_id', 'slug']
         # fields = ['category', 'subcategory', 'product', 'cover', 'price', 'off_price', 'percent_discount',
         #           'group_id', 'slug']
+
+    def get_category(self, obj):
+        categories = obj.category_product.all()
+        categories = [category.category.category for category in categories]
+
+        return categories
+
+    def get_subcategory(self, obj):
+        subcategories = obj.subcategory_product.all()
+        subcategories = [subcategory.subcategory.subcategory for subcategory in subcategories]
+
+        return subcategories
 
     # def get_slug(self, obj):
     #     product_name = obj
