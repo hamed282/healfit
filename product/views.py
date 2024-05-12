@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel, \
     SizeProductModel, AddImageGalleryModel, AddCategoryModel, ProductGenderModel
-from .serializers import ProductCategorySerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
+from .serializers import ProductGenderSerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
     ColorSizeProductSerializer, ProductSearchSerializer, ProductVariantShopSerializer, ProductColorImageSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
