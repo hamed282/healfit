@@ -61,6 +61,7 @@ class ProductSerializer(serializers.ModelSerializer):
     # off_price = serializers.SerializerMethodField()
     # images = serializers.SerializerMethodField()
     # size_product = SizeSerializer(many=True, read_only=True)
+    all_size = serializers.SerializerMethodField()
     size = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField()
     subcategory = serializers.SerializerMethodField()
@@ -68,9 +69,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['product', 'percent_discount', 'size', 'cover_image', 'size_table_image', 'description_image',
-                  'application_fields', 'descriptions', 'category', 'subcategory', 'gender', 'group_id', 'slug',
-                  'created', 'updated', 'id']
+        fields = ['product', 'percent_discount', 'all_size', 'size', 'cover_image', 'size_table_image',
+                  'description_image', 'application_fields', 'descriptions', 'category', 'subcategory', 'gender',
+                  'group_id', 'slug', 'created', 'updated', 'id']
 
     def get_category(self, obj):
         categories = obj.category_product.all()
@@ -103,6 +104,15 @@ class ProductSerializer(serializers.ModelSerializer):
     #             'image3': image3,
     #             'image4': image4,
     #             'image5': image5}
+
+    def get_all_size(self, obj):
+        product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
+        # product = product.objects.filter(quantity__gt=0)
+        # size = set([str(p.size) for p in product])
+        size = set([f'{str(p.size)} - {str(p.size.priority)}' for p in product])
+        sizes = sorted(size, key=lambda x: int(x.split(" - ")[1]))
+        all_size = [size.split(" - ")[0] for size in sizes]
+        return all_size
 
     def get_size(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')

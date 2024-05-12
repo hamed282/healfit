@@ -44,7 +44,7 @@ if DEBUG:
     )
 
 else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'rest.healfit.ae', 'www.rest.healfit.ae'] #https://healfit.ae
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'rest.healfit.ae', 'www.rest.healfit.ae']  # https://healfit.ae
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
