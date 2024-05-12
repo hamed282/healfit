@@ -16,10 +16,10 @@ import math
 class ProductCategoryView(APIView):
 
     def get(self, request):
-        product_category = ProductCategoryModel.objects.all()
-        ser_product_category = ProductCategorySerializer(instance=product_category, many=True)
+        gender_category = ProductGenderModel.objects.all()
+        ser_gender_category = ProductGenderSerializer(instance=gender_category, many=True)
 
-        return Response(data=ser_product_category.data)
+        return Response(data=ser_gender_category.data)
 
 
 class PopularProductView(APIView):

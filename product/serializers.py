@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ProductVariantModel, ColorProductModel,\
-    SizeProductModel, ProductSubCategoryModel, AddImageGalleryModel, AddCategoryModel
+    SizeProductModel, ProductSubCategoryModel, AddImageGalleryModel, AddCategoryModel, ProductGenderModel
 
 
-class ProductCategorySerializer(serializers.ModelSerializer):
+class ProductGenderSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductCategoryModel
+        model = ProductGenderModel
         fields = '__all__'
 
 
