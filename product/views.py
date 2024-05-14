@@ -16,7 +16,7 @@ import math
 class ProductCategoryView(APIView):
 
     def get(self, request):
-        gender_category = ProductGenderModel.objects.all()
+        gender_category = ProductGenderModel.objects.filter(gender__in=['men', 'women'])
         ser_gender_category = ProductGenderSerializer(instance=gender_category, many=True)
 
         return Response(data=ser_gender_category.data)
