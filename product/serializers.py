@@ -108,8 +108,8 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_colors(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)
 
-        color = set([f'{str(p.color.color)} - {str(p.color.color_code)}' for p in product])
-        colors = sorted(color, key=lambda x: int(x.split(" - ")[1]))
+        colors = set([f'{str(p.color.color)} - {str(p.color.color_code)}' for p in product])
+        # colors = sorted(colors, key=lambda x: int(x.split(" - ")[1]))
         all_colors = [{'color': color.split(" - ")[0], 'code': color.split(" - ")[1]} for color in colors]
         return 'all_colors'
 
