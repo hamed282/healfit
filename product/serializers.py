@@ -106,11 +106,11 @@ class ProductSerializer(serializers.ModelSerializer):
     #             'image5': image5}
 
     def get_colors(self, obj):
-        # product = ProductVariantModel.objects.filter(product=obj)
-        #
-        # color = set([f'{str(p.color.color)} - {str(p.color.color_code)}' for p in product])
-        # colors = sorted(color, key=lambda x: int(x.split(" - ")[1]))
-        # all_colors = [{'color': color.split(" - ")[0], 'code': color.split(" - ")[1]} for color in colors]
+        product = ProductVariantModel.objects.filter(product=obj)
+
+        color = set([f'{str(p.color.color)} - {str(p.color.color_code)}' for p in product])
+        colors = sorted(color, key=lambda x: int(x.split(" - ")[1]))
+        all_colors = [{'color': color.split(" - ")[0], 'code': color.split(" - ")[1]} for color in colors]
         return 'all_colors'
 
     def get_all_size(self, obj):
