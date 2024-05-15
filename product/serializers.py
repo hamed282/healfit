@@ -72,7 +72,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = ProductModel
         fields = ['product', 'percent_discount', 'colors', 'all_size', 'size', 'cover_image', 'size_table_image',
                   'description_image', 'application_fields', 'descriptions', 'category', 'subcategory', 'gender',
-                  'group_id', 'slug', 'created', 'updated', 'id']
+                  'group_id', 'slug', 'created', 'updated', 'id', 'price']
 
     def get_category(self, obj):
         categories = obj.category_product.all()
@@ -107,8 +107,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_colors(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)
-        colors = set([f'{str(p.color)}' for p in product])
-        return colors
+
+        color = set([f'{str(p.color.color)} - {str(p.color.color_code)}' for p in product])
+        colors = sorted(color, key=lambda x: int(x.split(" - ")[1]))
+        all_colors = [{'color': color.split(" - ")[0], 'code': color.split(" - ")[1]} for color in colors]
+        return all_colors
 
     def get_all_size(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
