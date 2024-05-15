@@ -61,7 +61,7 @@ class ProductSerializer(serializers.ModelSerializer):
     # off_price = serializers.SerializerMethodField()
     # images = serializers.SerializerMethodField()
     # size_product = SizeSerializer(many=True, read_only=True)
-    # colors = serializers.SerializerMethodField()
+    colors = serializers.SerializerMethodField()
     all_size = serializers.SerializerMethodField()
     size = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField()
@@ -70,7 +70,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['product', 'percent_discount', 'all_size', 'size', 'cover_image', 'size_table_image',
+        fields = ['product', 'percent_discount', 'colors', 'all_size', 'size', 'cover_image', 'size_table_image',
                   'description_image', 'application_fields', 'descriptions', 'category', 'subcategory', 'gender',
                   'group_id', 'slug', 'created', 'updated', 'id', 'price']
 
@@ -105,13 +105,13 @@ class ProductSerializer(serializers.ModelSerializer):
     #             'image4': image4,
     #             'image5': image5}
 
-    # def get_colors(self, obj):
-    #     product = ProductVariantModel.objects.filter(product=obj)
-    #
-    #     color = set([f'{str(p.color.color)} - {str(p.color.color_code)}' for p in product])
-    #     colors = sorted(color, key=lambda x: int(x.split(" - ")[1]))
-    #     all_colors = [{'color': color.split(" - ")[0], 'code': color.split(" - ")[1]} for color in colors]
-    #     return all_colors
+    def get_colors(self, obj):
+        # product = ProductVariantModel.objects.filter(product=obj)
+        #
+        # color = set([f'{str(p.color.color)} - {str(p.color.color_code)}' for p in product])
+        # colors = sorted(color, key=lambda x: int(x.split(" - ")[1]))
+        # all_colors = [{'color': color.split(" - ")[0], 'code': color.split(" - ")[1]} for color in colors]
+        return 'all_colors'
 
     def get_all_size(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
