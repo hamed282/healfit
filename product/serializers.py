@@ -61,6 +61,7 @@ class ProductSerializer(serializers.ModelSerializer):
     # off_price = serializers.SerializerMethodField()
     # images = serializers.SerializerMethodField()
     # size_product = SizeSerializer(many=True, read_only=True)
+    colors = serializers.SerializerMethodField()
     all_size = serializers.SerializerMethodField()
     size = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField()
@@ -69,7 +70,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductModel
-        fields = ['product', 'percent_discount', 'all_size', 'size', 'cover_image', 'size_table_image',
+        fields = ['product', 'percent_discount', 'colors', 'all_size', 'size', 'cover_image', 'size_table_image',
                   'description_image', 'application_fields', 'descriptions', 'category', 'subcategory', 'gender',
                   'group_id', 'slug', 'created', 'updated', 'id']
 
@@ -81,7 +82,6 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_subcategory(self, obj):
         subcategories = obj.subcategory_product.all()
         subcategories = [subcategory.subcategory.subcategory for subcategory in subcategories]
-        print(subcategories)
         return subcategories
 
 
@@ -104,6 +104,11 @@ class ProductSerializer(serializers.ModelSerializer):
     #             'image3': image3,
     #             'image4': image4,
     #             'image5': image5}
+
+    def get_colors(self, obj):
+        product = ProductVariantModel.objects.filter(product=obj)
+        colors = set([f'{str(p.color)}' for p in product])
+        return colors
 
     def get_all_size(self, obj):
         product = ProductVariantModel.objects.filter(product=obj)  # .order_by('-priority')
