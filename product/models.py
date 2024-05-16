@@ -100,6 +100,7 @@ class ProductModel(models.Model):
     description_image = models.ImageField(upload_to='images/product/description/', blank=True, null=True)
     price = models.IntegerField()
     percent_discount = models.IntegerField(null=True, blank=True)
+    subtitle = models.CharField(max_length=256)
     application_fields = models.TextField()
     descriptions = models.TextField()
     group_id = models.CharField(max_length=100)

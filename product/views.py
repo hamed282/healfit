@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel, \
     SizeProductModel, AddImageGalleryModel, AddCategoryModel, ProductGenderModel
-from .serializers import ProductGenderSerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
-    ColorSizeProductSerializer, ProductSearchSerializer, ProductVariantShopSerializer, ProductColorImageSerializer
+from .serializers import (ProductGenderSerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
+    ColorSizeProductSerializer, ProductSearchSerializer, ProductVariantShopSerializer, ProductColorImageSerializer)
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from .service import Cart
@@ -193,3 +193,19 @@ class SearchProductView(viewsets.ModelViewSet):
     search_fields = ['product']
     # search_fields = ['date', 'date_paper__paper_category__title']
     ordering_fields = '__all__'
+
+
+class SizeOfColorView(APIView):
+    def get(self, request):
+        product_query = self.request.query_params.get('product', None)
+        product = ProductModel.objects.get(product=product_query)
+
+        color_query = self.request.query_params.get('color', None)
+        color = ColorProductModel.objects.get(color=color_query)
+
+        products = ProductVariantModel.objects.filter(product=product, color=color, quantity__gt=0)
+        sizes = []
+        for product in products:
+            sizes.append(product.size.size)
+        print(sizes)
+        return Response(data=sizes)

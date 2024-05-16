@@ -12,4 +12,5 @@ urlpatterns = [
     path('cart/', views.CartView.as_view(), name='cart'),
     path('list/', views.ProductListView.as_view(), name='product_list'),
     path('search_product/', views.SearchProductView.as_view({'get': 'list'}), name='search_product'),
+    path('sizeofcolor/', views.SizeOfColorView.as_view(), name='size_of_color'),
 ]
