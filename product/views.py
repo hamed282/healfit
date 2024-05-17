@@ -169,7 +169,7 @@ class ProductListView(APIView):
         # # products_count = len(ProductModel.objects.filter(category=category))
         number_of_pages = math.ceil(products_count/per_page)
         if page_number is not None:
-            product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')[per_page*(page_number-1):per_page*page_number]
+            product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')[per_page*(int(page_number)-1):per_page*page_number]
         else:
             product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')
 
