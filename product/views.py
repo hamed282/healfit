@@ -154,7 +154,7 @@ class ProductListView(APIView):
         2. slug
         """
 
-        page_number = self.request.query_params.get('page_number', None)
+        page_number = int(self.request.query_params.get('page_number', None))
         gender_slug = self.request.query_params.get('slug', None)
 
         # category = ProductCategoryModel.objects.get(slug=category_slug)
@@ -169,7 +169,7 @@ class ProductListView(APIView):
         # # products_count = len(ProductModel.objects.filter(category=category))
         number_of_pages = math.ceil(products_count/per_page)
         if page_number is not None:
-            product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')[per_page*(int(page_number)-1):per_page*page_number]
+            product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')[per_page*(page_number-1):per_page*page_number]
         else:
             product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')
 
