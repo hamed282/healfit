@@ -156,27 +156,23 @@ class ProductListView(APIView):
 
         page_number = self.request.query_params.get('page_number', None)
         gender_slug = self.request.query_params.get('slug', None)
-        print(gender_slug)
+
         # category = ProductCategoryModel.objects.get(slug=category_slug)
         gender = get_object_or_404(ProductGenderModel, slug=gender_slug)
         unisex = get_object_or_404(ProductGenderModel, slug='unisex')
 
-        print(unisex)
         per_page = 16
 
         products_count = len(ProductModel.objects.filter(gender__in=[gender, unisex]))
-        print(products_count)
 
         # # print(products_count)
         # # products_count = len(ProductModel.objects.filter(category=category))
         number_of_pages = math.ceil(products_count/per_page)
         if page_number is not None:
-            page_number = int(page_number)
             product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')[per_page*(page_number-1):per_page*page_number]
         else:
             product_list = ProductModel.objects.filter(gender__in=[gender, unisex]).order_by('-created')
 
-        print(product_list)
         ser_product_list = ProductListSerializer(instance=product_list, many=True)
         category_title = gender.gender
         #

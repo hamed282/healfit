@@ -229,7 +229,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductModel
         fields = ['gender', 'category', 'subcategory', 'product', 'cover_image', 'price', 'off_price',
-                  'percent_discount', 'group_id', 'slug']
+                  'percent_discount', 'group_id', 'slug', 'subtitle']
         # fields = ['category', 'subcategory', 'product', 'cover', 'price', 'off_price', 'percent_discount',
         #           'group_id', 'slug']
 
