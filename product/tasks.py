@@ -54,17 +54,26 @@ def zoho_product_update():
         response_items = response_items.json()
 
         for item in response_items['items']:
+
             try:
                 product = item['group_name']
+
                 product = ProductModel.objects.get(product=product)
 
                 name = item['name']
 
-                color = item['attribute_option_name1'].lower()
-                color = ColorProductModel.objects.get(color=color)
+                if item['attribute_name1'] == 'Color':
+                    color = item['attribute_option_name1'].lower()
+                    color = ColorProductModel.objects.get(color=color)
 
-                size = item['attribute_option_name2']
-                size = SizeProductModel.objects.get(size=size)
+                    size = item['attribute_option_name2']
+                    size = SizeProductModel.objects.get(size=size)
+                else:
+                    color = 'not color'
+                    color = ColorProductModel.objects.get(color=color)
+
+                    size = item['attribute_option_name1']
+                    size = SizeProductModel.objects.get(size=size)
 
                 quantity = item['stock_on_hand']
                 item_id = item['item_id']
@@ -86,8 +95,10 @@ def zoho_product_update():
                                                        price=price,
                                                        quantity=quantity)
                 i += 1
-
             except:
+                product = item['group_name']
                 continue
 
         has_more_page = response_items['page_context']['has_more_page']
+
+zoho_product_update()
