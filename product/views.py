@@ -11,6 +11,7 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 import math
+import urllib.parse
 
 
 class ProductCategoryView(APIView):
@@ -194,6 +195,10 @@ class SearchProductView(viewsets.ModelViewSet):
 class SizeOfColorView(APIView):
     def get(self, request):
         product_query = self.request.query_params.get('product', None)
+        # if product_query:
+        #     product_query = urllib.parse.unquote(product_query)  # Decode the product name
+        # print(product_query)
+
         product = ProductModel.objects.get(product=product_query)
 
         color_query = self.request.query_params.get('color', None)
