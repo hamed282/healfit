@@ -104,7 +104,7 @@ class ProductModel(models.Model):
     application_fields = models.TextField()
     descriptions = models.TextField()
     group_id = models.CharField(max_length=100)
-    priority = models.IntegerField(blank=True, null=True)
+    priority = models.IntegerField(blank=True, null=True, default=1)
     # is_available = models.BooleanField()
     slug = models.SlugField(max_length=100, unique=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -116,6 +116,8 @@ class ProductModel(models.Model):
 
     def save(self, **kwargs):
         self.slug = slugify(self.product)
+        if self.priority is None:
+            self.priority = 1
         super(ProductModel, self).save(**kwargs)
 
     def __str__(self) -> str:
@@ -131,32 +133,29 @@ class ProductModel(models.Model):
 
 @receiver(pre_save, sender=ProductModel)
 def increment_numbers_after_existing(sender, instance, **kwargs):
+    if instance.priority is None:
+        instance.priority = 1
+
     if instance.pk:
         existing_instance = ProductModel.objects.get(pk=instance.pk)
-        if not existing_instance.priority:
-            last_number = ProductModel.objects.aggregate(max_number=Max('priority'))['max_number']
-            existing_instance.priority = last_number
-        else:
-            current_priority = existing_instance.priority
-            update_priority = instance.priority
-            if current_priority > update_priority:
-                ProductModel.objects.filter(priority__lt=current_priority, priority__gte=update_priority).update(
-                    priority=models.F('priority') + 1)
-            if current_priority < update_priority:
-                ProductModel.objects.filter(priority__gt=current_priority, priority__lte=update_priority).update(
-                    priority=models.F('priority') - 1)
+        current_priority = existing_instance.priority or 0
+        update_priority = instance.priority or 0
 
-    elif not instance.pk and not instance.priority:
-        last_number = ProductModel.objects.aggregate(max_number=Max('priority'))['max_number']
-        if last_number:
-            instance.priority = last_number + 1
-        else:
-            instance.priority = 1
-
-    elif not instance.pk and instance.priority:
-        if ProductModel.objects.filter(priority__lte=instance.priority).exists():
-            ProductModel.objects.filter(priority__gte=instance.priority).update(
+        if current_priority > update_priority:
+            ProductModel.objects.filter(priority__lt=current_priority, priority__gte=update_priority).update(
                 priority=models.F('priority') + 1)
+        elif current_priority < update_priority:
+            ProductModel.objects.filter(priority__gt=current_priority, priority__lte=update_priority).update(
+                priority=models.F('priority') - 1)
+
+    elif not instance.pk:
+        last_number = ProductModel.objects.aggregate(max_number=Max('priority'))['max_number']
+        if not instance.priority:
+            instance.priority = (last_number or 0) + 1
+        else:
+            if ProductModel.objects.filter(priority__lte=instance.priority).exists():
+                ProductModel.objects.filter(priority__gte=instance.priority).update(
+                    priority=models.F('priority') + 1)
 
 
 class AddCategoryModel(models.Model):
