@@ -42,7 +42,7 @@ class ImageGalleryInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'product']
+    list_display = ['id', 'product', 'priority']
     readonly_fields = ["slug"]
     inlines = (ImageGalleryInline, CategoryInline, SubCategoryInline)
 
