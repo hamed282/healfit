@@ -8,12 +8,10 @@ from django.conf import settings
 from django.core.mail import send_mail
 # from product import tasks
 # from utils import zoho_invoice_quantity_update
-from utils import pri
 
 
 class HomeView(APIView):
     def get(self, request):
-        pri()
         setting_home = HomeSettingModel.objects.all()
         ser_setting_home = HomeSettingSerializer(instance=setting_home, many=True)
         return Response(data={'home': ser_setting_home.data})

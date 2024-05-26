@@ -216,15 +216,15 @@ def zoho_invoice_quantity_update(first_name,
 # zoho_invoice_quantity_update(first_name='hamed', last_name='alizadegan', email='hamed.alizadegan@gmail.com',
 #                              city='Dubai', address='address', customer_id=5021936000000305008,
 #                              line_items=[{'item_id': 5021936000000099011, 'quantity': 1}, {'item_id': 5021936000000099011, 'quantity': 2}])
-def pri():
-    print('*'*100)
-    from product.models import ProductModel
-    products = ProductModel.objects.all()
-    i = 1
-    for product in products:
-
-        product.priority = i
-        product.save()
-        print(product.priority)
-        i += 1
+# def priority():
+#     print('*'*100)
+#     from product.models import ProductModel
+#     products = ProductModel.objects.all()
+#     i = 1
+#     for product in products:
+#
+#         product.priority = i
+#         product.save()
+#         print(product.priority)
+#         i += 1
 
