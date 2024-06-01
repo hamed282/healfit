@@ -130,6 +130,9 @@ class ProductModel(models.Model):
             percent_discount = 0
         return int(price - price * percent_discount / 100)
 
+    def get_absolute_url(self):
+        return f'/shop/{self.slug}'
+
 
 @receiver(pre_save, sender=ProductModel)
 def increment_numbers_after_existing(sender, instance, **kwargs):
@@ -331,14 +334,14 @@ class PopularProductModel(models.Model):
         return f'{self.popular}'
 
 
-class Snippet(models.Model):
-    title = models.CharField(max_length=80)
-    slug = models.SlugField(blank=True, null=True)
-    body = models.TextField()
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return f'/{self.slug}'
+# class Snippet(models.Model):
+#     title = models.CharField(max_length=80)
+#     slug = models.SlugField(blank=True, null=True)
+#     body = models.TextField()
+#
+#     def save(self, *args, **kwargs):
+#         self.slug = slugify(self.title)
+#         super().save(*args, **kwargs)
+#
+#     def get_absolute_url(self):
+#         return f'/{self.slug}'

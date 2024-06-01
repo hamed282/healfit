@@ -1,18 +1,34 @@
 from django.contrib.sitemaps import Sitemap
 from django.shortcuts import reverse
-from .models import Snippet
+from .models import ProductModel
 
 
-class StaticViewSitemap(Sitemap):
+class ProductWomenViewSitemap(Sitemap):
     changefreq = 'daily'
     priority = 0.9
+
     def items(self):
-        return ['product:product']
+        return ['product:product_list']
 
     def location(self, item):
-        return reverse(item)
+        return '/list/women'
+
+
+class ProductMenViewSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.9
+
+    def items(self):
+        return ['product:product_list']
+
+    def location(self, item):
+        return '/list/men'
 
 
 class SnippetSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.9
+
     def items(self):
-        return Snippet.objects.all()
+        return ProductModel.objects.all()
+

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import ProductCategoryModel, PopularProductModel, ProductModel, ColorProductModel, ProductVariantModel, \
-    SizeProductModel, AddImageGalleryModel, AddCategoryModel, ProductGenderModel, Snippet
+    SizeProductModel, AddImageGalleryModel, AddCategoryModel, ProductGenderModel
 from .serializers import (ProductGenderSerializer, PopularProductSerializer, ProductSerializer, ProductListSerializer,\
     ColorSizeProductSerializer, ProductSearchSerializer, ProductVariantShopSerializer, ProductColorImageSerializer)
 from django.shortcuts import get_object_or_404
@@ -214,7 +214,7 @@ class SizeOfColorView(APIView):
         return Response(data=sizes)
 
 
-class SnippetDetail(APIView):
-    def get(self, request, slug):
-        snippet = get_object_or_404(Snippet, slug=slug)
-        return HttpResponse(f'the detailview for slug of {slug}')
+# class SnippetDetail(APIView):
+#     def get(self, request, slug):
+#         snippet = get_object_or_404(Snippet, slug=slug)
+#         return HttpResponse(f'the detailview for slug of {slug}')

@@ -2,12 +2,13 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from django.contrib.sitemaps.views import sitemap
-from product.sitemaps import StaticViewSitemap, SnippetSitemap
+from product.sitemaps import ProductWomenViewSitemap, ProductMenViewSitemap, SnippetSitemap
 
 
 sitemaps = {
-    'static': StaticViewSitemap,
-    # 'snippet': SnippetSitemap
+    'product_women': ProductWomenViewSitemap,
+    'product_men': ProductMenViewSitemap,
+    'product_snippet': SnippetSitemap,
 }
 
 urlpatterns = [
