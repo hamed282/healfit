@@ -345,3 +345,6 @@ class PopularProductModel(models.Model):
 #
 #     def get_absolute_url(self):
 #         return f'/{self.slug}'
+class Site(models.Model):
+    domain = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
