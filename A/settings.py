@@ -81,6 +81,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
     'django_rest_passwordreset',
+    'django_celery_beat',
+    'django.contrib.sitemaps',
 
     # Install app   
     'accounts.apps.AccountsConfig',
@@ -88,7 +90,7 @@ INSTALLED_APPS = [
     'order.apps.OrderConfig',
     'product.apps.ProductConfig',
     'user_panel.apps.UserPanelConfig',
-    'django_celery_beat',
+    'admin_panel.apps.AdminPanelConfig',
 ]
 
 MIDDLEWARE = [
