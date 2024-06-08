@@ -10,8 +10,11 @@ class OrderUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderItemModel
-        fields = ['product', 'image' 'price', 'size', 'color', 'quantity', 'trace', 'created']
+        fields = ['product', 'image', 'price', 'size', 'color', 'quantity', 'trace', 'created']
 
     def get_image(self, obj):
-        print(obj)
-        return 'ok'
+        product = obj.product.product
+        image = product.cover_image
+        if image == '':
+            image = 'None'
+        return image
