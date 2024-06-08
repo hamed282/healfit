@@ -280,7 +280,7 @@ SIOD = f'ZohoInventory.{ORGANIZATION_ID}'
 # Google Login
 GOOGLE_CLIENT_ID = '404588717147-739as16dm0mu3n6u3un0d45f99qefmov.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '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'
-GOOGLE_REDIRECT_URI = 'https://rest.healfit.ae/api/accounts/auth/google/'
+GOOGLE_REDIRECT_URI = 'https://healfit.ae/auth/google/'
 
 # Apple Login
 APPLE_CLIENT_ID = 'YOUR_APPLE_SERVICE_ID'
