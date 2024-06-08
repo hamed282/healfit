@@ -6,7 +6,12 @@ class OrderUserSerializer(serializers.ModelSerializer):
     size = serializers.SlugRelatedField(slug_field='size', read_only=True)
     color = serializers.SlugRelatedField(slug_field='color', read_only=True)
     product = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = OrderItemModel
-        fields = ['product', 'price', 'size', 'color', 'quantity', 'trace', 'created']
+        fields = ['product', 'image' 'price', 'size', 'color', 'quantity', 'trace', 'created']
+
+    def get_image(self, obj):
+        print(obj)
+        return 'ok'

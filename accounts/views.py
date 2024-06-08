@@ -2,19 +2,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import User, AddressModel
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserAddressSerializer, UserInfoSerializer,\
-    UserInfoChangeSerializer, ChangePasswordSerializer, ResetPasswordSerializer
+    UserInfoChangeSerializer, ChangePasswordSerializer
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework_simplejwt.tokens import  AccessToken
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import update_session_auth_hash
-
-from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.hashers import make_password
+from django.conf import settings
 import requests
-import json
-
+from rest_framework_simplejwt.tokens import RefreshToken
+import jwt
+from datetime import datetime, timedelta
 
 class UserRegisterView(APIView):
 
@@ -290,3 +289,86 @@ POST
 #         response['access_token'] = str(token.access_token)
 #         response['refresh_token'] = str(token)
 #         return Response(response)
+
+
+class GoogleLoginView(APIView):
+
+    def post(self, request):
+
+        code = request.data.get('code')
+        token_url = "https://oauth2.googleapis.com/token"
+        token_data = {
+            'code': code,
+            'client_id': settings.GOOGLE_CLIENT_ID,
+            'client_secret': settings.GOOGLE_CLIENT_SECRET,
+            'redirect_uri': settings.GOOGLE_REDIRECT_URI,
+            'grant_type': 'authorization_code'
+        }
+        token_response = requests.post(token_url, data=token_data)
+        token_json = token_response.json()
+
+        access_token = token_json.get('access_token')
+        user_info_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+        user_info_params = {'access_token': access_token}
+        user_info_response = requests.get(user_info_url, params=user_info_params)
+        user_info = user_info_response.json()
+
+        email = user_info.get('email')
+        print('-'*100)
+        name = user_info.get('name')
+
+        user, created = User.objects.get_or_create(email=email)
+        print('#' * 100)
+        refresh = RefreshToken.for_user(user)
+        tokens = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
+
+        return Response(tokens, status=status.HTTP_200_OK)
+
+
+class AppleLoginView(APIView):
+
+    def post(self, request):
+        id_token = request.data.get('id_token')
+        client_secret = self.generate_client_secret()
+
+        # Verify the ID token with Apple
+        headers = {
+            'kid': settings.APPLE_KEY_ID,
+            'alg': 'ES256'
+        }
+        audience = settings.APPLE_CLIENT_ID
+        claims = jwt.decode(id_token, verify=False)
+
+        if claims['aud'] != audience:
+            return Response({'error': 'Invalid audience'}, status=status.HTTP_400_BAD_REQUEST)
+
+        email = claims.get('email')
+        name = claims.get('name', '')
+
+        user, created = User.objects.get_or_create(email=email, defaults={'name': name})
+
+        refresh = RefreshToken.for_user(user)
+        tokens = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
+
+        return Response(tokens, status=status.HTTP_200_OK)
+
+    def generate_client_secret(self):
+        headers = {
+            'alg': 'ES256',
+            'kid': settings.APPLE_KEY_ID
+        }
+        payload = {
+            'iss': settings.APPLE_TEAM_ID,
+            'iat': datetime.utcnow(),
+            'exp': datetime.utcnow() + timedelta(days=180),
+            'aud': 'https://appleid.apple.com',
+            'sub': settings.APPLE_CLIENT_ID
+        }
+        client_secret = jwt.encode(payload, settings.APPLE_PRIVATE_KEY, algorithm='ES256', headers=headers)
+        return client_secret

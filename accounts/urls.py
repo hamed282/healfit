@@ -12,5 +12,6 @@ urlpatterns = [
     path('logout/', views.UserLogout.as_view(), name='logout'),
     path('address/', views.UserAddressView.as_view(), name='user_address'),
     path('info/', views.UserInfoView.as_view(), name='user_info'),
-    # path('google/', views.GoogleView.as_view(), name='google'),
+    path('auth/google/', views.GoogleLoginView.as_view(), name='google_login'),
+    path('auth/apple/', views.AppleLoginView.as_view(), name='apple_login'),
 ]
