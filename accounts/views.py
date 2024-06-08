@@ -328,6 +328,11 @@ class GoogleLoginView(APIView):
         return Response(tokens, status=status.HTTP_200_OK)
 
 
+class GoogleLoginLink(APIView):
+    def get(self, requesr):
+        link = (f'https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={settings.GOOGLE_CLIENT_ID}'
+                f'&redirect_uri={settings.GOOGLE_REDIRECT_URI}&scope=email%20profile&access_type=online')
+        return Response(data={'redirect_to': link})
 class AppleLoginView(APIView):
 
     def post(self, request):
