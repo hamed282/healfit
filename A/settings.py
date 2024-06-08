@@ -19,23 +19,23 @@ DEBUG = True
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-
     # DATABASES = {
     #     'default': {
-    #         'ENGINE': 'django.db.backends.mysql',
-    #         'NAME': 'healfita_healfit',
-    #         'USER': 'healfita_healfit_user',
-    #         'PASSWORD': 'BE*]ZjDOk^Tj',
-    #         'HOST': 'localhost',
-    #         'PORT': '3306',
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
     #     }
     # }
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'healfita_healfit',
+            'USER': 'healfita_healfit_user',
+            'PASSWORD': 'BE*]ZjDOk^Tj',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
 
     STATIC_ROOT = "staticfiles"
     STATIC_URL = 'static/'
@@ -280,7 +280,7 @@ SIOD = f'ZohoInventory.{ORGANIZATION_ID}'
 # Google Login
 GOOGLE_CLIENT_ID = '404588717147-739as16dm0mu3n6u3un0d45f99qefmov.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = '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'
-GOOGLE_REDIRECT_URI = 'http://127.0.0.1:8000/api/accounts/auth/google/'
+GOOGLE_REDIRECT_URI = 'https://healfit.ae/api/accounts/auth/google/'
 
 # Apple Login
 APPLE_CLIENT_ID = 'YOUR_APPLE_SERVICE_ID'
