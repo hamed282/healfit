@@ -313,12 +313,14 @@ class GoogleLoginView(APIView):
         user_info_response = requests.get(user_info_url, params=user_info_params)
         user_info = user_info_response.json()
 
+        if 'error' in user_info:
+            return Response({'message': user_info['error']['message'], 'status': user_info['error']['status']},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
         email = user_info.get('email')
-        print('-'*100)
         name = user_info.get('name')
 
         user, created = User.objects.get_or_create(email=email)
-        print('#' * 100)
         refresh = RefreshToken.for_user(user)
         tokens = {
             'refresh': str(refresh),
