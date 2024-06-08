@@ -13,6 +13,6 @@ urlpatterns = [
     path('address/', views.UserAddressView.as_view(), name='user_address'),
     path('info/', views.UserInfoView.as_view(), name='user_info'),
     path('auth/google/', views.GoogleLoginView.as_view(), name='google_login'),
-    path('auth/google/link', views.GoogleLoginLink.as_view(), name='google_login_link'),
+    # path('auth/google/link', views.GoogleLoginLink.as_view(), name='google_login_link'),
     path('auth/apple/', views.AppleLoginView.as_view(), name='apple_login'),
 ]
