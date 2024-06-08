@@ -17,4 +17,5 @@ class OrderUserSerializer(serializers.ModelSerializer):
         image = product.cover_image
         if image == '':
             image = 'None'
-        return image
+        print(image)
+        return image.url
