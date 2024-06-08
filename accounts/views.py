@@ -14,6 +14,8 @@ import requests
 from rest_framework_simplejwt.tokens import RefreshToken
 import jwt
 from datetime import datetime, timedelta
+import urllib.parse
+
 
 class UserRegisterView(APIView):
 
@@ -296,9 +298,10 @@ class GoogleLoginView(APIView):
     def post(self, request):
 
         code = request.data.get('code')
+        decoded_code = urllib.parse.unquote(code)
         token_url = "https://oauth2.googleapis.com/token"
         token_data = {
-            'code': code,
+            'code': decoded_code,
             'client_id': settings.GOOGLE_CLIENT_ID,
             'client_secret': settings.GOOGLE_CLIENT_SECRET,
             'redirect_uri': settings.GOOGLE_REDIRECT_URI,
