@@ -24,7 +24,12 @@ class CategoryView(APIView):
     def put(self, request):
         pass
 
-    def delete(self, request, id_category):
+    def delete(self, request):
+        id_category = self.request.query_params.get('id_category', None)
+
+        if id_category is None:
+            return Response(data={'message': 'Input category ID'})
+
         try:
             category = ProductCategoryModel.objects.get(id=id_category)
         except:
