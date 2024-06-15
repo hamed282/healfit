@@ -4,7 +4,7 @@ from .models import User, AddressModel
 from .serializers import UserRegisterSerializer, UserLoginSerializer, UserAddressSerializer, UserInfoSerializer,\
     UserInfoChangeSerializer, ChangePasswordSerializer
 from rest_framework import status
-from rest_framework_simplejwt.tokens import  AccessToken
+from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated

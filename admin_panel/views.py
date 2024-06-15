@@ -2,7 +2,8 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from product.models import ProductModel, ProductCategoryModel
-from .serializers import ProductSerializer, CategorySerializer
+from accounts.models import User
+from .serializers import ProductSerializer, CategorySerializer, LoginUserSerializer
 
 
 class ProductView(APIView):
@@ -38,3 +39,41 @@ class CategoryView(APIView):
         name = category.category
         category.delete()
         return Response(data={'message': f'The {name} category was deleted'})
+
+from accounts.serializers import UserLoginSerializer
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
+
+
+class LoginUserView(APIView):
+
+    def post(self, request):
+        """
+        parameters:
+        1. email
+        2. password
+        """
+        form = request.data
+        ser_data = UserLoginSerializer(data=form)
+        if ser_data.is_valid():
+            try:
+                user = authenticate(email=form['email'], password=form['password'])
+                if user is not None:
+                    user = User.objects.get(email=form['email'])
+                    if user.is_admin:
+                        token_access = AccessToken.for_user(user)
+                        token_refresh = RefreshToken.for_user(user)
+
+                        ser_data = LoginUserSerializer(instance=user)
+
+                        return Response(data={'access': str(token_access), 'refresh': str(token_refresh), 'user': ser_data.data},
+                                        status=status.HTTP_200_OK)
+                    return Response(data='user is not active', status=status.HTTP_401_UNAUTHORIZED)
+                else:
+                    return Response(data='user invalid', status=status.HTTP_401_UNAUTHORIZED)
+            except:
+                user = None
+
+        return Response(data=ser_data.errors, status=status.HTTP_401_UNAUTHORIZED)
