@@ -40,6 +40,7 @@ class CategoryView(APIView):
         category.delete()
         return Response(data={'message': f'The {name} category was deleted'})
 
+
 from accounts.serializers import UserLoginSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
@@ -68,7 +69,10 @@ class LoginUserView(APIView):
 
                         ser_data = LoginUserSerializer(instance=user)
 
-                        return Response(data={'access': str(token_access), 'refresh': str(token_refresh), 'user': ser_data.data},
+                        return Response(data={'data': {'access_token': str(token_access),
+                                                       'refresh_token': str(token_refresh),
+                                                       'token_type': 'Bearer',
+                                                       'user': ser_data.data}},
                                         status=status.HTTP_200_OK)
                     return Response(data='user is not active', status=status.HTTP_401_UNAUTHORIZED)
                 else:
