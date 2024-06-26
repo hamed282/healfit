@@ -19,23 +19,23 @@ DEBUG = True
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.sqlite3',
-    #         'NAME': BASE_DIR / 'db.sqlite3',
-    #     }
-    # }
-
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'healfita_healfit',
-            'USER': 'healfita_healfit_user',
-            'PASSWORD': 'BE*]ZjDOk^Tj',
-            'HOST': 'localhost',
-            'PORT': '3306',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': 'healfita_healfit',
+    #         'USER': 'healfita_healfit_user',
+    #         'PASSWORD': 'BE*]ZjDOk^Tj',
+    #         'HOST': 'localhost',
+    #         'PORT': '3306',
+    #     }
+    # }
 
     STATIC_ROOT = "staticfiles"
     STATIC_URL = 'static/'
@@ -65,6 +65,34 @@ else:
     CSRF_TRUSTED_ORIGINS = ['https://*.rest.healfit.ae', 'https://*.127.0.0.1']
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ALLOWED_ORIGINS = [
+#     'https://example.com',
+#     'https://sub.example.com',
+# ]
+
+# CORS_ALLOW_CREDENTIALS = True
+
+# CORS_ALLOW_HEADERS = [
+#     'content-type',
+#     'authorization',
+#     'x-csrf-token',
+#     'x-requested-with',
+# ]
+
+# Optional settings for more fine-grained control
+# CORS_ALLOW_METHODS = [
+#     'GET',
+#     'POST',
+#     'PUT',
+#     'DELETE',
+#     'OPTIONS',
+# ]
+#
+# CORS_EXPOSE_HEADERS = [
+#     'Content-Type',
+#     'Authorization',
+# ]
 
 # Application definition
 

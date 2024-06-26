@@ -20,7 +20,13 @@ class CategoryView(APIView):
         return Response(data=ser_data.data)
 
     def post(self, request):
-        pass
+        form = request.data
+
+        ser_data = UserRegisterSerializer(data=form)
+        if ser_data.is_valid():
+            ProductCategoryModel.objects.create()
+
+        return Response(data=ser_data.data)
 
     def put(self, request):
         pass
