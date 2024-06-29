@@ -5,12 +5,16 @@ from product.models import ProductModel, ProductCategoryModel
 from accounts.models import User
 from .serializers import ProductSerializer, CategorySerializer, LoginUserSerializer
 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 
 class ProductView(APIView):
     def get(self, request):
         products = ProductModel.objects.all()
         ser_data = ProductSerializer(instance=products, many=True)
         return Response(data=ser_data.data)
+
 
 
 class CategoryView(APIView):
@@ -22,11 +26,12 @@ class CategoryView(APIView):
     def post(self, request):
         form = request.data
 
-        ser_data = UserRegisterSerializer(data=form)
+        ser_data = CategorySerializer(data=form)
         if ser_data.is_valid():
-            ProductCategoryModel.objects.create()
+            ser_data.save()
 
-        return Response(data=ser_data.data)
+            return Response(ser_data.data, status=status.HTTP_201_CREATED)
+        return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request):
         pass
