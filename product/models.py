@@ -37,7 +37,7 @@ class ProductCategoryModel(models.Model):
     category_title = models.CharField(max_length=50)
     description = models.TextField()
     slug = models.SlugField(max_length=100, unique=True)
-    image = models.FileField(upload_to='images/category/')
+    # image = models.FileField(upload_to='images/category/')
 
     class Meta:
         verbose_name = 'Product Category'
