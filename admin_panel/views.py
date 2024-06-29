@@ -4,9 +4,11 @@ from rest_framework.response import Response
 from product.models import ProductModel, ProductCategoryModel
 from accounts.models import User
 from .serializers import ProductSerializer, CategorySerializer, LoginUserSerializer
-
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+from accounts.serializers import UserLoginSerializer
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
 
 
 class ProductView(APIView):
@@ -14,7 +16,6 @@ class ProductView(APIView):
         products = ProductModel.objects.all()
         ser_data = ProductSerializer(instance=products, many=True)
         return Response(data=ser_data.data)
-
 
 
 class CategoryView(APIView):
@@ -34,7 +35,21 @@ class CategoryView(APIView):
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request):
-        pass
+        id_category = self.request.query_params.get('id_category', None)
+
+        if id_category is None:
+            return Response(data={'message': 'Input category ID'})
+
+        try:
+            category = ProductCategoryModel.objects.get(id=id_category)
+        except:
+            return Response(data={'message': 'Category is not exist'})
+
+        ser_data = CategorySerializer(instance=category, data=request.data, partial=True)
+        if ser_data.is_valid():
+            ser_data.save()
+            return Response(data=ser_data.data, status=status.HTTP_200_OK)
+        return Response(data=ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
         id_category = self.request.query_params.get('id_category', None)
@@ -50,13 +65,6 @@ class CategoryView(APIView):
         name = category.category
         category.delete()
         return Response(data={'message': f'The {name} category was deleted'})
-
-
-from accounts.serializers import UserLoginSerializer
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import AccessToken
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import status
 
 
 class LoginUserView(APIView):

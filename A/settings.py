@@ -126,6 +126,7 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'user_panel.apps.UserPanelConfig',
     'admin_panel.apps.AdminPanelConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [

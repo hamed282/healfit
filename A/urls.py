@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/home/', include('home.urls', namespace='home')),
     path('api/product/', include('product.urls', namespace='product')),
     path('api/order/', include('order.urls', namespace='order')),
+    path('api/blog/', include('blog.urls', namespace='blog')),
     path('api/admin/', include('admin_panel.urls', namespace='admin_panel')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
