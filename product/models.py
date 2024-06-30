@@ -34,7 +34,7 @@ class ProductGenderModel(models.Model):
 class ProductCategoryModel(models.Model):
     objects = None
     category = models.CharField(max_length=50)
-    category_title = models.CharField(max_length=50)
+    # category_title = models.CharField(max_length=50)
     description = models.TextField()
     slug = models.SlugField(max_length=100, unique=True)
     # image = models.FileField(upload_to='images/category/')
