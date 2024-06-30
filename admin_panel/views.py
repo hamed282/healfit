@@ -67,6 +67,14 @@ class CategoryView(APIView):
         return Response(data={'message': f'The {name} category was deleted'})
 
 
+class CategoryItemView(APIView):
+    def get(self, request, category_id):
+
+        category = get_object_or_404(ProductCategoryModel, id=category_id)
+        ser_data = CategorySerializer(instance=category)
+        return Response(data=ser_data.data)
+
+
 class LoginUserView(APIView):
 
     def post(self, request):
