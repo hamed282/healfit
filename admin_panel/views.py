@@ -75,6 +75,16 @@ class CategoryItemView(APIView):
         return Response(data=ser_data.data)
 
 
+class CategorySearchView(APIView):
+    def get(self, request):
+        print('-'*100)
+        category = self.request.query_params.get('search')
+        print('7777')
+        category = ProductCategoryModel.objects.filter(category=category)
+        ser_data = CategorySerializer(instance=category, many=True)
+        return Response(data=ser_data.data)
+
+
 class LoginUserView(APIView):
 
     def post(self, request):
