@@ -101,6 +101,38 @@ class ExtraGroupView(APIView):
             return Response(ser_data.data, status=status.HTTP_201_CREATED)
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request):
+        id_extrag = self.request.query_params.get('id_extrag', None)
+
+        if id_extrag is None:
+            return Response(data={'message': 'Input Extra Group ID'})
+
+        try:
+            extrag = ExtraGroupModel.objects.get(id=id_extrag)
+        except:
+            return Response(data={'message': 'Extra Group is not exist'})
+
+        ser_data = ExtraGroupSerializer(instance=extrag, data=request.data, partial=True)
+        if ser_data.is_valid():
+            ser_data.save()
+            return Response(data=ser_data.data, status=status.HTTP_200_OK)
+        return Response(data=ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        id_extrag = self.request.query_params.get('id_extrag', None)
+
+        if id_extrag is None:
+            return Response(data={'message': 'Input Extra Group ID'})
+
+        try:
+            extrag = ExtraGroupModel.objects.get(id=id_extrag)
+        except:
+            return Response(data={'message': 'Extra Group is not exist'})
+
+        name = extrag.title
+        extrag.delete()
+        return Response(data={'message': f'The {name} Extra Group was deleted'})
+
 
 class LoginUserView(APIView):
 
