@@ -91,6 +91,16 @@ class ExtraGroupView(APIView):
         ser_data = ExtraGroupSerializer(instance=extr_group, many=True)
         return Response(data=ser_data.data)
 
+    def post(self, request):
+        form = request.data
+
+        ser_data = ExtraGroupSerializer(data=form)
+
+        if ser_data.is_valid():
+            ser_data.save()
+            return Response(ser_data.data, status=status.HTTP_201_CREATED)
+        return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LoginUserView(APIView):
 
