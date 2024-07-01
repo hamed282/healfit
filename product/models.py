@@ -348,3 +348,11 @@ class PopularProductModel(models.Model):
 class Site(models.Model):
     domain = models.CharField(max_length=256)
     name = models.CharField(max_length=256)
+
+
+class ExtraGroupModel(models.Model):
+    title = models.CharField(max_length=32)
+    service_place = models.CharField(max_length=32)
+
+    def __str__(self):
+        return f"{self.title}"

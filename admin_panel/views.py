@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from product.models import ProductModel, ProductCategoryModel
+from product.models import ProductModel, ProductCategoryModel, ExtraGroupModel
 from accounts.models import User
-from .serializers import ProductSerializer, CategorySerializer, LoginUserSerializer
+from .serializers import ProductSerializer, CategorySerializer, LoginUserSerializer, ExtraGroupSerializer
 from accounts.serializers import UserLoginSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
@@ -82,6 +82,13 @@ class CategorySearchView(APIView):
         print('7777')
         category = ProductCategoryModel.objects.filter(category=category)
         ser_data = CategorySerializer(instance=category, many=True)
+        return Response(data=ser_data.data)
+
+
+class ExtraGroupView(APIView):
+    def get(self, request):
+        extr_group = ExtraGroupModel.objects.all()
+        ser_data = ExtraGroupSerializer(instance=extr_group, many=True)
         return Response(data=ser_data.data)
 
 

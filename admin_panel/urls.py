@@ -9,4 +9,5 @@ urlpatterns = [
     path('category/search/', views.CategorySearchView.as_view(), name='category_search'),
     path('category/<int:category_id>/', views.CategoryItemView.as_view(), name='category_item'),
     path('login/', views.LoginUserView.as_view(), name='login'),
+    path('extrag/', views.ExtraGroupView.as_view(), name='extrag'),
 ]
