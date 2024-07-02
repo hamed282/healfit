@@ -10,6 +10,7 @@ urlpatterns = [
     path('category/<int:category_id>/', views.CategoryItemView.as_view(), name='category_item'),
     path('login/', views.LoginUserView.as_view(), name='login'),
     path('color/value/', views.ColorValueView.as_view(), name='color_value'),
+    path('size/value/', views.SizeValueView.as_view(), name='size_value'),
     path('extrag/', views.ExtraGroupView.as_view(), name='extrag'),
     # path('extrav/', views.ExtraValueView.as_view(), name='extrag'),
 ]

@@ -69,6 +69,26 @@ class ColorValueSerializer(serializers.ModelSerializer):
         return title
 
 
+class SizeValueSerializer(serializers.ModelSerializer):
+    value = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
+    priority = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SizeProductModel
+        fields = ['value', 'type', 'priority']
+
+    def get_value(self, obj):
+        value = obj.size
+        return value
+
+    def get_type(self, obj):
+        return 'text'
+
+    def get_priority(self, obj):
+        priority = obj.priority
+        return priority
+
 class ExtraGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtraGroupModel

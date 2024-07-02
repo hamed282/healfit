@@ -5,7 +5,7 @@ from product.models import (ProductModel, ProductCategoryModel, ExtraGroupModel,
                             AddCategoryModel, AddSubCategoryModel, ProductSubCategoryModel)
 from accounts.models import User
 from .serializers import (ProductSerializer, CategorySerializer, LoginUserSerializer, ExtraGroupSerializer,
-                          AddCategorySerializer, AddImageGallerySerializer, ColorValueSerializer)
+                          AddCategorySerializer, AddImageGallerySerializer, ColorValueSerializer, SizeValueSerializer)
 from accounts.serializers import UserLoginSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
@@ -201,6 +201,12 @@ class ColorValueView(APIView):
         return Response(data=ser_data.data)
 
 
+class SizeValueView(APIView):
+    def get(self, request):
+
+        size = SizeProductModel.objects.all()
+        ser_data = SizeValueSerializer(instance=size, many=True)
+        return Response(data=ser_data.data)
 class LoginUserView(APIView):
 
     def post(self, request):
