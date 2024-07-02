@@ -61,7 +61,7 @@ class ColorValueSerializer(serializers.ModelSerializer):
         value = obj.color_code
         return value
 
-    def gey_type(self, obj):
+    def get_type(self, obj):
         return 'color'
 
     def get_title(self, obj):
