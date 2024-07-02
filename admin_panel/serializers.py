@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from product.models import (ProductModel, ProductCategoryModel, ExtraGroupModel, AddImageGalleryModel, AddCategoryModel,
-                            AddSubCategoryModel)
+                            AddSubCategoryModel, ColorProductModel, SizeProductModel)
 from accounts.models import User
 
 
@@ -46,6 +46,27 @@ class AddImageGallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = AddImageGalleryModel
         fields = '__all__'
+
+
+class ColorValueSerializer(serializers.ModelSerializer):
+    value = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ColorProductModel
+        fields = ['value', 'type', 'title']
+
+    def get_value(self, obj):
+        value = obj.color_code
+        return value
+
+    def gey_type(self, obj):
+        return 'color'
+
+    def get_title(self, obj):
+        title = obj.color
+        return title
 
 
 class ExtraGroupSerializer(serializers.ModelSerializer):

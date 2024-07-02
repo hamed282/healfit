@@ -5,7 +5,7 @@ from product.models import (ProductModel, ProductCategoryModel, ExtraGroupModel,
                             AddCategoryModel, AddSubCategoryModel, ProductSubCategoryModel)
 from accounts.models import User
 from .serializers import (ProductSerializer, CategorySerializer, LoginUserSerializer, ExtraGroupSerializer,
-                          AddCategorySerializer, AddImageGallerySerializer)
+                          AddCategorySerializer, AddImageGallerySerializer, ColorValueSerializer)
 from accounts.serializers import UserLoginSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
@@ -191,6 +191,14 @@ class ExtraGroupView(APIView):
 #
 #         ser_data = ExtraGroupSerializer(instance=extr_group, many=True)
 #         return Response(data=ser_data.data)
+
+
+class ColorValueView(APIView):
+    def get(self, request):
+
+        color = ColorProductModel.objects.all()
+        ser_data = ColorValueSerializer(instance=color, many=True)
+        return Response(data=ser_data.data)
 
 
 class LoginUserView(APIView):
