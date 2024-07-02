@@ -118,6 +118,7 @@ INSTALLED_APPS = [
     'django_rest_passwordreset',
     'django_celery_beat',
     'django.contrib.sitemaps',
+    'tinymce',
 
     # Install app   
     'accounts.apps.AccountsConfig',
