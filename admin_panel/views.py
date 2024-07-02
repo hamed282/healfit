@@ -1,9 +1,11 @@
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from product.models import ProductModel, ProductCategoryModel, ExtraGroupModel
+from product.models import (ProductModel, ProductCategoryModel, ExtraGroupModel, ColorProductModel, SizeProductModel,
+                            AddCategoryModel, AddSubCategoryModel, ProductSubCategoryModel)
 from accounts.models import User
-from .serializers import ProductSerializer, CategorySerializer, LoginUserSerializer, ExtraGroupSerializer
+from .serializers import (ProductSerializer, CategorySerializer, LoginUserSerializer, ExtraGroupSerializer,
+                          AddCategorySerializer, AddImageGallerySerializer)
 from accounts.serializers import UserLoginSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
@@ -16,6 +18,54 @@ class ProductView(APIView):
         products = ProductModel.objects.all()
         ser_data = ProductSerializer(instance=products, many=True)
         return Response(data=ser_data.data)
+
+    def post(self, request):
+        form = request.data
+        ser_data = AddImageGallerySerializer(data=form)
+        if ser_data.is_valid():
+            ser_data.save()
+            return Response(ser_data.data, status=status.HTTP_201_CREATED)
+        return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
+        # ser_data = ProductSerializer(data=form)
+        # if ser_data.is_valid():
+        #     ser_data.save()
+        #     return Response(ser_data.data, status=status.HTTP_201_CREATED)
+        # return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # form_product = request.data.get('product')
+        # form_category = request.data.get('category')
+        # form_subcategory = request.data.get('subcategory')
+        # print(form_category)
+        # product_serializer = ProductSerializer(data=form_product)
+        # # category_serializer = AddCategorySerializer(data=form_category)
+        # print('t' * 100)
+        #
+        # if product_serializer.is_valid():
+        #
+        #     product = product_serializer.save()
+        #
+        #     for cat in form_category:
+        #         category = ProductCategoryModel.objects.get(category=cat)
+        #         add_category = AddCategoryModel(category=category,
+        #                                         product=product)
+        #         add_category.save()
+        #
+        #     for sub in form_subcategory:
+        #         subcategory = ProductSubCategoryModel.objects.get(subcategory=sub)
+        #         add_subcategory = AddSubCategoryModel(subcategory=subcategory,
+        #                                               product=product)
+        #         add_subcategory.save()
+        #
+        #     response_data = {
+        #         'product': product_serializer.data,
+        #         # 'category': category_serializer.data,
+        #     }
+        #     return Response(response_data, status=status.HTTP_201_CREATED)
+        #
+        # errors = {}
+        # if not product_serializer.is_valid():
+        #     errors['product'] = product_serializer.errors
+        # return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CategoryView(APIView):
@@ -132,6 +182,15 @@ class ExtraGroupView(APIView):
         name = extrag.title
         extrag.delete()
         return Response(data={'message': f'The {name} Extra Group was deleted'})
+
+
+# class ExtraValueView(APIView):
+#     def get(self, request):
+#         extr_size = SizeProductModel.objects.all()
+#         extr_color = ColorProductModel.objects.all()
+#
+#         ser_data = ExtraGroupSerializer(instance=extr_group, many=True)
+#         return Response(data=ser_data.data)
 
 
 class LoginUserView(APIView):

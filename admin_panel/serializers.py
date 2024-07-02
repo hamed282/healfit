@@ -1,27 +1,60 @@
-from rest_framework.serializers import Serializer, ModelSerializer
-from product.models import ProductModel, ProductCategoryModel, ExtraGroupModel
+from rest_framework import serializers
+from product.models import (ProductModel, ProductCategoryModel, ExtraGroupModel, AddImageGalleryModel, AddCategoryModel,
+                            AddSubCategoryModel)
 from accounts.models import User
 
 
-class ProductSerializer(ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
+    gender = serializers.SlugRelatedField(read_only=True, slug_field='gender')
+    image_gallery = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField(read_only=False)
+    subcategory = serializers.SerializerMethodField()
+
     class Meta:
         model = ProductModel
         fields = '__all__'
 
+    def get_image_gallery(self, product):
+        image_gallery = AddImageGalleryModel.objects.filter(product=product)
+        images = [{'color': f'{image.color.color}', 'image': f'{image.image.url}'} for image in image_gallery]
+        return images
 
-class CategorySerializer(ModelSerializer):
+    def get_category(self, product):
+        categories = AddCategoryModel.objects.filter(product=product)
+        category = [category.category.category for category in categories]
+        return category
+
+    def get_subcategory(self, product):
+        subcategories = AddSubCategoryModel.objects.filter(product=product)
+        subcategory = [subcategory.subcategory.subcategory for subcategory in subcategories]
+        return subcategory
+
+
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductCategoryModel
         fields = '__all__'
 
 
-class ExtraGroupSerializer(ModelSerializer):
+class AddCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddCategoryModel
+        fields = '__all__'
+
+
+class AddImageGallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AddImageGalleryModel
+        fields = '__all__'
+
+
+class ExtraGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtraGroupModel
         fields = '__all__'
 
 
-class LoginUserSerializer(ModelSerializer):
+class LoginUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['password']
