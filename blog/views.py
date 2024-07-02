@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import BlogModel
 from .serializers import BlogSerializer, BlogAllSerializer
@@ -37,7 +38,7 @@ class BLogListView(APIView):
 
 class BlogView(APIView):
     def get(self, request, slug):
-        blog = BlogModel.objects.get(slug=slug)
+        blog = get_object_or_404(BlogModel, slug=slug)
         ser_data = BlogSerializer(instance=blog)
         return Response(data=ser_data.data)
 
